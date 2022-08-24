@@ -1,10 +1,16 @@
+require("dotenv").config();
 import { Pool } from "pg";
 
-const pool = new Pool({ database: process.env.TEST_DATABASE });
+const pool = new Pool({
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.TEST_DATABASE,
+    password: process.env.PGPASSWORD,
+    port: parseInt(process.env.PGPORT ?? "3211"),
+});
 
 export default async function makeDb() {
-    await pool.connect();
-    return pool;
+    return await pool.connect();
 }
 
 export async function closeDb() {
