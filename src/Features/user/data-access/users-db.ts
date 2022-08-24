@@ -8,7 +8,7 @@ type props = {
 export interface IMakeUsersDb {
     returnType: Readonly<{
         findById: ({ id }: { id: string }) => Promise<IUser | undefined>;
-        findByUsername: () => Promise<void>;
+        findByUsername: (username: string) => Promise<IUser | undefined>;
         findByEmail: () => Promise<void>;
         update: () => Promise<void>;
         remove: () => Promise<void>;
@@ -42,7 +42,20 @@ export default function makeUsersDb({ makeDb }: props) {
             db.release();
         }
     }
-    async function findByUsername() {}
+    async function findByUsername(
+        username: string
+    ): Promise<IUser | undefined> {
+        const db = await makeDb();
+        try {
+            const query = `SELECT * FROM userT WHERE username = '${username}'`;
+            const res = await db.query(query);
+            return await res.rows[0];
+        } catch (err) {
+            console.log(err);
+        } finally {
+            db.release();
+        }
+    }
     async function update() {}
     async function remove() {}
     async function insert({
