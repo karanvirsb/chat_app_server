@@ -41,6 +41,15 @@ describe("Users DB", () => {
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.findByUsername(fakeUser.username);
         if (resp.success) {
+            expect(resp.data?.email).toBe(fakeUser.email);
+        }
+    });
+
+    it("Find user by email", async () => {
+        const fakeUser = await makeFakerComment();
+        const insertedUser = await UsersDb.insert({ data: fakeUser });
+        const resp = await UsersDb.findByEmail(fakeUser.email);
+        if (resp.success) {
             expect(resp.data?.username).toBe(fakeUser.username);
         }
     });
