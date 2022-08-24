@@ -31,11 +31,15 @@ export default function makeUsersDb({ makeDb }: props) {
     async function findByUsername() {}
     async function update() {}
     async function remove() {}
-    async function insert({ data }: { data: IUser }) {
+    async function insert({
+        data,
+    }: {
+        data: IUser;
+    }): Promise<IUser | undefined> {
         const db = await makeDb();
         try {
             const query =
-                "INSERT INTO userT values('$1', '$2', '$3', '$4', '$5', '$6');";
+                "INSERT INTO userT VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
             const res = await db.query(query, [
                 data.userId,
                 data.username,
@@ -44,9 +48,11 @@ export default function makeUsersDb({ makeDb }: props) {
                 data.status,
                 data.refreshToken,
             ]);
-            console.log(res);
+            const user: IUser = res.rows[0];
+            return user;
         } catch (err) {
             console.log(err);
+            db.release();
         } finally {
             db.release();
         }
