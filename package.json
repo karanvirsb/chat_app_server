@@ -6,7 +6,7 @@
     "type": "commonjs",
     "scripts": {
         "dev": "nodemon --exec ts-node server.ts",
-        "test": "jest --transformIgnorePatterns '/server/node_modules' --watchAll --coverage"
+        "test": "jest --transformIgnorePatterns '/server/node_modules' --watchAll"
     },
     "keywords": [],
     "author": "",
