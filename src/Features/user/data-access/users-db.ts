@@ -5,6 +5,17 @@ type props = {
     makeDb: IUserDb["makeDb"];
 };
 
+export interface IMakeUsersDb {
+    returnType: Readonly<{
+        findById: ({ id }: { id: string }) => Promise<IUser | undefined>;
+        findByUsername: () => Promise<void>;
+        findByEmail: () => Promise<void>;
+        update: () => Promise<void>;
+        remove: () => Promise<void>;
+        insert: ({ data }: { data: IUser }) => Promise<IUser | undefined>;
+    }>;
+}
+
 export default function makeUsersDb({ makeDb }: props) {
     return Object.freeze({
         findById,
