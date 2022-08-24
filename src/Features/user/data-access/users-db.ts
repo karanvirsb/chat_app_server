@@ -17,9 +17,9 @@ export interface IMakeUsersDb {
     returnType: Readonly<{
         findById: ({ id }: { id: string }) => returningData["type"];
         findByUsername: (username: string) => returningData["type"];
-        findByEmail: () => Promise<void>;
+        findByEmail: (email: string) => returningData["type"];
         update: () => Promise<void>;
-        remove: () => Promise<void>;
+        remove: (userId: string) => returningData["type"];
         insert: ({ data }: { data: IUser }) => returningData["type"];
     }>;
 }
@@ -60,7 +60,21 @@ export default function makeUsersDb({ makeDb }: props) {
         }
     }
     async function update() {}
-    async function remove() {}
+
+    async function remove(userId: string): returningData["type"] {
+        const db = await makeDb();
+        try {
+            const query = `DELETE FROM userT WHERE userId = '${userId}' RETURNING *`;
+            const res = await db.query(query);
+            return { success: true, data: res.rows[0], error: "" };
+        } catch (err: any) {
+            console.log(err);
+            db.release();
+            return { success: true, data: undefined, error: err };
+        } finally {
+            db.release();
+        }
+    }
     async function insert({ data }: { data: IUser }): returningData["type"] {
         const db = await makeDb();
         try {
@@ -93,5 +107,16 @@ export default function makeUsersDb({ makeDb }: props) {
             db.release();
         }
     }
-    async function findByEmail() {}
+    async function findByEmail(email: string): returningData["type"] {
+        const db = await makeDb();
+        try {
+            const query = `SELECT * FROM userT WHERE email = '${email}'`;
+            const res = await db.query(query);
+            return { success: true, data: res.rows[0], error: "" };
+        } catch (err: any) {
+            return { success: true, data: undefined, error: err };
+        } finally {
+            db.release();
+        }
+    }
 }
