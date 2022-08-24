@@ -12,15 +12,26 @@ describe("Users DB", () => {
     afterAll(async () => {
         await clearDb();
     });
-    it("Insert a user", async () => {
+
+    it.skip("Insert a user", async () => {
+        // successful
         const user = await makeFakerComment();
         const insertUser = await UsersDb.insert({ data: user });
         expect(insertUser?.username).toBe(user.username);
     });
-    it("Find user by Id", async () => {
+    it.skip("Find user by Id", async () => {
+        //successful
         const fakeUser = await makeFakerComment();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const user = await UsersDb.findById({ id: fakeUser.userId });
+        expect(user?.username).toBe(fakeUser.username);
+    });
+
+    it.skip("Find user by username", async () => {
+        // success
+        const fakeUser = await makeFakerComment();
+        const insertedUser = await UsersDb.insert({ data: fakeUser });
+        const user = await UsersDb.findByUsername(fakeUser.username);
         expect(user?.username).toBe(fakeUser.username);
     });
 });
