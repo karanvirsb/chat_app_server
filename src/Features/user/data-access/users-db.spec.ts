@@ -53,4 +53,13 @@ describe("Users DB", () => {
             expect(resp.data?.username).toBe(fakeUser.username);
         }
     });
+
+    it("Remove user by Id", async () => {
+        const fakeUser = await makeFakerComment();
+        const insertedUser = await UsersDb.insert({ data: fakeUser });
+        const resp = await UsersDb.remove(fakeUser.userId);
+        if (resp.success) {
+            expect(resp.data?.username).toBe(fakeUser.username);
+        }
+    });
 });
