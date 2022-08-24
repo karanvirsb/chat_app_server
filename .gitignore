@@ -28,3 +28,5 @@ dist-ssr
 #pnpm
 
 pnpm-lock.yaml
+
+/coverage
