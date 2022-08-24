@@ -15,7 +15,11 @@ export default function makeUsersDb({ makeDb }: props) {
         insert,
     });
 
-    async function findById({ id }: { id: string }) {
+    async function findById({
+        id,
+    }: {
+        id: string;
+    }): Promise<IUser | undefined> {
         const db = await makeDb();
         try {
             const query = `SELECT * FROM userT WHERE userId = '${id}'`;
@@ -23,7 +27,6 @@ export default function makeUsersDb({ makeDb }: props) {
             return res.rows[0];
         } catch (error) {
             console.log(error);
-            return { message: "Database Error" };
         } finally {
             db.release();
         }
@@ -40,6 +43,7 @@ export default function makeUsersDb({ makeDb }: props) {
         try {
             const query =
                 "INSERT INTO userT VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
+            // TODO find by username
             const res = await db.query(query, [
                 data.userId,
                 data.username,
