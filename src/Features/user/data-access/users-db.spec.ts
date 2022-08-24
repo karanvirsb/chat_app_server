@@ -1,9 +1,16 @@
-import UsersDb from ".";
+import makeDb, { clearDb } from "../../../../__test__/fixures/db";
+import makeUsersDb, { IMakeUsersDb } from "./users-db";
 import makeFakerComment from "../../../../__test__/fixures/user";
 
 describe("Users DB", () => {
-    beforeEach(() => {
-        UsersDb;
+    let UsersDb: IMakeUsersDb["returnType"];
+
+    beforeEach(async () => {
+        UsersDb = makeUsersDb({ makeDb });
+        await clearDb();
+    });
+    afterAll(async () => {
+        await clearDb();
     });
     it("Insert a user", async () => {
         const user = await makeFakerComment();
@@ -14,6 +21,6 @@ describe("Users DB", () => {
         const fakeUser = await makeFakerComment();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const user = await UsersDb.findById({ id: fakeUser.userId });
-        expect(user).toEqual(fakeUser);
+        expect(user?.username).toBe(fakeUser.username);
     });
 });
