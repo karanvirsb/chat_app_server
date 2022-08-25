@@ -1,8 +1,8 @@
 import makeAddUser from "./addUser";
 import makeEditUser from "./editUser";
+import makeDeleteUser from "./deleteUser";
 import { moderateName } from "../../../Utilities/moderateText";
 import usersDb from "../data-access";
-import makeDeleteUser from "./deleteUser";
 
 export type handleModerationType = (name: string) => Promise<number | boolean>;
 
