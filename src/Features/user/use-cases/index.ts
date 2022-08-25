@@ -1,4 +1,5 @@
 import makeAddUser from "./addUser";
+import makeEditUser from "./editUser";
 import { moderateName } from "../../../Utilities/moderateText";
 import usersDb from "../data-access";
 
@@ -9,11 +10,12 @@ const handleModeration = async (name: string) => {
 };
 
 const addUser = makeAddUser({ usersDb, handleModeration });
-
+const editUser = makeEditUser({ usersDb, handleModeration });
 const userService = Object.freeze({
     addUser,
+    editUser,
 });
 
 export default userService;
 
-export { addUser };
+export { addUser, editUser };
