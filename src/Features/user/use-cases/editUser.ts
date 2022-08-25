@@ -15,7 +15,7 @@ type returnData = Promise<{
 
 type editUserProps = {
     userId: string;
-    updates: Record<keyof IUser, string>;
+    updates: Partial<Record<keyof IUser, string>>;
 };
 
 export default function makeEditUser({ usersDb, handleModeration }: props) {
