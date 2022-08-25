@@ -1,11 +1,11 @@
 import makeUser from "../index";
 import { IUser } from "../user";
-import { IModerate } from "../../../Utilities/moderateText";
 import { IMakeUsersDb } from "../data-access/users-db";
+import { handleModerationType } from ".";
 
 type props = {
     usersDb: IMakeUsersDb["returnType"];
-    handleModeration: IModerate["moderateUsername"];
+    handleModeration: handleModerationType;
 };
 
 type returnData = Promise<{
@@ -19,7 +19,7 @@ export default function makeAddUser({ usersDb, handleModeration }: props) {
         const user = makeUser({ ...userInfo });
         const exists = await usersDb.findByUsername(user.getUsername());
 
-        if (exists) {
+        if (exists.success && exists.data !== undefined) {
             return {
                 success: true,
                 data: undefined,
@@ -45,7 +45,7 @@ export default function makeAddUser({ usersDb, handleModeration }: props) {
             };
         }
 
-        return usersDb.insert({
+        return await usersDb.insert({
             data: {
                 email: user.getEmail(),
                 password: user.getPassword(),
