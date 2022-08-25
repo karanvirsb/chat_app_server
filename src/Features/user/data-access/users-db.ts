@@ -1,4 +1,4 @@
-import { IUserDb } from ".";
+import usersDb, { IUserDb } from ".";
 import { IUser } from "../user";
 
 type props = {
@@ -18,7 +18,13 @@ export interface IMakeUsersDb {
         findById: ({ id }: { id: string }) => returningData["type"];
         findByUsername: (username: string) => returningData["type"];
         findByEmail: (email: string) => returningData["type"];
-        update: () => Promise<void>;
+        update: ({
+            userId,
+            updates,
+        }: {
+            userId: string;
+            updates: Record<keyof IUser, string>;
+        }) => returningData["type"];
         remove: (userId: string) => returningData["type"];
         insert: ({ data }: { data: IUser }) => returningData["type"];
     }>;
@@ -59,7 +65,38 @@ export default function makeUsersDb({ makeDb }: props) {
             db.release();
         }
     }
-    async function update() {}
+    async function update({
+        userId,
+        updates,
+    }: {
+        userId: string;
+        updates: Record<keyof IUser, string>;
+    }): returningData["type"] {
+        const db = await makeDb();
+        try {
+            const updateStringBuilder = (updates: {
+                [key: string]: string;
+            }) => {
+                const concatString = [];
+                for (const update in updates) {
+                    if (updates[update]) {
+                        concatString.push(`${update} = '${updates[update]}'`);
+                    }
+                }
+
+                return concatString.join(", ");
+            };
+            const updateString = updateStringBuilder(updates);
+            const query = `UPDATE userT SET ${updateString.trim()} WHERE userId = '${userId}' RETURNING *`;
+            const res = await db.query(query.trim());
+            return { success: true, data: res.rows[0], error: "" };
+        } catch (error: any) {
+            console.log(error);
+            return { success: true, data: undefined, error: error };
+        } finally {
+            db.release();
+        }
+    }
 
     async function remove(userId: string): returningData["type"] {
         const db = await makeDb();
