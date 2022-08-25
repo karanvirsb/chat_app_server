@@ -15,7 +15,7 @@ describe("Users DB", () => {
         await closeDb();
     });
 
-    it("Insert a user", async () => {
+    it.skip("Insert a user", async () => {
         // successful
         const user = await makeFakerComment();
         const resp = await UsersDb.insert({ data: user });
@@ -25,7 +25,7 @@ describe("Users DB", () => {
             expect(resp?.data?.username).toBe(user.username);
         }
     });
-    it("Find user by Id", async () => {
+    it.skip("Find user by Id", async () => {
         //successful
         const fakeUser = await makeFakerComment();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
@@ -35,7 +35,7 @@ describe("Users DB", () => {
         }
     });
 
-    it("Find user by username", async () => {
+    it.skip("Find user by username", async () => {
         // success
         const fakeUser = await makeFakerComment();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
@@ -45,7 +45,7 @@ describe("Users DB", () => {
         }
     });
 
-    it("Find user by email", async () => {
+    it.skip("Find user by email", async () => {
         const fakeUser = await makeFakerComment();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.findByEmail(fakeUser.email);
@@ -54,12 +54,32 @@ describe("Users DB", () => {
         }
     });
 
-    it("Remove user by Id", async () => {
+    it.skip("Remove user by Id", async () => {
         const fakeUser = await makeFakerComment();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.remove(fakeUser.userId);
         if (resp.success) {
             expect(resp.data?.username).toBe(fakeUser.username);
+        }
+    });
+
+    it("Update user", async () => {
+        const fakeUser = await makeFakerComment();
+        const insertedUser = await UsersDb.insert({ data: fakeUser });
+        const resp = await UsersDb.update({
+            userId: fakeUser.userId,
+            updates: {
+                username: "johnB",
+                password: "",
+                email: "",
+                userId: "",
+                refreshToken: "",
+                status: "offline",
+            },
+        });
+        if (resp.success) {
+            expect(resp.data?.username).toBe("johnB");
+            expect(resp.data?.status).toBe("offline");
         }
     });
 });
