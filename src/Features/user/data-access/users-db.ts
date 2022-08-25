@@ -90,18 +90,6 @@ export default function makeUsersDb({ makeDb }: props) {
     }): returningData["type"] {
         const db = await makeDb();
         try {
-            const updateStringBuilder = (updates: {
-                [key: string]: string;
-            }) => {
-                const concatString = [];
-                for (const update in updates) {
-                    if (updates[update]) {
-                        concatString.push(`${update} = '${updates[update]}'`);
-                    }
-                }
-
-                return concatString.join(", ");
-            };
             const updateString = updateStringBuilder(updates);
             const query = `UPDATE userT SET ${updateString.trim()} WHERE userId = '${userId}' RETURNING *`;
             const res = await db.query(query.trim());
@@ -120,6 +108,17 @@ export default function makeUsersDb({ makeDb }: props) {
         } finally {
             db.release();
         }
+    }
+
+    function updateStringBuilder(updates: { [key: string]: string }) {
+        const concatString = [];
+        for (const update in updates) {
+            if (updates[update]) {
+                concatString.push(`${update} = '${updates[update]}'`);
+            }
+        }
+
+        return concatString.join(", ");
     }
 
     async function remove(userId: string): returningData["type"] {
