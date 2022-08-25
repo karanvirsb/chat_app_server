@@ -23,7 +23,7 @@ export interface IMakeUsersDb {
             updates,
         }: {
             userId: string;
-            updates: Record<keyof IUser, string>;
+            updates: Partial<Record<keyof IUser, string>>;
         }) => returningData["type"];
         remove: (userId: string) => returningData["type"];
         insert: ({ data }: { data: IUser }) => returningData["type"];
@@ -86,7 +86,7 @@ export default function makeUsersDb({ makeDb }: props) {
         updates,
     }: {
         userId: string;
-        updates: Record<keyof IUser, string>;
+        updates: Partial<Record<keyof IUser, string>>;
     }): returningData["type"] {
         const db = await makeDb();
         try {
