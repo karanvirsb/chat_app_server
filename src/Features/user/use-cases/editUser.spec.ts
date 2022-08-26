@@ -30,7 +30,7 @@ describe.skip("Edit Users use case", () => {
 
     it("Edit user successfully", async () => {
         const user = await makeFakeUser();
-        await usersDb.insert({ data: user });
+        const insertedUser = await usersDb.insert({ data: user });
 
         const updatedUser = await editUser({
             userId: user.userId,
