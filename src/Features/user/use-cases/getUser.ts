@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IGetUserUseCase {
+    getUser: (username: string) => returnData;
+}
+
 export default function makeGetUser({ usersDb }: props) {
     return async function getUser(username: string): returnData {
         if (!username) {
