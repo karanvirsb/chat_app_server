@@ -16,6 +16,18 @@ describe.skip("Edit Users use case", () => {
         clearDb();
     });
 
+    it("Error: User id must be passed", async () => {
+        expect(
+            editUser({ userId: "", updates: { userId: "e" } })
+        ).rejects.toThrow("An userId must be passed");
+    });
+
+    it("Error: Updates must exist", async () => {
+        expect(editUser({ userId: "123", updates: {} })).rejects.toThrow(
+            "At least one update must be passed"
+        );
+    });
+
     it("Edit user successfully", async () => {
         const user = await makeFakeUser();
         await usersDb.insert({ data: user });
