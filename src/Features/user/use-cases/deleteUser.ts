@@ -13,6 +13,10 @@ type returnData = Promise<{
 
 export default function makeDeleteUser({ usersDb }: props) {
     return async function deleteUser(userId: string): returnData {
+        if (!userId) {
+            throw new Error("An userId must be passed");
+        }
+
         const foundUser = await usersDb.findById({ id: userId });
 
         if (foundUser.success && foundUser.data === undefined) {
