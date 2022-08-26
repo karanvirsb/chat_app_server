@@ -11,6 +11,10 @@ describe.skip("Delete use case", () => {
         clearDb();
     });
 
+    it("Error: Userid was not passed", async () => {
+        expect(deleteUser("")).rejects.toThrow("An userId must be passed");
+    });
+
     it("Deleted user successfully", async () => {
         const user = await makeFakeUser();
         const insertedUser = await usersDb.insert({ data: user });
