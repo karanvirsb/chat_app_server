@@ -19,7 +19,7 @@ describe.skip("Delete use case", () => {
         const user = await makeFakeUser();
         const insertedUser = await usersDb.insert({ data: user });
         const deletedUser = await deleteUser(user.userId);
-        console.log(deletedUser);
+
         if (deletedUser.success) {
             expect(deletedUser.data?.userId).toBe(user.userId);
         }
