@@ -14,7 +14,7 @@ type returnData = Promise<{
 export default function makeGetUser({ usersDb }: props) {
     return async function getUser(username: string): returnData {
         if (!username) {
-            throw new Error("Username must exist");
+            throw new Error("Username must be passed through");
         }
         return await usersDb.findByUsername(username);
     };
