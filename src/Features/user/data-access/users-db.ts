@@ -43,7 +43,7 @@ export default function makeUsersDb({ makeDb }: props) {
     async function findById({ id }: { id: string }): returningData["type"] {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM userT WHERE userId = '${id}'`;
+            const query = `SELECT * FROM userT WHERE "userId" = '${id}'`;
             const res = await db.query(query);
             if (res.rows.length > 0) {
                 return { success: true, data: res.rows[0], error: "" };
@@ -91,7 +91,7 @@ export default function makeUsersDb({ makeDb }: props) {
         const db = await makeDb();
         try {
             const updateString = updateStringBuilder(updates);
-            const query = `UPDATE userT SET ${updateString.trim()} WHERE userId = '${userId}' RETURNING *`;
+            const query = `UPDATE userT SET ${updateString.trim()} WHERE "userId" = '${userId}' RETURNING *`;
             const res = await db.query(query.trim());
             if (res.rows.length > 0) {
                 return { success: true, data: res.rows[0], error: "" };
@@ -124,7 +124,7 @@ export default function makeUsersDb({ makeDb }: props) {
     async function remove(userId: string): returningData["type"] {
         const db = await makeDb();
         try {
-            const query = `DELETE FROM userT WHERE userId = '${userId}' RETURNING *`;
+            const query = `DELETE FROM userT WHERE "userId" = '${userId}' RETURNING *`;
             const res = await db.query(query);
             if (res.rows.length > 0) {
                 return { success: true, data: res.rows[0], error: "" };
