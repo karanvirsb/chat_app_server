@@ -23,6 +23,13 @@ export default function makeEditUser({ usersDb, handleModeration }: props) {
         userId,
         updates,
     }: editUserProps): returnData {
+        if (!userId) {
+            throw new Error("An userId must be passed");
+        }
+        if (!updates) {
+            throw new Error("At least one update must be passed");
+        }
+
         const foundUser = await usersDb.findById({ id: userId });
 
         if (foundUser.success && foundUser.data === undefined) {
