@@ -26,7 +26,7 @@ export default function makeEditUser({ usersDb, handleModeration }: props) {
         if (!userId) {
             throw new Error("An userId must be passed");
         }
-        if (!updates) {
+        if (Object.values(updates).length <= 0) {
             throw new Error("At least one update must be passed");
         }
 
