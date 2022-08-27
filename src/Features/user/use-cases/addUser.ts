@@ -48,8 +48,6 @@ export default function makeAddUser({ usersDb, handleModeration }: props) {
         return await usersDb.insert({
             data: {
                 email: user.getEmail(),
-                password: user.getPassword(),
-                refreshToken: user.getRefreshToken(),
                 status: user.getStatus(),
                 userId: user.getUserId(),
                 username: user.getUsername(),
