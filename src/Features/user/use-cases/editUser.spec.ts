@@ -7,8 +7,8 @@ import makeFakeUser from "../../../../__test__/fixures/user";
 const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
-
 describe.skip("Edit Users use case", () => {
+    jest.setTimeout(50000);
     let usersDb = makeUsersDb({ makeDb });
     let editUser = makeEditUser({ usersDb, handleModeration });
 
