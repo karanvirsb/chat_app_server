@@ -7,7 +7,7 @@ export default function makeGetUser({ getUser }: IGetUserUseCase) {
         };
 
         try {
-            const user = await getUser(httpRequest.params.username);
+            const user = await getUser(httpRequest.params.email);
             return {
                 headers,
                 statusCode: 200,
