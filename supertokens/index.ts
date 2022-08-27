@@ -32,6 +32,42 @@ supertokens.init({
                     },
                 ],
             },
+            override: {
+                apis: (originalImplementation) => {
+                    return {
+                        ...originalImplementation,
+                        signUpPOST: async function (input) {
+                            if (
+                                originalImplementation.signUpPOST === undefined
+                            ) {
+                                throw Error("Should never come here");
+                            }
+
+                            // First we call the original implementation of signUpPOST.
+                            let response =
+                                await originalImplementation.signUpPOST(input);
+
+                            // Post sign up response, we check if it was successful
+                            if (response.status === "OK") {
+                                const user: { [key: string]: string } = {};
+
+                                // These are the input form fields values that the user used while signing up
+                                let formFields = input.formFields;
+
+                                // so here we are adding email, username
+                                formFields.forEach((field) => {
+                                    if (field.id !== "password") {
+                                        user[field.id] = field.value;
+                                    }
+                                });
+
+                                user["status"] = "online";
+                            }
+                            return response;
+                        },
+                    };
+                },
+            },
         }), // initializes signin / sign up features
         Session.init(), // initializes session features
     ],
