@@ -18,7 +18,21 @@ supertokens.init({
         websiteBasePath: "/auth",
     },
     recipeList: [
-        EmailPassword.init(), // initializes signin / sign up features
+        EmailPassword.init({
+            signUpFeature: {
+                formFields: [
+                    {
+                        id: "username",
+                    },
+                    {
+                        id: "email",
+                    },
+                    {
+                        id: "password",
+                    },
+                ],
+            },
+        }), // initializes signin / sign up features
         Session.init(), // initializes session features
     ],
 });
