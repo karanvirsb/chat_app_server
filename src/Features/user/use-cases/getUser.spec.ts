@@ -4,6 +4,7 @@ import makeUsersDb from "../data-access/users-db";
 import makeFakeUser from "../../../../__test__/fixures/user";
 
 describe.skip("Delete use case", () => {
+    jest.setTimeout(50000);
     let usersDb = makeUsersDb({ makeDb });
     let getUser = makeGetUser({ usersDb });
 
@@ -11,15 +12,15 @@ describe.skip("Delete use case", () => {
         clearDb();
     });
 
-    it("Username was not supplied", async () => {
-        expect(getUser("")).rejects.toThrow("Username must be passed through");
+    it("Email was not supplied", async () => {
+        expect(getUser("")).rejects.toThrow("Email must be passed through");
     });
 
     it("Get user who exists", async () => {
         const user = await makeFakeUser();
         await usersDb.insert({ data: user });
 
-        const foundUser = await getUser(user.username);
+        const foundUser = await getUser(user.email);
         if (foundUser.success) {
             expect(foundUser.data?.userId).toBe(user.userId);
         }
@@ -28,9 +29,7 @@ describe.skip("Delete use case", () => {
     it("Get user who does not exist", async () => {
         const foundUser = await getUser("1");
         if (foundUser.success && foundUser.data === undefined) {
-            expect(foundUser.error).toBe(
-                "Could not find any user with that username"
-            );
+            expect(foundUser.error).toBe("Could not find user with that email");
         }
     });
 });
