@@ -147,7 +147,7 @@ export default function makeUsersDb({ makeDb }: props) {
         const db = await makeDb();
         try {
             const query =
-                "INSERT INTO userT VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
+                "INSERT INTO userT VALUES($1, $2, $3, $4) RETURNING *";
 
             const foundUser = await findByUsername(data.username);
             if (foundUser.data !== undefined) {
@@ -161,9 +161,7 @@ export default function makeUsersDb({ makeDb }: props) {
                 data.userId,
                 data.username,
                 data.email,
-                data.password,
                 data.status,
-                data.refreshToken,
             ]);
             if (res.rows.length > 0) {
                 const user: IUser = res.rows[0];
