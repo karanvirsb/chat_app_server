@@ -9,18 +9,14 @@ export interface IUser {
     userId: string;
     username: string;
     email: string;
-    password: string;
     status: string;
-    refreshToken: string;
 }
 export default function buildUser({ Id, sanitizeText }: props) {
     return function makeUser({
         userId = Id.makeId(),
         username,
         email,
-        password,
         status,
-        refreshToken,
     }: IUser) {
         if (!userId || userId.length < 10) {
             throw new Error("User must have an Id greater than 10 characters");
@@ -41,16 +37,8 @@ export default function buildUser({ Id, sanitizeText }: props) {
             throw new Error("Email must be valid");
         }
 
-        if (!password) {
-            throw new Error("Password must exist");
-        }
-
         if (!status) {
             throw new Error("Must have a valid status");
-        }
-
-        if (!refreshToken) {
-            throw new Error("Must have a valid refresh token");
         }
 
         const deletedUsername = "Deleted :`(";
@@ -58,9 +46,7 @@ export default function buildUser({ Id, sanitizeText }: props) {
             getUserId: () => userId,
             getUsername: () => sanitizedText,
             getEmail: () => email,
-            getPassword: () => password,
             getStatus: () => status,
-            getRefreshToken: () => refreshToken,
             markDeleted: () => {
                 sanitizedText = deletedUsername;
                 userId = "deleted-" + userId;
