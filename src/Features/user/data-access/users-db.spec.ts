@@ -69,10 +69,8 @@ describe.skip("Users DB", () => {
             userId: fakeUser.userId,
             updates: {
                 username: "johnB",
-                password: "",
                 email: "",
                 userId: "",
-                refreshToken: "",
                 status: "offline",
             },
         });
