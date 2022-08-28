@@ -1,9 +1,9 @@
-import { nanoid } from "nanoid";
+import cuid from "cuid";
 
 export interface IId {
     makeId: () => string;
 }
 
 export default {
-    makeId: () => nanoid(),
+    makeId: () => cuid(),
 };
