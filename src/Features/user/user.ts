@@ -18,7 +18,11 @@ export default function buildUser({ Id, sanitizeText }: props) {
         email,
         status,
     }: IUser) {
-        if (!userId || userId.length < 10) {
+        if (!userId) {
+            userId = Id.makeId();
+        }
+
+        if (userId.length < 10) {
             throw new Error("User must have an Id greater than 10 characters");
         }
 
