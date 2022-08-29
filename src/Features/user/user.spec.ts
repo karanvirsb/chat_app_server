@@ -1,8 +1,9 @@
 import buildUser from ".";
+import Id from "../../Utilities/id";
 
-describe.skip("user", () => {
+describe("user", () => {
     const tempUser = {
-        userId: "1234567909876543",
+        userId: Id.makeId(),
         username: "John123",
         email: "JohnB@gmail.com",
         status: "offline",
