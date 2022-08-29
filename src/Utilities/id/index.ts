@@ -4,6 +4,8 @@ export interface IId {
     makeId: () => string;
 }
 
-export default {
-    makeId: () => cuid(),
+const makeId = () => {
+    return cuid();
 };
+
+export default { makeId };
