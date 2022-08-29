@@ -3,6 +3,18 @@ import Session from "supertokens-node/recipe/session";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import { addUser } from "../src/Features/user/use-cases";
 import { IUser } from "../src/Features/user/user";
+import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
+
+type signupResponse =
+    | {
+          status: "OK";
+          user: EmailPassword.User;
+          session: Session.SessionContainer;
+      }
+    | {
+          status: "EMAIL_ALREADY_EXISTS_ERROR";
+      }
+    | GeneralErrorResponse;
 
 supertokens.init({
     framework: "express",
@@ -45,42 +57,63 @@ supertokens.init({
                                 throw Error("Should never come here");
                             }
 
-                            // First we call the original implementation of signUpPOST.
-                            let response =
-                                await originalImplementation.signUpPOST(input);
+                            let response: signupResponse;
 
                             // Post sign up response, we check if it was successful
-                            if (response.status === "OK") {
-                                const user: IUser = {
-                                    userId: "",
-                                    email: "",
-                                    status: "",
-                                    username: "",
+
+                            const user: IUser = {
+                                userId: "",
+                                email: "",
+                                status: "",
+                                username: "",
+                            };
+
+                            // These are the input form fields values that the user used while signing up
+                            let formFields = input.formFields;
+
+                            // so here we are adding email, username
+                            formFields.forEach((field) => {
+                                if (
+                                    field.id === "email" ||
+                                    field.id === "username"
+                                ) {
+                                    user[field.id] = field.value;
+                                }
+                            });
+
+                            user["status"] = "online";
+                            // adding user into database
+                            try {
+                                const addedUser = await addUser(user);
+                                if (addedUser.error) {
+                                    throw new Error(addedUser.error);
+                                }
+                            } catch (err) {
+                                console.log(err);
+                                return {
+                                    status: "GENERAL_ERROR",
+                                    message: `${err}`,
                                 };
+                            }
 
-                                // These are the input form fields values that the user used while signing up
-                                let formFields = input.formFields;
+                            try {
+                                response =
+                                    await originalImplementation.signUpPOST(
+                                        input
+                                    );
 
-                                // so here we are adding email, username
-                                formFields.forEach((field) => {
-                                    if (
-                                        field.id === "email" ||
-                                        field.id === "username"
-                                    ) {
-                                        user[field.id] = field.value;
-                                    }
-                                });
-
-                                user["status"] = "online";
-                                // adding user into database
-                                try {
-                                    await addUser(user);
-                                } catch (err) {
-                                    return {
-                                        status: "GENERAL_ERROR",
-                                        message: `${err}`,
+                                if (response.status === "OK") {
+                                    response.user = {
+                                        ...response.user,
+                                        ...user,
                                     };
                                 }
+                            } catch (error) {
+                                console.log(error);
+                                return {
+                                    status: "GENERAL_ERROR",
+                                    message: `${error}`,
+                                };
                             }
                             return response;
                         },
