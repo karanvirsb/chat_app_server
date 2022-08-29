@@ -57,31 +57,7 @@ supertokens.init({
                                 throw Error("Should never come here");
                             }
 
-                            let response: signupResponse;
-
-                            // Post sign up response, we check if it was successful
-
-                            const user: IUser = {
-                                userId: "",
-                                email: "",
-                                status: "",
-                                username: "",
-                            };
-
-                            // These are the input form fields values that the user used while signing up
-                            let formFields = input.formFields;
-
-                            // so here we are adding email, username
-                            formFields.forEach((field) => {
-                                if (
-                                    field.id === "email" ||
-                                    field.id === "username"
-                                ) {
-                                    user[field.id] = field.value;
-                                }
-                            });
-
-                            user["status"] = "online";
+                            const user: IUser = createUserObj(input);
                             // adding user into database
                             try {
                                 const addedUser = await addUser(user);
@@ -96,6 +72,7 @@ supertokens.init({
                                 };
                             }
 
+                            let response: signupResponse;
                             try {
                                 response =
                                     await originalImplementation.signUpPOST(
@@ -126,3 +103,28 @@ supertokens.init({
 });
 
 export default supertokens;
+function createUserObj(input: {
+    formFields: { id: string; value: string }[];
+    options: EmailPassword.APIOptions;
+    userContext: any;
+}) {
+    const user: IUser = {
+        userId: "",
+        email: "",
+        status: "",
+        username: "",
+    };
+
+    // These are the input form fields values that the user used while signing up
+    let formFields = input.formFields;
+
+    // so here we are adding email, username
+    formFields.forEach((field) => {
+        if (field.id === "email" || field.id === "username") {
+            user[field.id] = field.value;
+        }
+    });
+
+    user["status"] = "online";
+    return user;
+}
