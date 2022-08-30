@@ -1,11 +1,10 @@
 import buildUser from ".";
 import Id from "../../Utilities/id";
 
-describe("user", () => {
+describe.skip("user", () => {
     const tempUser = {
         userId: Id.makeId(),
         username: "John123",
-        email: "JohnB@gmail.com",
         status: "offline",
     };
     it("User id has to be valid", () => {
@@ -26,12 +25,6 @@ describe("user", () => {
                 username: "<img src=x onerror=alert('img') />",
             })
         ).toThrow("Username does not contain any valid characters");
-    });
-
-    it("Have to have email", () => {
-        expect(() => buildUser({ ...tempUser, email: "" })).toThrow(
-            "Email must be valid"
-        );
     });
 
     it("Must have a status", () => {
