@@ -6,7 +6,6 @@ export default async function makeFakeUser(): Promise<IUser> {
     return {
         userId: cuid(),
         username: faker.name.firstName() + faker.color.human(),
-        email: `${faker.name.fullName()}@gmail.com`,
         status: "online",
     };
 }
