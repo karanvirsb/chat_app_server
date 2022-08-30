@@ -41,9 +41,7 @@ export default function makeEditUser({ usersDb, handleModeration }: props) {
         if (updates.username) {
             moderated = await handleModeration(updates["username"]);
         }
-        if (updates.email) {
-            moderated = await handleModeration(updates["email"]);
-        }
+
         if (moderated) {
             return {
                 success: false,
@@ -60,6 +58,6 @@ export default function makeEditUser({ usersDb, handleModeration }: props) {
             };
         }
 
-        return await usersDb.update({ userId, updates });
+        return await usersDb.updateByUserId({ userId, updates });
     };
 }
