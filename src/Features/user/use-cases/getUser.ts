@@ -12,14 +12,14 @@ type returnData = Promise<{
 }>;
 
 export interface IGetUserUseCase {
-    getUser: (email: string) => returnData;
+    getUser: (userId: string) => returnData;
 }
 
 export default function makeGetUser({ usersDb }: props) {
-    return async function getUser(email: string): returnData {
-        if (!email) {
-            throw new Error("Email must be passed through");
+    return async function getUser(userId: string): returnData {
+        if (!userId) {
+            throw new Error("UserId must be passed through");
         }
-        return await usersDb.findByEmail(email);
+        return await usersDb.findById({ id: userId });
     };
 }
