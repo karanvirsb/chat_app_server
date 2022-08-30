@@ -2,7 +2,7 @@ import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeUsersDb, { IMakeUsersDb } from "./users-db";
 import makeFakerComment from "../../../../__test__/fixures/user";
 
-describe("Users DB", () => {
+describe.skip("Users DB", () => {
     let UsersDb: IMakeUsersDb["returnType"];
 
     beforeAll(async () => {
