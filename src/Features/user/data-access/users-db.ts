@@ -1,4 +1,4 @@
-import usersDb, { IUserDb } from ".";
+import { IUserDb } from ".";
 import { IUser } from "../user";
 
 type props = {
@@ -17,8 +17,14 @@ export interface IMakeUsersDb {
     returnType: Readonly<{
         findById: ({ id }: { id: string }) => returningData["type"];
         findByUsername: (username: string) => returningData["type"];
-        findByEmail: (email: string) => returningData["type"];
-        update: ({
+        updateByUsername: ({
+            username,
+            updates,
+        }: {
+            username: string;
+            updates: Partial<Record<keyof IUser, string>>;
+        }) => returningData["type"];
+        updateByUserId: ({
             userId,
             updates,
         }: {
@@ -34,8 +40,8 @@ export default function makeUsersDb({ makeDb }: props) {
     return Object.freeze({
         findById,
         findByUsername,
-        findByEmail,
-        update,
+        updateByUsername,
+        updateByUserId,
         remove,
         insert,
     });
@@ -81,7 +87,8 @@ export default function makeUsersDb({ makeDb }: props) {
             db.release();
         }
     }
-    async function update({
+
+    async function updateByUserId({
         userId,
         updates,
     }: {
@@ -110,11 +117,40 @@ export default function makeUsersDb({ makeDb }: props) {
         }
     }
 
+    async function updateByUsername({
+        username,
+        updates,
+    }: {
+        username: string;
+        updates: Partial<Record<keyof IUser, string>>;
+    }): returningData["type"] {
+        const db = await makeDb();
+        try {
+            const updateString = updateStringBuilder(updates);
+            const query = `UPDATE userT SET ${updateString.trim()} WHERE "username" = '${username}' RETURNING *`;
+            const res = await db.query(query.trim());
+            if (res.rows.length > 0) {
+                return { success: true, data: res.rows[0], error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not update user",
+                };
+            }
+        } catch (error: any) {
+            console.log(error);
+            return { success: true, data: undefined, error: error };
+        } finally {
+            db.release();
+        }
+    }
+
     function updateStringBuilder(updates: { [key: string]: string }) {
         const concatString = [];
         for (const update in updates) {
             if (updates[update]) {
-                concatString.push(`${update} = '${updates[update]}'`);
+                concatString.push(`"${update}" = '${updates[update]}'`);
             }
         }
 
@@ -147,7 +183,7 @@ export default function makeUsersDb({ makeDb }: props) {
         const db = await makeDb();
         try {
             const query =
-                "INSERT INTO userT VALUES($1, $2, $3, $4) RETURNING *";
+                "INSERT INTO userT VALUES((SELECT user_id FROM emailpassword_users WHERE user_id = $1), $2, $3) RETURNING *";
 
             const foundUser = await findByUsername(data.username);
             if (foundUser.data !== undefined) {
@@ -159,9 +195,8 @@ export default function makeUsersDb({ makeDb }: props) {
             }
             const res = await db.query(query, [
                 data.userId,
-                data.username,
-                data.email,
                 data.status,
+                data.username,
             ]);
             if (res.rows.length > 0) {
                 const user: IUser = res.rows[0];
@@ -181,24 +216,24 @@ export default function makeUsersDb({ makeDb }: props) {
             db.release();
         }
     }
-    async function findByEmail(email: string): returningData["type"] {
-        const db = await makeDb();
-        try {
-            const query = `SELECT * FROM userT WHERE email = '${email}'`;
-            const res = await db.query(query);
-            if (res.rows.length > 0) {
-                return { success: true, data: res.rows[0], error: "" };
-            } else {
-                return {
-                    success: true,
-                    data: undefined,
-                    error: "Could not find user with that email",
-                };
-            }
-        } catch (err: any) {
-            return { success: true, data: undefined, error: err };
-        } finally {
-            db.release();
-        }
-    }
+    // async function findByEmail(email: string): returningData["type"] {
+    //     const db = await makeDb();
+    //     try {
+    //         const query = `SELECT * FROM userT WHERE email = '${email}'`;
+    //         const res = await db.query(query);
+    //         if (res.rows.length > 0) {
+    //             return { success: true, data: res.rows[0], error: "" };
+    //         } else {
+    //             return {
+    //                 success: true,
+    //                 data: undefined,
+    //                 error: "Could not find user with that email",
+    //             };
+    //         }
+    //     } catch (err: any) {
+    //         return { success: true, data: undefined, error: err };
+    //     } finally {
+    //         db.release();
+    //     }
+    // }
 }
