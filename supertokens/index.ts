@@ -110,7 +110,6 @@ function createUserObj(input: {
 }) {
     const user: IUser = {
         userId: "",
-        email: "",
         status: "",
         username: "",
     };
@@ -120,7 +119,7 @@ function createUserObj(input: {
 
     // so here we are adding email, username
     formFields.forEach((field) => {
-        if (field.id === "email" || field.id === "username") {
+        if (field.id === "username") {
             user[field.id] = field.value;
         }
     });
