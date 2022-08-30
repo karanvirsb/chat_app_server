@@ -4,7 +4,7 @@ import { IUser } from "../../src/Features/user/user";
 
 export default async function makeFakeUser(): Promise<IUser> {
     return {
-        userId: cuid(),
+        userId: "1234",
         username: faker.name.firstName() + faker.color.human(),
         status: "online",
     };
