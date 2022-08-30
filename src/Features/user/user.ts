@@ -9,10 +9,6 @@ export interface IUser {
 }
 export default function buildUser({ sanitizeText }: props) {
     return function makeUser({ userId, username, status }: IUser) {
-        if (userId.length < 10) {
-            throw new Error("User must have an Id greater than 10 characters");
-        }
-
         let sanitizedText = sanitizeText(username).trim();
         if (sanitizedText.length < 1) {
             throw new Error("Username does not contain any valid characters");
