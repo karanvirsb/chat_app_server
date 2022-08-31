@@ -1,7 +1,7 @@
 import supertokens from "supertokens-node";
 import Session from "supertokens-node/recipe/session";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
-import { addUser } from "../src/Features/user/use-cases";
+import { addUser, editUserByUsername } from "../src/Features/user/use-cases";
 import { IUser } from "../src/Features/user/user";
 import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
 
@@ -84,6 +84,10 @@ supertokens.init({
                                         ...response.user,
                                         ...user,
                                     };
+                                    await editUserByUsername({
+                                        username: user.username,
+                                        updates: { userId: response.user.id },
+                                    });
                                 }
                             } catch (error) {
                                 console.log(error);
