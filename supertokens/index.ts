@@ -118,8 +118,8 @@ supertokens.init({
                                 if (response.status === "OK") {
                                     let { id } = response.user;
 
-                                    // TODO: post sign in logic
                                     const user = await getUser(id);
+
                                     if (
                                         user.success &&
                                         user.data !== undefined
@@ -149,7 +149,6 @@ supertokens.init({
     ],
 });
 
-export default supertokens;
 function createUserObj(input: {
     formFields: { id: string; value: string }[];
     options: EmailPassword.APIOptions;
@@ -174,3 +173,5 @@ function createUserObj(input: {
     user["status"] = "online";
     return user;
 }
+
+export default supertokens;
