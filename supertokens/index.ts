@@ -54,93 +54,8 @@ supertokens.init({
                 apis: (originalImplementation) => {
                     return {
                         ...originalImplementation,
-                        signUpPOST: async function (input) {
-                            if (
-                                originalImplementation.signUpPOST === undefined
-                            ) {
-                                throw Error("Should never come here");
-                            }
-
-                            const user: IUser = createUserObj(input);
-                            // adding user into database
-                            try {
-                                const addedUser = await addUser(user);
-                                if (addedUser.error) {
-                                    throw new Error(addedUser.error);
-                                }
-                            } catch (err) {
-                                console.log(err);
-                                return {
-                                    status: "GENERAL_ERROR",
-                                    message: `${err}`,
-                                };
-                            }
-
-                            let response: signupResponse;
-                            try {
-                                response =
-                                    await originalImplementation.signUpPOST(
-                                        input
-                                    );
-
-                                if (response.status === "OK") {
-                                    response.user = {
-                                        ...response.user,
-                                        ...user,
-                                    };
-                                    await editUserByUsername({
-                                        username: user.username,
-                                        updates: { userId: response.user.id },
-                                    });
-                                }
-                            } catch (error) {
-                                console.log(error);
-                                return {
-                                    status: "GENERAL_ERROR",
-                                    message: `${error}`,
-                                };
-                            }
-                            return response;
-                        },
-                        signInPOST: async function (input) {
-                            if (
-                                originalImplementation.signInPOST === undefined
-                            ) {
-                                throw Error("Should never come here");
-                            }
-
-                            // First we call the original implementation of signInPOST.
-                            let response =
-                                await originalImplementation.signInPOST(input);
-
-                            try {
-                                // Post sign up response, we check if it was successful
-                                if (response.status === "OK") {
-                                    let { id } = response.user;
-
-                                    const user = await getUser(id);
-
-                                    if (
-                                        user.success &&
-                                        user.data !== undefined
-                                    ) {
-                                        response.user = {
-                                            ...response.user,
-                                            ...user.data,
-                                        };
-                                    } else {
-                                        throw new Error(user.error);
-                                    }
-                                }
-                            } catch (error) {
-                                console.log(error);
-                                return {
-                                    status: "GENERAL_ERROR",
-                                    message: `${error}`,
-                                };
-                            }
-                            return response;
-                        },
+                        signUpPOST: signUpPost(originalImplementation),
+                        signInPOST: signInPost(originalImplementation),
                     };
                 },
             },
@@ -148,6 +63,120 @@ supertokens.init({
         Session.init(), // initializes session features
     ],
 });
+
+function signInPost(
+    originalImplementation: EmailPassword.APIInterface
+):
+    | ((input: {
+          formFields: { id: string; value: string }[];
+          options: EmailPassword.APIOptions;
+          userContext: any;
+      }) => Promise<
+          | {
+                status: "OK";
+                user: EmailPassword.User;
+                session: Session.SessionContainer;
+            }
+          | { status: "WRONG_CREDENTIALS_ERROR" }
+          | GeneralErrorResponse
+      >)
+    | undefined {
+    return async function (input) {
+        if (originalImplementation.signInPOST === undefined) {
+            throw Error("Should never come here");
+        }
+
+        // First we call the original implementation of signInPOST.
+        let response = await originalImplementation.signInPOST(input);
+
+        try {
+            // Post sign up response, we check if it was successful
+            if (response.status === "OK") {
+                let { id } = response.user;
+
+                const user = await getUser(id);
+
+                if (user.success && user.data !== undefined) {
+                    response.user = {
+                        ...response.user,
+                        ...user.data,
+                    };
+                } else {
+                    throw new Error(user.error);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            return {
+                status: "GENERAL_ERROR",
+                message: `${error}`,
+            };
+        }
+        return response;
+    };
+}
+
+function signUpPost(
+    originalImplementation: EmailPassword.APIInterface
+):
+    | ((input: {
+          formFields: { id: string; value: string }[];
+          options: EmailPassword.APIOptions;
+          userContext: any;
+      }) => Promise<
+          | GeneralErrorResponse
+          | {
+                status: "OK";
+                user: EmailPassword.User;
+                session: Session.SessionContainer;
+            }
+          | { status: "EMAIL_ALREADY_EXISTS_ERROR" }
+      >)
+    | undefined {
+    return async function (input) {
+        if (originalImplementation.signUpPOST === undefined) {
+            throw Error("Should never come here");
+        }
+
+        const user: IUser = createUserObj(input);
+        // adding user into database
+        try {
+            const addedUser = await addUser(user);
+            if (addedUser.error) {
+                throw new Error(addedUser.error);
+            }
+        } catch (err) {
+            console.log(err);
+            return {
+                status: "GENERAL_ERROR",
+                message: `${err}`,
+            };
+        }
+
+        let response: signupResponse;
+        try {
+            response = await originalImplementation.signUpPOST(input);
+
+            if (response.status === "OK") {
+                response.user = {
+                    ...response.user,
+                    ...user,
+                };
+                await editUserByUsername({
+                    username: user.username,
+                    updates: { userId: response.user.id },
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            return {
+                status: "GENERAL_ERROR",
+                message: `${error}`,
+            };
+        }
+        return response;
+    };
+}
 
 function createUserObj(input: {
     formFields: { id: string; value: string }[];
