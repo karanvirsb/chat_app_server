@@ -60,13 +60,34 @@ supertokens.init({
                 },
             },
         }), // initializes signin / sign up features
-        Session.init(), // initializes session features
+        Session.init({
+            override: {
+                functions: (originalImplementation) => {
+                    return {
+                        ...originalImplementation,
+                        createNewSession: async function (input) {
+                            let userId = input.userId;
+
+                            const user = await getUser(userId);
+
+                            if (user.success && user.data !== undefined) {
+                                input.accessTokenPayload = {
+                                    ...input.accessTokenPayload,
+                                    ...user.data,
+                                };
+                            }
+                            return originalImplementation.createNewSession(
+                                input
+                            );
+                        },
+                    };
+                },
+            },
+        }), // initializes session features
     ],
 });
 
-function signInPost(
-    originalImplementation: EmailPassword.APIInterface
-):
+function signInPost(originalImplementation: EmailPassword.APIInterface):
     | ((input: {
           formFields: { id: string; value: string }[];
           options: EmailPassword.APIOptions;
@@ -88,7 +109,6 @@ function signInPost(
 
         // First we call the original implementation of signInPOST.
         let response = await originalImplementation.signInPOST(input);
-
         try {
             // Post sign up response, we check if it was successful
             if (response.status === "OK") {
@@ -99,7 +119,6 @@ function signInPost(
                 if (user.success && user.data !== undefined) {
                     response.user = {
                         ...response.user,
-                        ...user.data,
                     };
                 } else {
                     throw new Error(user.error);
@@ -116,9 +135,7 @@ function signInPost(
     };
 }
 
-function signUpPost(
-    originalImplementation: EmailPassword.APIInterface
-):
+function signUpPost(originalImplementation: EmailPassword.APIInterface):
     | ((input: {
           formFields: { id: string; value: string }[];
           options: EmailPassword.APIOptions;
