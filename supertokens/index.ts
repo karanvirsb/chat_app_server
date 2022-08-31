@@ -1,7 +1,11 @@
 import supertokens from "supertokens-node";
 import Session from "supertokens-node/recipe/session";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
-import { addUser, editUserByUsername } from "../src/Features/user/use-cases";
+import {
+    addUser,
+    editUserByUsername,
+    getUser,
+} from "../src/Features/user/use-cases";
 import { IUser } from "../src/Features/user/user";
 import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
 
@@ -88,6 +92,45 @@ supertokens.init({
                                         username: user.username,
                                         updates: { userId: response.user.id },
                                     });
+                                }
+                            } catch (error) {
+                                console.log(error);
+                                return {
+                                    status: "GENERAL_ERROR",
+                                    message: `${error}`,
+                                };
+                            }
+                            return response;
+                        },
+                        signInPOST: async function (input) {
+                            if (
+                                originalImplementation.signInPOST === undefined
+                            ) {
+                                throw Error("Should never come here");
+                            }
+
+                            // First we call the original implementation of signInPOST.
+                            let response =
+                                await originalImplementation.signInPOST(input);
+
+                            try {
+                                // Post sign up response, we check if it was successful
+                                if (response.status === "OK") {
+                                    let { id } = response.user;
+
+                                    // TODO: post sign in logic
+                                    const user = await getUser(id);
+                                    if (
+                                        user.success &&
+                                        user.data !== undefined
+                                    ) {
+                                        response.user = {
+                                            ...response.user,
+                                            ...user.data,
+                                        };
+                                    } else {
+                                        throw new Error(user.error);
+                                    }
                                 }
                             } catch (error) {
                                 console.log(error);
