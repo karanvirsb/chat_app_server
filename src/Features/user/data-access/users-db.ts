@@ -173,7 +173,6 @@ export default function makeUsersDb({ makeDb }: props) {
             }
         } catch (err: any) {
             console.log(err);
-            db.release();
             return { success: true, data: undefined, error: err };
         } finally {
             db.release();
@@ -195,8 +194,8 @@ export default function makeUsersDb({ makeDb }: props) {
             }
             const res = await db.query(query, [
                 data.userId,
-                data.status,
                 data.username,
+                data.status,
             ]);
             if (res.rows.length > 0) {
                 const user: IUser = res.rows[0];
@@ -210,7 +209,6 @@ export default function makeUsersDb({ makeDb }: props) {
             }
         } catch (err: any) {
             console.log(err);
-            db.release();
             return { success: true, data: undefined, error: err };
         } finally {
             db.release();
