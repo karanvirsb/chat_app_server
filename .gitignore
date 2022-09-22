@@ -29,4 +29,6 @@ dist-ssr
 
 pnpm-lock.yaml
 
+docker-compose.yaml
+
 /coverage
