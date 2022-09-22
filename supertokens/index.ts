@@ -1,4 +1,4 @@
-import supertokens from "supertokens-node";
+import supertokens, { deleteUser } from "supertokens-node";
 import Session from "supertokens-node/recipe/session";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
 import {
@@ -156,41 +156,45 @@ function signUpPost(originalImplementation: EmailPassword.APIInterface):
         }
 
         const user: IUser = createUserObj(input);
-        // adding user into database
-        try {
-            const addedUser = await addUser(user);
-            if (addedUser.error) {
-                throw new Error(addedUser.error);
-            }
-        } catch (err) {
-            console.log(err);
-            return {
-                status: "GENERAL_ERROR",
-                message: `${err}`,
-            };
-        }
 
-        let response: signupResponse;
-        try {
-            response = await originalImplementation.signUpPOST(input);
+        let response: signupResponse = await originalImplementation.signUpPOST(
+            input
+        );
 
+        try {
             if (response.status === "OK") {
                 response.user = {
                     ...response.user,
                     ...user,
                 };
-                await editUserByUsername({
-                    username: user.username,
-                    updates: { userId: response.user.id },
-                });
+
+                user.userId = response.user.id;
+                // adding user into database
+                const addedUser = await addUser(user);
+                if (addedUser.error) {
+                    throw new Error(addedUser.error);
+                }
+
+                // await editUserByUsername({
+                //     username: user.username,
+                //     updates: { userId: response.user.id },
+                // });
             }
         } catch (error) {
             console.log(error);
+            // clean up if fails delete user
+            if (user.userId) {
+                deleteUser(user.userId);
+            } else if (response.status === "OK") {
+                deleteUser(response.user.id);
+            }
+
             return {
                 status: "GENERAL_ERROR",
                 message: `${error}`,
             };
         }
+
         return response;
     };
 }
