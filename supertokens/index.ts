@@ -174,11 +174,6 @@ function signUpPost(originalImplementation: EmailPassword.APIInterface):
                 if (addedUser.error) {
                     throw new Error(addedUser.error);
                 }
-
-                // await editUserByUsername({
-                //     username: user.username,
-                //     updates: { userId: response.user.id },
-                // });
             }
         } catch (error) {
             console.log(error);
