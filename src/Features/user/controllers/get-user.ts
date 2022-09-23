@@ -1,8 +1,14 @@
 import { IGetUserUseCase } from "../use-cases/getUser";
+import {
+    IHttpRequest,
+    httpResponseType,
+} from "../../../express-callback/index";
 
 export default function makeGetUser({ getUser }: IGetUserUseCase) {
-    return async function getUserController(httpRequest: any) {
-        const headers = {
+    return async function getUserController(
+        httpRequest: IHttpRequest
+    ): Promise<httpResponseType> {
+        const headers: { [key: string]: string } = {
             "Content-Type": "application/json",
         };
 
@@ -19,6 +25,8 @@ export default function makeGetUser({ getUser }: IGetUserUseCase) {
                 headers,
                 statusCode: 400,
                 body: {
+                    success: false,
+                    data: [],
                     error: error.message,
                 },
             };
