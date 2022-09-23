@@ -12,11 +12,13 @@ type returnData = Promise<{
 }>;
 
 export interface IGetUserUseCase {
-    getUser: (userId: string) => returnData;
+    getUser: (userId: string) => Promise<returnData>;
 }
 
-export default function makeGetUser({ usersDb }: props) {
-    return async function getUser(userId: string): returnData {
+export default function makeGetUser({
+    usersDb,
+}: props): IGetUserUseCase["getUser"] {
+    return async function getUser(userId: string): Promise<returnData> {
         if (!userId) {
             throw new Error("UserId must be passed through");
         }
