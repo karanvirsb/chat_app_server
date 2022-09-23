@@ -16,8 +16,8 @@ export interface IHttpRequest {
     };
 }
 
-type httpResponse = {
-    headers: { [string: string]: string };
+export type httpResponseType = {
+    headers: { [key: string]: string };
     statusCode: number;
     body: {
         success: boolean;
@@ -27,7 +27,7 @@ type httpResponse = {
 };
 
 export interface IController {
-    (httpRequest: IHttpRequest): Promise<httpResponse>;
+    (httpRequest: IHttpRequest): Promise<httpResponseType>;
 }
 
 export default function makeExpressCallback(controller: IController) {
@@ -46,7 +46,7 @@ export default function makeExpressCallback(controller: IController) {
             },
         };
         controller(httpRequest)
-            .then((httpResponse: httpResponse) => {
+            .then((httpResponse: httpResponseType) => {
                 if (httpResponse.headers) {
                     res.set(httpResponse.headers);
                 }
