@@ -14,8 +14,12 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IAddUserUseCase {
+    addUser: (user: IUser) => Promise<returnData>;
+}
+
 export default function makeAddUser({ usersDb, handleModeration }: props) {
-    return async function addUser(userInfo: IUser): returnData {
+    return async function addUser(userInfo: IUser): Promise<returnData> {
         const user = makeUser({ ...userInfo });
         const exists = await usersDb.findByUsername(user.getUsername());
 
