@@ -18,11 +18,15 @@ type editUserProps = {
     updates: Partial<Record<keyof IUser, string>>;
 };
 
+export interface IEditUserUseCase {
+    editUser: ({ userId, updates }: editUserProps) => Promise<returnData>;
+}
+
 export default function makeEditUser({ usersDb, handleModeration }: props) {
     return async function editUser({
         userId,
         updates,
-    }: editUserProps): returnData {
+    }: editUserProps): Promise<returnData> {
         if (!userId) {
             throw new Error("An userId must be passed");
         }
