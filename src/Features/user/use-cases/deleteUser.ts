@@ -11,8 +11,12 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IDeleteUserUserCase {
+    deleteUser: (userId: string) => Promise<returnData>;
+}
+
 export default function makeDeleteUser({ usersDb }: props) {
-    return async function deleteUser(userId: string): returnData {
+    return async function deleteUser(userId: string): Promise<returnData> {
         if (!userId) {
             throw new Error("An userId must be passed");
         }
