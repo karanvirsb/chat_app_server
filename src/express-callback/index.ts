@@ -10,9 +10,7 @@ export interface IHttpRequest {
     method: string;
     path: string;
     headers: {
-        "Content-Type": string | undefined;
-        Referer: string | undefined;
-        "User-Agent": string | undefined;
+        [key: string]: string | undefined;
     };
 }
 
@@ -32,7 +30,7 @@ export interface IController {
 
 export default function makeExpressCallback(controller: IController) {
     return (req: Request, res: Response) => {
-        const httpRequest = {
+        const httpRequest: IHttpRequest = {
             body: req.body,
             query: req.query,
             params: req.params,
