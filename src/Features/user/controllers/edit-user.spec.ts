@@ -1,7 +1,7 @@
 import { editAnUser } from ".";
 
-describe.skip("", () => {
-    it("", async () => {
+describe.skip("Edit user controller", () => {
+    it("edit user ", async () => {
         const edittedUser = await editAnUser({
             body: {
                 id: "312c0878-04c3-4585-835e-c66900ccc7a1",
