@@ -7,11 +7,11 @@ const getAnUser = makeGetUser({ getUser });
 const addAnUser = makePostUser({ addUser });
 const deleteAnUser = makeDeleteUser({ deleteUser });
 
-const commentController = Object.freeze({
+const userController = Object.freeze({
     getAnUser,
     addAnUser,
     deleteAnUser,
 });
-export default commentController;
+export default userController;
 
 export { getAnUser, addAnUser, deleteAnUser };
