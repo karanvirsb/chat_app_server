@@ -4,6 +4,8 @@ export interface IInviteCodeGenerator {
     makeInviteCode: () => string;
 }
 
-export default function inviteCodeGenerator() {
+function makeInviteCode() {
     return cuid.slug();
 }
+
+export default { makeInviteCode };
