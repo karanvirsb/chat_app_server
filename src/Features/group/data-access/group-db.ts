@@ -49,6 +49,8 @@ export default function makeGroupDb({
                 data: undefined,
                 error: error + "",
             };
+        } finally {
+            db.release();
         }
     }
     // Edit group name
