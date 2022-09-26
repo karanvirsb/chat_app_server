@@ -53,10 +53,45 @@ export default function makeGroupDb({
             db.release();
         }
     }
+    // create group
+    async function createGroup(groupInfo: IGroup) {
+        const db = await makeDb();
+        try {
+            const query = `INSERT INTO groupt VALUES ($1, $2, $3, $4);`;
+            const result = await db.query(query, [
+                groupInfo.groupId,
+                groupInfo.groupName,
+                groupInfo.inviteCode,
+                groupInfo.channels,
+            ]);
+
+            if (result.rows.length > 1) {
+                const group = result.rows[0];
+                return { success: true, data: group, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not insert group",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 75 ~ createGroup ~ error",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
     // Edit group name
     // Regenerate invite code
     // delete group
-    // create group
     // add channel
     // remove channel
     // Add user to group
