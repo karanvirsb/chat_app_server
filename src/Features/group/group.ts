@@ -23,7 +23,7 @@ export default function buildGroup({
         groupName,
         groupId = Id.makeId(),
         inviteCode = inviteCodeGenerator.makeInviteCode(),
-        channels,
+        channels = ["general"],
     }: IGroup) {
         let sanitizedGroupName = sanitizeText(groupName);
 
