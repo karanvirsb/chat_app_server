@@ -11,6 +11,7 @@ export interface IGroup {
     groupName: string;
     groupId: string;
     inviteCode: string;
+    channels?: string[];
 }
 
 export default function buildGroup({
@@ -22,6 +23,7 @@ export default function buildGroup({
         groupName,
         groupId = Id.makeId(),
         inviteCode = inviteCodeGenerator.makeInviteCode(),
+        channels,
     }: IGroup) {
         let sanitizedGroupName = sanitizeText(groupName);
 
@@ -49,6 +51,7 @@ export default function buildGroup({
             getGroupName: () => groupName,
             getGroupId: () => groupId,
             getInviteCode: () => inviteCode,
+            getChannels: () => channels,
         };
     };
 }
