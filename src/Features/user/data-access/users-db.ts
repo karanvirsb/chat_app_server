@@ -68,7 +68,7 @@ export default function makeUsersDb({ makeDb }: props) {
             }
         } catch (error: any) {
             console.log(error);
-            return { success: true, data: undefined, error: error };
+            return { success: false, data: undefined, error: error };
         } finally {
             db.release();
         }
@@ -92,7 +92,7 @@ export default function makeUsersDb({ makeDb }: props) {
                 };
             }
         } catch (err: any) {
-            return { success: true, data: undefined, error: err };
+            return { success: false, data: undefined, error: err };
         } finally {
             db.release();
         }
@@ -121,7 +121,7 @@ export default function makeUsersDb({ makeDb }: props) {
             }
         } catch (error: any) {
             console.log(error);
-            return { success: true, data: undefined, error: error };
+            return { success: false, data: undefined, error: error };
         } finally {
             db.release();
         }
@@ -150,7 +150,7 @@ export default function makeUsersDb({ makeDb }: props) {
             }
         } catch (error: any) {
             console.log(error);
-            return { success: true, data: undefined, error: error };
+            return { success: false, data: undefined, error: error };
         } finally {
             db.release();
         }
@@ -184,7 +184,7 @@ export default function makeUsersDb({ makeDb }: props) {
             }
         } catch (err: any) {
             console.log(err);
-            return { success: true, data: undefined, error: err };
+            return { success: false, data: undefined, error: err };
         } finally {
             db.release();
         }
@@ -220,7 +220,7 @@ export default function makeUsersDb({ makeDb }: props) {
             }
         } catch (err: any) {
             console.log(err);
-            return { success: true, data: undefined, error: err };
+            return { success: false, data: undefined, error: err };
         } finally {
             db.release();
         }
