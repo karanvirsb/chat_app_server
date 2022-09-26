@@ -11,7 +11,7 @@ export interface IGroup {
     groupName: string;
     groupId: string;
     inviteCode: string;
-    channels?: string[];
+    channels?: string[] | undefined;
 }
 
 export default function buildGroup({
@@ -28,12 +28,10 @@ export default function buildGroup({
         let sanitizedGroupName = sanitizeText(groupName);
 
         if (sanitizedGroupName.length < 1) {
-            throw new Error(
-                "Group name must cantain valid characters not HTML"
-            );
+            throw new Error("Group name must contain valid characters");
         }
 
-        if (sanitizedGroupName.length <= 3 && sanitizedGroupName.length >= 50) {
+        if (sanitizedGroupName.length < 3 || sanitizedGroupName.length > 50) {
             throw new Error(
                 "Group name must be between 3 and 50 characters long"
             );
@@ -48,7 +46,7 @@ export default function buildGroup({
         }
 
         return {
-            getGroupName: () => groupName,
+            getGroupName: () => sanitizedGroupName,
             getGroupId: () => groupId,
             getInviteCode: () => inviteCode,
             getChannels: () => channels,
