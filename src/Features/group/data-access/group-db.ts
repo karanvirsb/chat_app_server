@@ -21,6 +21,7 @@ export interface IMakeGroupDb {
             groupId: string,
             groupName: string
         ) => Promise<returningData>;
+        removeGroup: (groupId: string) => Promise<returningData>;
     }>;
 }
 
@@ -31,6 +32,7 @@ export default function makeGroupDb({
         findById,
         createGroup,
         updateGroupName,
+        removeGroup,
     });
 
     // Find group by id
@@ -137,6 +139,36 @@ export default function makeGroupDb({
     }
 
     // delete group
+
+    async function removeGroup(groupId: string): Promise<returningData> {
+        const db = await makeDb();
+        try {
+            const query = `DELETE FROM groupt WHERE "groupId" = '${groupId}' RETURNING *`;
+            const res = await db.query(query);
+            if (res.rows.length > 0) {
+                const deletedGroup: IGroup = res.rows[0];
+                return { success: true, data: deletedGroup, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not update group name",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 146 ~ removeGroup ~ error",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
 
     // Regenerate invite code
     // add channel
