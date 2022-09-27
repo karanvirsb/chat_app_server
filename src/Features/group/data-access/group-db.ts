@@ -13,6 +13,7 @@ type returningData = Promise<{
 export interface IMakeGroupDb {
     returnType: Readonly<{
         findById: (id: string) => returningData;
+        createGroup: (groupInfo: IGroup, userId: string) => returningData;
     }>;
 }
 
@@ -21,6 +22,7 @@ export default function makeGroupDb({
 }: props): IMakeGroupDb["returnType"] {
     return Object.freeze({
         findById,
+        createGroup,
     });
 
     // Find group by id
