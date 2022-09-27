@@ -54,10 +54,13 @@ export default function makeGroupDb({
         }
     }
     // create group
-    async function createGroup(groupInfo: IGroup) {
+    async function createGroup(
+        groupInfo: IGroup,
+        userId: string
+    ): returningData {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO groupt VALUES ($1, $2, $3, $4);`;
+            const query = `INSERT INTO groupt VALUES ($1, $2, $3, $4) RETURNING *;`;
             const result = await db.query(query, [
                 groupInfo.groupId,
                 groupInfo.groupName,
@@ -65,7 +68,10 @@ export default function makeGroupDb({
                 groupInfo.channels,
             ]);
 
-            if (result.rows.length > 1) {
+            const q = `INSERT INTO "groupUsers" values('${groupInfo.groupId}', '${userId}', [2000])`;
+            const res = await db.query(q);
+
+            if (result.rows.length > 1 && res.rows.length >= 1) {
                 const group = result.rows[0];
                 return { success: true, data: group, error: "" };
             } else {
