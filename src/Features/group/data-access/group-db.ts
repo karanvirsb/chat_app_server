@@ -12,8 +12,15 @@ type returningData = Promise<{
 }>;
 export interface IMakeGroupDb {
     returnType: Readonly<{
-        findById: (id: string) => returningData;
-        createGroup: (groupInfo: IGroup, userId: string) => returningData;
+        findById: (id: string) => Promise<returningData>;
+        createGroup: (
+            groupInfo: IGroup,
+            userId: string
+        ) => Promise<returningData>;
+        updateGroupName: (
+            groupId: string,
+            groupName: string
+        ) => Promise<returningData>;
     }>;
 }
 
@@ -23,10 +30,11 @@ export default function makeGroupDb({
     return Object.freeze({
         findById,
         createGroup,
+        updateGroupName,
     });
 
     // Find group by id
-    async function findById(id: string): returningData {
+    async function findById(id: string): Promise<returningData> {
         const db = await makeDb();
         try {
             const query = `SELECT * FROM groupt WHERE "groupId" = '${id}'`;
@@ -59,7 +67,7 @@ export default function makeGroupDb({
     async function createGroup(
         groupInfo: IGroup,
         userId: string
-    ): returningData {
+    ): Promise<returningData> {
         const db = await makeDb();
         try {
             const query = `INSERT INTO groupt VALUES ($1, $2, $3, $4) RETURNING *;`;
@@ -98,8 +106,39 @@ export default function makeGroupDb({
         }
     }
     // Edit group name
-    // Regenerate invite code
+
+    async function updateGroupName(
+        groupId: string,
+        groupName: string
+    ): Promise<returningData> {
+        const db = await makeDb();
+        try {
+            const query = `UPDATE groupt SET "groupName" = ${groupName} WHERE "groupId" = '${groupId}' RETURNING *`;
+            const res = await db.query(query);
+            if (res.rows.length > 0) {
+                const updatedGroup: IGroup = res.rows[0];
+                return { success: true, data: updatedGroup, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not update group name",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 107 ~ updateGroupName ~ error",
+                error
+            );
+            return { success: false, data: undefined, error: error + "" };
+        } finally {
+            db.release();
+        }
+    }
+
     // delete group
+
+    // Regenerate invite code
     // add channel
     // remove channel
     // Add user to group
