@@ -89,4 +89,16 @@ describe("Group databse access", () => {
 
         expect(updatedGroup.data?.inviteCode).toBe(newCode);
     });
+
+    test("Find group by invite code", async () => {
+        const group = await makeFakerGroup();
+
+        const res = await GroupDb.createGroup(
+            group,
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        const foundGroup = await GroupDb.findByInviteCode(group.inviteCode);
+        expect(foundGroup.data?.groupName).toBe(group.groupName);
+    });
 });
