@@ -22,6 +22,10 @@ export interface IMakeGroupDb {
             groupName: string
         ) => Promise<returningData>;
         removeGroup: (groupId: string) => Promise<returningData>;
+        regenerateInviteCode: (
+            groupId: string,
+            newCode: string
+        ) => Promise<returningData>;
     }>;
 }
 
@@ -33,6 +37,7 @@ export default function makeGroupDb({
         createGroup,
         updateGroupName,
         removeGroup,
+        regenerateInviteCode,
     });
 
     // Find group by id
@@ -172,7 +177,42 @@ export default function makeGroupDb({
 
     // Regenerate invite code
 
+    async function regenerateInviteCode(
+        groupId: string,
+        newCode: string
+    ): Promise<returningData> {
+        const db = await makeDb();
+        try {
+            const query = `UPDATE groupt SET "inviteCode" = '${newCode}' WHERE "groupId" = '${groupId}' RETURNING *;`;
+            const res = await db.query(query);
+
+            if (res.rows.length >= 1) {
+                const group: IGroup = res.rows[0];
+                return { success: true, data: group, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not regenerate invite code",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 179 ~ regenerateInviteCode ~ error",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
+
     // add channel
+
     // remove channel
     // Add user to group
     // remove user from group
