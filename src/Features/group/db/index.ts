@@ -16,7 +16,7 @@ export default async function setupGroupDb() {
     );
     
     CREATE TABLE IF NOT EXISTS "groupUsers" (
-      "gId" VARCHAR(50) REFERENCES groupt("groupId"),
+      "gId" VARCHAR(50) REFERENCES groupt("groupId") ON DELETE CASCADE,
       "uId" VARCHAR(100) REFERENCES usert("userId"),
       roles integer[],
       PRIMARY KEY ("gId", "uId")
