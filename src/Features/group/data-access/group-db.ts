@@ -115,7 +115,7 @@ export default function makeGroupDb({
     ): Promise<returningData> {
         const db = await makeDb();
         try {
-            const query = `UPDATE groupt SET "groupName" = ${groupName} WHERE "groupId" = '${groupId}' RETURNING *`;
+            const query = `UPDATE groupt SET "groupName" = '${groupName}' WHERE "groupId" = '${groupId}' RETURNING *`;
             const res = await db.query(query);
             if (res.rows.length > 0) {
                 const updatedGroup: IGroup = res.rows[0];
@@ -171,6 +171,7 @@ export default function makeGroupDb({
     }
 
     // Regenerate invite code
+
     // add channel
     // remove channel
     // Add user to group
