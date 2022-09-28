@@ -17,8 +17,8 @@ export async function closeDb() {
     await pool.end();
 }
 
-export async function clearDb() {
-    return (await (await pool.query("DELETE FROM userT")).rowCount) > 0;
+export async function clearDb(tableName: string) {
+    return (await (await pool.query(`DELETE FROM ${tableName}`)).rowCount) > 0;
 }
 
 export { pool };
