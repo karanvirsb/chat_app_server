@@ -26,6 +26,7 @@ export interface IMakeGroupDb {
             groupId: string,
             newCode: string
         ) => Promise<returningData>;
+        findByInviteCode: (inviteCode: string) => Promise<returningData>;
     }>;
 }
 
@@ -38,6 +39,7 @@ export default function makeGroupDb({
         updateGroupName,
         removeGroup,
         regenerateInviteCode,
+        findByInviteCode,
     });
 
     // Find group by id
@@ -211,6 +213,42 @@ export default function makeGroupDb({
         }
     }
 
+    // find group based on invite code
+    async function findByInviteCode(
+        inviteCode: string
+    ): Promise<returningData> {
+        const db = await makeDb();
+        try {
+            const query = `SELECT * FROM groupt WHERE "inviteCode" = '${inviteCode}'`;
+            const res = await db.query(query);
+            if (res.rows.length >= 1) {
+                const group: IGroup = res.rows[0];
+                return {
+                    success: true,
+                    data: group,
+                    error: "",
+                };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find group with that invite code",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 219 ~ findByInviteCode ~ error",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
     // add channel
 
     // remove channel
