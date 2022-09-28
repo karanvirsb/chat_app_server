@@ -1,6 +1,7 @@
 import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeGroupDb, { IMakeGroupDb } from "./group-db";
 import makeFakerGroup from "../../../../__test__/fixures/group";
+import inviteCodeGenerator from "../../../Utilities/inviteCodeGenerator";
 
 describe("Group databse access", () => {
     let GroupDb: IMakeGroupDb["returnType"];
@@ -28,7 +29,7 @@ describe("Group databse access", () => {
             group,
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
         );
-        console.log(res);
+
         expect(res.data?.groupId).toBe(group.groupId);
     });
 
@@ -71,5 +72,21 @@ describe("Group databse access", () => {
         const deletedGroup = await GroupDb.removeGroup(group.groupId);
 
         expect(deletedGroup.data?.groupName).toBe(group.groupName);
+    });
+
+    test("updating group invite code", async () => {
+        const group = await makeFakerGroup();
+
+        const res = await GroupDb.createGroup(
+            group,
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+        const newCode = inviteCodeGenerator.makeInviteCode();
+        const updatedGroup = await GroupDb.regenerateInviteCode(
+            group.groupId,
+            newCode
+        );
+
+        expect(updatedGroup.data?.inviteCode).toBe(newCode);
     });
 });
