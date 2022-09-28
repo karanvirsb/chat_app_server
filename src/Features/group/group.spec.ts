@@ -1,7 +1,7 @@
 import buildGroup from ".";
 import { IGroup } from "./group";
 
-describe("Group creation test", () => {
+describe.skip("Group creation test", () => {
     const group: IGroup = {
         groupId: "1234",
         groupName: "Coders",
