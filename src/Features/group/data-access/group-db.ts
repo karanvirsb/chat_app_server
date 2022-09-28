@@ -80,10 +80,10 @@ export default function makeGroupDb({
                 groupInfo.channels,
             ]);
 
-            const q = `INSERT INTO "groupUsers" values('${groupInfo.groupId}', '${userId}', [2000])`;
+            const q = `INSERT INTO "groupUsers" values('${groupInfo.groupId}', '${userId}', '{2000}') RETURNING *;`;
             const res = await db.query(q);
 
-            if (result.rows.length > 1 && res.rows.length >= 1) {
+            if (result.rows.length >= 1 && res.rows.length >= 1) {
                 const group = result.rows[0];
                 return { success: true, data: group, error: "" };
             } else {
@@ -174,4 +174,5 @@ export default function makeGroupDb({
     // add channel
     // remove channel
     // Add user to group
+    // remove user from group
 }
