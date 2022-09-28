@@ -5,28 +5,49 @@ type props = {
     makeDb: IGroupDb["makeDb"];
 };
 
-type returningData = Promise<{
+type groupUsers = {
+    gId: string;
+    uId: string;
+    roles: number[];
+};
+
+type returningGroupData = Promise<{
     success: boolean;
     data: IGroup | undefined;
     error: string;
 }>;
+
+type returningGroupUserData = Promise<{
+    success: boolean;
+    data: groupUsers | undefined;
+    error: string;
+}>;
 export interface IMakeGroupDb {
     returnType: Readonly<{
-        findById: (id: string) => Promise<returningData>;
+        findById: (id: string) => Promise<returningGroupData>;
         createGroup: (
             groupInfo: IGroup,
             userId: string
-        ) => Promise<returningData>;
+        ) => Promise<returningGroupData>;
         updateGroupName: (
             groupId: string,
             groupName: string
-        ) => Promise<returningData>;
-        removeGroup: (groupId: string) => Promise<returningData>;
+        ) => Promise<returningGroupData>;
+        removeGroup: (groupId: string) => Promise<returningGroupData>;
         regenerateInviteCode: (
             groupId: string,
             newCode: string
-        ) => Promise<returningData>;
-        findByInviteCode: (inviteCode: string) => Promise<returningData>;
+        ) => Promise<returningGroupData>;
+        findByInviteCode: (inviteCode: string) => Promise<returningGroupData>;
+        addUserToGroup: (
+            groupId: string,
+            userId: string,
+            roles: number[]
+        ) => Promise<returningGroupUserData>;
+        removeUserFromGroup: (
+            groupId: string,
+            userId: string
+        ) => Promise<returningGroupUserData>;
     }>;
 }
 
@@ -40,17 +61,20 @@ export default function makeGroupDb({
         removeGroup,
         regenerateInviteCode,
         findByInviteCode,
+        addUserToGroup,
+        removeUserFromGroup,
     });
 
     // Find group by id
-    async function findById(id: string): Promise<returningData> {
+    async function findById(id: string): Promise<returningGroupData> {
         const db = await makeDb();
         try {
             const query = `SELECT * FROM groupt WHERE "groupId" = '${id}'`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                return { success: true, data: res.rows[0], error: "" };
+                const group: IGroup = res.rows[0];
+                return { success: true, data: group, error: "" };
             } else {
                 return {
                     success: true,
@@ -76,7 +100,7 @@ export default function makeGroupDb({
     async function createGroup(
         groupInfo: IGroup,
         userId: string
-    ): Promise<returningData> {
+    ): Promise<returningGroupData> {
         const db = await makeDb();
         try {
             const query = `INSERT INTO groupt VALUES ($1, $2, $3, $4) RETURNING *;`;
@@ -119,7 +143,7 @@ export default function makeGroupDb({
     async function updateGroupName(
         groupId: string,
         groupName: string
-    ): Promise<returningData> {
+    ): Promise<returningGroupData> {
         const db = await makeDb();
         try {
             const query = `UPDATE groupt SET "groupName" = '${groupName}' WHERE "groupId" = '${groupId}' RETURNING *`;
@@ -147,7 +171,7 @@ export default function makeGroupDb({
 
     // delete group
 
-    async function removeGroup(groupId: string): Promise<returningData> {
+    async function removeGroup(groupId: string): Promise<returningGroupData> {
         const db = await makeDb();
         try {
             const query = `DELETE FROM groupt WHERE "groupId" = '${groupId}' RETURNING *`;
@@ -182,7 +206,7 @@ export default function makeGroupDb({
     async function regenerateInviteCode(
         groupId: string,
         newCode: string
-    ): Promise<returningData> {
+    ): Promise<returningGroupData> {
         const db = await makeDb();
         try {
             const query = `UPDATE groupt SET "inviteCode" = '${newCode}' WHERE "groupId" = '${groupId}' RETURNING *;`;
@@ -216,7 +240,7 @@ export default function makeGroupDb({
     // find group based on invite code
     async function findByInviteCode(
         inviteCode: string
-    ): Promise<returningData> {
+    ): Promise<returningGroupData> {
         const db = await makeDb();
         try {
             const query = `SELECT * FROM groupt WHERE "inviteCode" = '${inviteCode}'`;
@@ -249,9 +273,84 @@ export default function makeGroupDb({
             db.release();
         }
     }
-    // add channel
+    // TODO add channel
+    // TODO remove channel
 
-    // remove channel
     // Add user to group
+    async function addUserToGroup(
+        groupId: string,
+        userId: string,
+        roles: number[]
+    ): Promise<returningGroupUserData> {
+        const db = await makeDb();
+        try {
+            const query = `INSERT INTO "groupUsers" VALUES('$1','$2','{$3}') RETURNING *`;
+            const res = await db.query(query, [
+                groupId,
+                userId,
+                roles.join(","),
+            ]);
+            if (res.rows.length >= 1) {
+                const groupUser: groupUsers = res.rows[0];
+                return {
+                    success: true,
+                    data: groupUser,
+                    error: "",
+                };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not add user to the group.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 280 ~ addUserToGroup ~ error",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
     // remove user from group
+    async function removeUserFromGroup(
+        groupId: string,
+        userId: string
+    ): Promise<returningGroupUserData> {
+        const db = await makeDb();
+        try {
+            const query = `DELETE FROM "groupUsers WHERE "gId" = ${groupId} AND "uId" = ${userId} RETURNING *`;
+            const res = await db.query(query);
+            if (res.rows.length >= 1) {
+                const groupUser: groupUsers = res.rows[0];
+                return {
+                    success: true,
+                    data: groupUser,
+                    error: "",
+                };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not remove user from the group.",
+                };
+            }
+        } catch (error) {
+            console.log("🚀 ~ file: group-db.ts ~ line 314 ~ error", error);
+
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
 }
