@@ -13,7 +13,7 @@ describe.skip("Edit Users use case", () => {
     let editUser = makeEditUser({ usersDb, handleModeration });
 
     afterAll(() => {
-        clearDb();
+        clearDb("usert");
     });
 
     it("Error: User id must be passed", async () => {

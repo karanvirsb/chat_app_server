@@ -13,7 +13,7 @@ describe.skip("Add User case", () => {
     let addUser = makeAddUser({ usersDb, handleModeration });
 
     afterAll(() => {
-        clearDb();
+        clearDb("usert");
     });
 
     it("User added successfully", async () => {

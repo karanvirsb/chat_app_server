@@ -9,7 +9,7 @@ describe.skip("Get use case", () => {
     let getUser = makeGetUser({ usersDb });
 
     afterAll(() => {
-        clearDb();
+        clearDb("usert");
     });
 
     it("UserId was not supplied", async () => {

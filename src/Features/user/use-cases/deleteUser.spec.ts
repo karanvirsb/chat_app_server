@@ -8,7 +8,7 @@ describe.skip("Delete use case", () => {
     let deleteUser = makeDeleteUser({ usersDb });
 
     afterAll(() => {
-        clearDb();
+        clearDb("usert");
     });
 
     it("Error: Userid was not passed", async () => {

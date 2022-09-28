@@ -1,27 +1,27 @@
 import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeUsersDb, { IMakeUsersDb } from "./users-db";
-import makeFakerComment from "../../../../__test__/fixures/user";
+import makeFakerUser from "../../../../__test__/fixures/user";
 
 describe.skip("Users DB", () => {
     let UsersDb: IMakeUsersDb["returnType"];
 
     beforeAll(async () => {
         UsersDb = makeUsersDb({ makeDb });
-        await clearDb();
+        await clearDb("usert");
     });
 
     afterEach(async () => {
-        await clearDb();
+        await clearDb("usert");
     });
 
     afterAll(async () => {
-        await clearDb();
+        await clearDb("usert");
         await closeDb();
     });
 
     it("Insert a user", async () => {
         // successful
-        const user = await makeFakerComment();
+        const user = await makeFakerUser();
         const resp = await UsersDb.insert({ data: user });
 
         if (resp.success) {
@@ -30,7 +30,7 @@ describe.skip("Users DB", () => {
     });
     it("Find user by Id", async () => {
         //successful
-        const fakeUser = await makeFakerComment();
+        const fakeUser = await makeFakerUser();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.findById({ id: fakeUser.userId });
         if (resp.success) {
@@ -40,7 +40,7 @@ describe.skip("Users DB", () => {
 
     it("Find user by username", async () => {
         // success
-        const fakeUser = await makeFakerComment();
+        const fakeUser = await makeFakerUser();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.findByUsername(fakeUser.username);
         if (resp.success) {
@@ -49,7 +49,7 @@ describe.skip("Users DB", () => {
     });
 
     it("Remove user by Id", async () => {
-        const fakeUser = await makeFakerComment();
+        const fakeUser = await makeFakerUser();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.remove(fakeUser.userId);
         if (resp.success) {
@@ -58,7 +58,7 @@ describe.skip("Users DB", () => {
     });
 
     it("Update user by username", async () => {
-        const fakeUser = await makeFakerComment();
+        const fakeUser = await makeFakerUser();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.updateByUsername({
             username: fakeUser.username,
@@ -72,7 +72,7 @@ describe.skip("Users DB", () => {
     });
 
     it("Update user by user id", async () => {
-        const fakeUser = await makeFakerComment();
+        const fakeUser = await makeFakerUser();
         const insertedUser = await UsersDb.insert({ data: fakeUser });
         const resp = await UsersDb.updateByUserId({
             userId: fakeUser.userId,
