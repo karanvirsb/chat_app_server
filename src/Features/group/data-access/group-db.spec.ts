@@ -101,4 +101,19 @@ describe("Group databse access", () => {
         const foundGroup = await GroupDb.findByInviteCode(group.inviteCode);
         expect(foundGroup.data?.groupName).toBe(group.groupName);
     });
+
+    test("Find users of group", async () => {
+        const group = await makeFakerGroup();
+
+        const res = await GroupDb.createGroup(
+            group,
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        const users = await GroupDb.findUsersByGroupId(group.groupId);
+        if (users.data)
+            expect(users.data[0].userId).toBe(
+                "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+            );
+    });
 });
