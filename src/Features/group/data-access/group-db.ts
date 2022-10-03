@@ -22,6 +22,21 @@ type returningGroupUserData = Promise<{
     data: groupUsers | undefined;
     error: string;
 }>;
+
+type user = {
+    userId: string;
+    username: string;
+    status: string;
+    email: string;
+    time_joined: Date;
+};
+
+type returningUsers = Promise<{
+    success: boolean;
+    data: user[] | undefined;
+    error: string;
+}>;
+
 export interface IMakeGroupDb {
     returnType: Readonly<{
         findById: (id: string) => Promise<returningGroupData>;
@@ -39,6 +54,7 @@ export interface IMakeGroupDb {
             newCode: string
         ) => Promise<returningGroupData>;
         findByInviteCode: (inviteCode: string) => Promise<returningGroupData>;
+        findUsersByGroupId: (groupId: string) => Promise<returningUsers>;
         addUserToGroup: (
             groupId: string,
             userId: string,
@@ -61,6 +77,7 @@ export default function makeGroupDb({
         removeGroup,
         regenerateInviteCode,
         findByInviteCode,
+        findUsersByGroupId,
         addUserToGroup,
         removeUserFromGroup,
     });
@@ -276,6 +293,53 @@ export default function makeGroupDb({
     // TODO add channel
     // TODO remove channel
 
+    // find user group
+    async function findUsersByGroupId(
+        groupId: string
+    ): Promise<returningUsers> {
+        const db = await makeDb();
+        try {
+            const query = `SELECT U."userId", U.username, U.status, E.email, E.time_joined 
+                            FROM usert U 
+                                JOIN emailpassword_users E 
+                                ON U."userId" = E.user_id 
+                            WHERE U."userId" IN (
+                                SELECT "uId" 
+                                FROM "groupUsers" 
+                                WHERE "gId" = '${groupId}'
+                                );`;
+
+            const res = await db.query(query);
+            console.log(res.rows);
+            if (res.rows.length >= 1) {
+                const users: user[] = res.rows;
+                return {
+                    success: true,
+                    data: users,
+                    error: "",
+                };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find any users",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 294 ~ findUsersByGroupId ~ error",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
+
     // Add user to group
     async function addUserToGroup(
         groupId: string,
@@ -284,7 +348,7 @@ export default function makeGroupDb({
     ): Promise<returningGroupUserData> {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO "groupUsers" VALUES('$1','$2','{$3}') RETURNING *`;
+            const query = `INSERT INTO "groupUsers" VALUES('$1','$2','{'$3'}') RETURNING *`;
             const res = await db.query(query, [
                 groupId,
                 userId,
@@ -325,7 +389,7 @@ export default function makeGroupDb({
     ): Promise<returningGroupUserData> {
         const db = await makeDb();
         try {
-            const query = `DELETE FROM "groupUsers WHERE "gId" = ${groupId} AND "uId" = ${userId} RETURNING *`;
+            const query = `DELETE FROM "groupUsers" WHERE "gId" = '${groupId}' AND "uId" = '${userId}' RETURNING *`;
             const res = await db.query(query);
             if (res.rows.length >= 1) {
                 const groupUser: groupUsers = res.rows[0];
