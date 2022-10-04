@@ -135,4 +135,28 @@ describe("Group databse access", () => {
             "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
         );
     });
+
+    test("Remove user from group", async () => {
+        const group = await makeFakerGroup();
+
+        const res = await GroupDb.createGroup(
+            group,
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        const addedUser = await GroupDb.addUserToGroup(
+            group.groupId,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+            ["2001"]
+        );
+
+        const deletedUser = await GroupDb.removeUserFromGroup(
+            group.groupId,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
+
+        expect(deletedUser.data?.uId).toBe(
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
+    });
 });
