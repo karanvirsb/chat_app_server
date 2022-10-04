@@ -16,7 +16,7 @@ let app = express();
 
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: ["http://localhost:3000", "http://google.com"],
         allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
         credentials: true,
     })
@@ -25,6 +25,9 @@ app.use(
 app.use(middleware());
 app.use(bodyParser.json());
 // routes
+app.get(`${appRoot}/ping`, (req, res) => {
+    res.status(200).json({ message: "echo" });
+});
 
 // user routes
 app.get(`${appRoot}/user`, getAnUser);
