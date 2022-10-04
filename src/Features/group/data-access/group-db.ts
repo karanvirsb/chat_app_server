@@ -58,7 +58,7 @@ export interface IMakeGroupDb {
         addUserToGroup: (
             groupId: string,
             userId: string,
-            roles: number[]
+            roles: string[]
         ) => Promise<returningGroupUserData>;
         removeUserFromGroup: (
             groupId: string,
@@ -344,16 +344,17 @@ export default function makeGroupDb({
     async function addUserToGroup(
         groupId: string,
         userId: string,
-        roles: number[]
+        roles: string[]
     ): Promise<returningGroupUserData> {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO "groupUsers" VALUES('$1','$2','{'$3'}') RETURNING *`;
-            const res = await db.query(query, [
-                groupId,
-                userId,
-                roles.join(","),
-            ]);
+            const query = `INSERT INTO "groupUsers" VALUES('${groupId}','${userId}', ARRAY[${roles.join(
+                ","
+            )}]) RETURNING *`;
+
+            // const joinedRoles = roles.join(", ");
+            const res = await db.query(query);
+
             if (res.rows.length >= 1) {
                 const groupUser: groupUsers = res.rows[0];
                 return {
