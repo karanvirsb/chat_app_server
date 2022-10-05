@@ -49,7 +49,7 @@ export interface IMakeGroupDb {
             groupName: string
         ) => Promise<returningGroupData>;
         removeGroup: (groupId: string) => Promise<returningGroupData>;
-        regenerateInviteCode: (
+        updateInviteCode: (
             groupId: string,
             newCode: string
         ) => Promise<returningGroupData>;
@@ -75,7 +75,7 @@ export default function makeGroupDb({
         createGroup,
         updateGroupName,
         removeGroup,
-        regenerateInviteCode,
+        updateInviteCode,
         findByInviteCode,
         findUsersByGroupId,
         addUserToGroup,
@@ -220,7 +220,7 @@ export default function makeGroupDb({
 
     // Regenerate invite code
 
-    async function regenerateInviteCode(
+    async function updateInviteCode(
         groupId: string,
         newCode: string
     ): Promise<returningGroupData> {
@@ -241,7 +241,7 @@ export default function makeGroupDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: group-db.ts ~ line 179 ~ regenerateInviteCode ~ error",
+                "🚀 ~ file: group-db.ts ~ line 179 ~ updateInviteCode ~ error",
                 error
             );
             return {
