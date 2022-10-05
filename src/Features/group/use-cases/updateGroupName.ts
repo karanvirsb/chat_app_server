@@ -1,4 +1,3 @@
-import makeGroup from "../index";
 import { handleModerationType } from ".";
 import { IMakeGroupDb } from "../data-access/group-db";
 import { IGroup } from "../group";
