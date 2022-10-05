@@ -12,7 +12,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe("Get use cases", () => {
+describe.skip("Get use cases", () => {
     let groupDb = makeGroupDb({ makeDb });
     let addGroup = makeAddGroup({ groupDb, handleModeration });
     let getGroupById = makeGetGroupById({ groupDb });
