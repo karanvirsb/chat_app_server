@@ -27,7 +27,19 @@ export default function makeUpdateGroupName({
         if (!groupId) throw new Error("Group id needs to be supplied");
         if (!newGroupName) throw new Error("A new group name must be supplied");
 
-        const moderatedName = await handleModeration(newGroupName);
+        const sanitizedGroupName = sanitizeName(newGroupName);
+
+        if (sanitizedGroupName.length <= 1) {
+            throw new Error("Group name must contain valid characters");
+        }
+
+        if (sanitizedGroupName.length < 3 || sanitizedGroupName.length > 50) {
+            throw new Error(
+                "Group name must be between 3 and 50 characters long"
+            );
+        }
+
+        const moderatedName = await handleModeration(sanitizedGroupName);
 
         if (moderatedName) {
             return {
@@ -43,18 +55,6 @@ export default function makeUpdateGroupName({
                 data: undefined,
                 error: "Server Error, please try again.",
             };
-        }
-
-        const sanitizedGroupName = sanitizeName(newGroupName);
-
-        if (sanitizedGroupName.length < 1) {
-            throw new Error("Group name must contain valid characters");
-        }
-
-        if (sanitizedGroupName.length < 3 || sanitizedGroupName.length > 50) {
-            throw new Error(
-                "Group name must be between 3 and 50 characters long"
-            );
         }
 
         return await groupDb.updateGroupName(groupId, sanitizedGroupName);
