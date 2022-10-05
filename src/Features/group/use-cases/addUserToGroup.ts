@@ -1,0 +1,23 @@
+import { groupUsers, IMakeGroupDb } from "../data-access/group-db";
+
+type props = {
+    groupDb: IMakeGroupDb["returnType"];
+};
+
+type returnData = Promise<{
+    success: boolean;
+    data: groupUsers | undefined;
+    error: string;
+}>;
+
+export default function makeAddUserToGroup({ groupDb }: props) {
+    return async function addUserToGroup(
+        groupId: string,
+        userId: string
+    ): Promise<returnData> {
+        if (!groupId) throw new Error("Group Id needs to be supplied");
+        if (!userId) throw new Error("User Id needs to be supplied");
+
+        return await groupDb.addUserToGroup(groupId, userId, ["2002"]);
+    };
+}
