@@ -2,6 +2,7 @@ import sanitizeHtml from "sanitize-html";
 import { moderateName } from "../../../Utilities/moderateText";
 import groupDb from "../data-access";
 import makeAddGroup from "./addGroup";
+import makeDeleteGroup from "./deleteGroup";
 import makeGetGroupById from "./getGroupbyId";
 import makeGetGroupByInviteCode from "./getGroupByInviteCode";
 import makeGetUsersByGroupId from "./getUsersByGroupId";
@@ -25,6 +26,7 @@ const updateGroupName = makeUpdateGroupName({
     handleModeration,
     sanitizeName: sanitizeText,
 });
+const deleteGroup = makeDeleteGroup({ groupDb });
 
 const userService = Object.freeze({
     addGroup,
@@ -32,8 +34,15 @@ const userService = Object.freeze({
     getGroupByInviteCode,
     getUsersByGroupId,
     updateGroupName,
+    deleteGroup,
 });
 
 export default userService;
 
-export { addGroup, getGroupById, getGroupByInviteCode, updateGroupName };
+export {
+    addGroup,
+    getGroupById,
+    getGroupByInviteCode,
+    updateGroupName,
+    deleteGroup,
+};
