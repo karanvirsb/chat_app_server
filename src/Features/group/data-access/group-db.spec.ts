@@ -82,7 +82,7 @@ describe.skip("Group databse access", () => {
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
         );
         const newCode = inviteCodeGenerator.makeInviteCode();
-        const updatedGroup = await GroupDb.regenerateInviteCode(
+        const updatedGroup = await GroupDb.updateGroupName(
             group.groupId,
             newCode
         );
