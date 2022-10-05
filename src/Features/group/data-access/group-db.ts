@@ -5,7 +5,7 @@ type props = {
     makeDb: IGroupDb["makeDb"];
 };
 
-type groupUsers = {
+export type groupUsers = {
     gId: string;
     uId: string;
     roles: number[];
@@ -23,7 +23,7 @@ type returningGroupUserData = Promise<{
     error: string;
 }>;
 
-type user = {
+export type user = {
     userId: string;
     username: string;
     status: string;
