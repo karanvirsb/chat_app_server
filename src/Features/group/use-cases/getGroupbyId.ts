@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IGetGroupById {
+    getGroupById: (groupId: string) => Promise<returnData>;
+}
+
 export default function makeGetGroupById({ groupDb }: props) {
     return async function getGroupById(groupId: string): Promise<returnData> {
         if (!groupId) throw new Error("Group Id needs to be supplied");
