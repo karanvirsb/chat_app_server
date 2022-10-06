@@ -14,6 +14,13 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IUpdateGroupName {
+    updateGroupName: (
+        groupId: string,
+        newGroupName: string
+    ) => Promise<returnData>;
+}
+
 export default function makeUpdateGroupName({
     groupDb,
     handleModeration,
