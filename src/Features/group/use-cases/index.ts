@@ -11,6 +11,7 @@ import makeGetUsersByGroupId from "./getUsersByGroupId";
 import makeUpdateGroupName from "./updateGroupName";
 import makeUpdateInviteCode from "./updateInviteCode";
 import makeAddUserToGroup from "./addUserToGroup";
+import makeRemoveUserFromGroup from "./removeUserFromGroup";
 
 export type handleModerationType = (name: string) => Promise<number | boolean>;
 export type inviteCodeGeneratorType = IInviteCodeGenerator;
@@ -34,6 +35,7 @@ const updateGroupName = makeUpdateGroupName({
 const updateInviteCode = makeUpdateInviteCode({ groupDb, inviteCodeGenerator });
 const deleteGroup = makeDeleteGroup({ groupDb });
 const addUserToGroup = makeAddUserToGroup({ groupDb });
+const removeUserFromGroup = makeRemoveUserFromGroup({ groupDb });
 
 const userService = Object.freeze({
     addGroup,
@@ -44,6 +46,7 @@ const userService = Object.freeze({
     deleteGroup,
     updateInviteCode,
     addUserToGroup,
+    removeUserFromGroup,
 });
 
 export default userService;
@@ -52,8 +55,10 @@ export {
     addGroup,
     getGroupById,
     getGroupByInviteCode,
+    getUsersByGroupId,
     updateGroupName,
     deleteGroup,
     updateInviteCode,
     addUserToGroup,
+    removeUserFromGroup,
 };
