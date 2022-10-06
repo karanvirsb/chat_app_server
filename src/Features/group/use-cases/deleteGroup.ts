@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IDeleteGroup {
+    deleteGroup: (groupId: string) => Promise<returnData>;
+}
+
 export default function makeDeleteGroup({ groupDb }: props) {
     return async function deleteGroup(groupId: string): Promise<returnData> {
         if (!groupId) throw new Error("Group Id needs to be supplied");
