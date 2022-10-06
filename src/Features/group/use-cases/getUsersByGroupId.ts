@@ -19,6 +19,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IGetUsersByGroupId {
+    getUsersByGroupId: (groupId: string) => Promise<returnData>;
+}
+
 export default function makeGetUsersByGroupId({ groupDb }: props) {
     return async function getUsersByGroupId(
         groupId: string
