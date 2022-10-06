@@ -37,7 +37,7 @@ const deleteGroup = makeDeleteGroup({ groupDb });
 const addUserToGroup = makeAddUserToGroup({ groupDb });
 const removeUserFromGroup = makeRemoveUserFromGroup({ groupDb });
 
-const userService = Object.freeze({
+const groupService = Object.freeze({
     addGroup,
     getGroupById,
     getGroupByInviteCode,
@@ -49,7 +49,7 @@ const userService = Object.freeze({
     removeUserFromGroup,
 });
 
-export default userService;
+export default groupService;
 
 export {
     addGroup,
