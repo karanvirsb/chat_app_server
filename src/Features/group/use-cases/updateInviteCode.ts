@@ -13,6 +13,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IUpdateInviteCode {
+    updateInviteCode: (groupId: string) => Promise<returnData>;
+}
+
 export default function makeUpdateInviteCode({
     groupDb,
     inviteCodeGenerator,
