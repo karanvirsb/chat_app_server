@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IGetGroupByInviteCode {
+    getGroupByInviteCode: (inviteCode: string) => Promise<returnData>;
+}
+
 export default function makeGetGroupByInviteCode({ groupDb }: props) {
     return async function getGroupByInviteCode(
         inviteCode: string
