@@ -14,6 +14,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IAddGroup {
+    addGroup: (groupInfo: IGroup, userId: string) => Promise<returnData>;
+}
+
 export default function makeAddGroup({ groupDb, handleModeration }: props) {
     return async function addGroup(
         groupInfo: IGroup,
