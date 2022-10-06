@@ -10,6 +10,13 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IRemoveUserFromGroup {
+    removeUserFromGroup: (
+        groupId: string,
+        userId: string
+    ) => Promise<returnData>;
+}
+
 export default function makeRemoveUserFromGroup({ groupDb }: props) {
     return async function removeUserFromGroup(
         groupId: string,
