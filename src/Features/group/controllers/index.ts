@@ -5,6 +5,7 @@ import makeGetGroupByIdController from "./get-byGroupId";
 import makeGetGroupByInviteCodeController from "./get-byGroupInviteCode";
 import makeGetUsersByGroupIdController from "./get-UsersByGroupId";
 import makeUpdateGroupNameController from "./update-groupName";
+import makeUpdateInviteCodeController from "./update-inviteCode";
 
 const addGroupController = makeAddGroupController({
     addGroup: groupService.addGroup,
@@ -26,6 +27,10 @@ const getUsersByGroupIdController = makeGetUsersByGroupIdController({
 
 const updateGroupNameController = makeUpdateGroupNameController({
     updateGroupName: groupService.updateGroupName,
+});
+
+const updateInviteCodeController = makeUpdateInviteCodeController({
+    updateInviteCode: groupService.updateInviteCode,
 });
 
 const groupControllers = Object.freeze({
