@@ -71,7 +71,10 @@ describe.skip("Delete group controller", () => {
             path: "",
             query: {},
         };
-
+        const addedGroup = await addGroup(
+            group,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
         const deletedGroup = await deleteGroupController(groupRequest);
 
         expect(deletedGroup.statusCode).toBe(400);

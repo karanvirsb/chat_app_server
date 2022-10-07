@@ -49,6 +49,10 @@ describe("Update group name controller", () => {
 
     test("SUCCESS: update group name", async () => {
         const group = await makeFakeGroup();
+        const addedGroup = await addGroup(
+            group,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
         const groupRequest = {
             body: {
                 groupId: group.groupId,
@@ -68,6 +72,10 @@ describe("Update group name controller", () => {
 
     test("ERROR: group id was not given for updateGroupNameController", async () => {
         const group = await makeFakeGroup();
+        const addedGroup = await addGroup(
+            group,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
         const groupRequest = {
             body: {
                 groupId: "",
@@ -89,6 +97,10 @@ describe("Update group name controller", () => {
 
     test("ERROR: group name was not given for updateGroupNameController", async () => {
         const group = await makeFakeGroup();
+        const addedGroup = await addGroup(
+            group,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
         const groupRequest = {
             body: {
                 groupId: group.groupId,
@@ -112,6 +124,10 @@ describe("Update group name controller", () => {
 
     test("ERROR: contains profanity:  updateGroupNameController", async () => {
         const group = await makeFakeGroup();
+        const addedGroup = await addGroup(
+            group,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
         const groupRequest = {
             body: {
                 groupId: group.groupId,
@@ -132,6 +148,10 @@ describe("Update group name controller", () => {
 
     test("ERROR: contains html:  updateGroupNameController", async () => {
         const group = await makeFakeGroup();
+        const addedGroup = await addGroup(
+            group,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
         const groupRequest = {
             body: {
                 groupId: group.groupId,
@@ -154,6 +174,10 @@ describe("Update group name controller", () => {
 
     test("ERROR: name needs to be between 3 to 50 characters:  updateGroupNameController", async () => {
         const group = await makeFakeGroup();
+        const addedGroup = await addGroup(
+            group,
+            "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
+        );
         const groupRequest = {
             body: {
                 groupId: group.groupId,
