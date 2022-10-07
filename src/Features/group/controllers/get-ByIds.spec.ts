@@ -7,6 +7,9 @@ import groupService from "../use-cases";
 import makeGetGroupByIdController from "./get-byGroupId";
 import makeGetGroupByInviteCodeController from "./get-byGroupInviteCode";
 import makeGetUsersByGroupIdController from "./get-UsersByGroupId";
+import makeGetGroupById from "../use-cases/getGroupbyId";
+import makeGetGroupByInviteCode from "../use-cases/getGroupByInviteCode";
+import makeGetUsersByGroupId from "../use-cases/getUsersByGroupId";
 
 const handleModeration = async (name: string) => {
     return await moderateName(name);
@@ -25,14 +28,17 @@ describe("Get group and users by id controller", () => {
 
     const groupDb = makeGroupDb({ makeDb });
     const addGroup = makeAddGroup({ groupDb, handleModeration });
+    const getGroupById = makeGetGroupById({ groupDb });
+    const getGroupByInviteCode = makeGetGroupByInviteCode({ groupDb });
+    const getUsersByGroupId = makeGetUsersByGroupId({ groupDb });
     const getGroupByIdController = makeGetGroupByIdController({
-        getGroupById: groupService.getGroupById,
+        getGroupById,
     });
     const getGroupByInviteCodeController = makeGetGroupByInviteCodeController({
-        getGroupByInviteCode: groupService.getGroupByInviteCode,
+        getGroupByInviteCode,
     });
     const getUsersByGroupIdController = makeGetUsersByGroupIdController({
-        getUsersByGroupId: groupService.getUsersByGroupId,
+        getUsersByGroupId,
     });
 
     beforeEach(async () => {
