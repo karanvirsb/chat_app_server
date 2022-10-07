@@ -2,6 +2,7 @@ import groupService from "../use-cases";
 import makeAddGroupController from "./add-group";
 import makeAddUserToGroupController from "./add-userToGroup";
 import makeDeleteGroupController from "./delete-group";
+import makeDeleteUserFromGroupController from "./delete-userFromGroup";
 import makeGetGroupByIdController from "./get-byGroupId";
 import makeGetGroupByInviteCodeController from "./get-byGroupInviteCode";
 import makeGetUsersByGroupIdController from "./get-UsersByGroupId";
@@ -38,6 +39,10 @@ const addUserToGroupController = makeAddUserToGroupController({
     addUserToGroup: groupService.addUserToGroup,
 });
 
+const deleteUserFromGroupController = makeDeleteUserFromGroupController({
+    removeUserFromGroup: groupService.removeUserFromGroup,
+});
+
 const groupControllers = Object.freeze({
     addGroupController,
     deleteGroupController,
@@ -47,6 +52,7 @@ const groupControllers = Object.freeze({
     updateGroupNameController,
     updateInviteCodeController,
     addUserToGroupController,
+    deleteUserFromGroupController,
 });
 
 export default groupControllers;
@@ -60,4 +66,5 @@ export {
     updateGroupNameController,
     updateInviteCodeController,
     addUserToGroupController,
+    deleteUserFromGroupController,
 };
