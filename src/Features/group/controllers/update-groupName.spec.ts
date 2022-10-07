@@ -151,4 +151,26 @@ describe("Update group name controller", () => {
             "Group name must contain valid characters"
         );
     });
+
+    test("ERROR: name needs to be between 3 to 50 characters:  updateGroupNameController", async () => {
+        const group = await makeFakeGroup();
+        const groupRequest = {
+            body: {
+                groupId: group.groupId,
+                newGroupName: "12",
+            },
+            headers: { "Content-Type": "application/json" },
+            ip: "",
+            method: "POST",
+            params: {},
+            path: "",
+            query: {},
+        };
+
+        const updatedGroup = await updateGroupNameController(groupRequest);
+
+        expect(updatedGroup.body.error).toBe(
+            "Group name must be between 3 and 50 characters long"
+        );
+    });
 });
