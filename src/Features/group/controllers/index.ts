@@ -40,6 +40,7 @@ const groupControllers = Object.freeze({
     getGroupByInviteCodeController,
     getUsersByGroupIdController,
     updateGroupNameController,
+    updateInviteCodeController,
 });
 
 export default groupControllers;
@@ -51,4 +52,5 @@ export {
     getGroupByInviteCodeController,
     getUsersByGroupIdController,
     updateGroupNameController,
+    updateInviteCodeController,
 };
