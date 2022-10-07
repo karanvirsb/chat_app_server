@@ -3,7 +3,6 @@ import makeGroupDb from "../data-access/group-db";
 import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeFakeGroup from "../../../../__test__/fixures/group";
 import inviteCodeGenerator from "../../../Utilities/inviteCodeGenerator";
-import { IInviteCodeGenerator } from "../../../Utilities/inviteCodeGenerator";
 import makeAddGroup from "./addGroup";
 import makeUpdateInviteCode from "./updateInviteCode";
 
