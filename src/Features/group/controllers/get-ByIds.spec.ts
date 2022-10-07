@@ -3,7 +3,6 @@ import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeAddGroup from "../use-cases/addGroup";
 import { moderateName } from "../../../Utilities/moderateText";
 import makeFakeGroup from "../../../../__test__/fixures/group";
-import groupService from "../use-cases";
 import makeGetGroupByIdController from "./get-byGroupId";
 import makeGetGroupByInviteCodeController from "./get-byGroupInviteCode";
 import makeGetUsersByGroupIdController from "./get-UsersByGroupId";
@@ -15,7 +14,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe("Get group and users by id controller", () => {
+describe.skip("Get group and users by id controller", () => {
     // const groupRequest = {
     //     body: {},
     //     headers: {},

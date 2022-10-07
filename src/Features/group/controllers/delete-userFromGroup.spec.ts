@@ -3,8 +3,6 @@ import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeAddGroup from "../use-cases/addGroup";
 import { moderateName } from "../../../Utilities/moderateText";
 import makeFakeGroup from "../../../../__test__/fixures/group";
-import makeDeleteGroupController from "./delete-group";
-import makeDeleteGroup from "../use-cases/deleteGroup";
 import makeRemoveUserFromGroup from "../use-cases/removeUserFromGroup";
 import makeDeleteUserFromGroupController from "./delete-userFromGroup";
 
@@ -12,7 +10,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe("Remove user from group controller", () => {
+describe.skip("Remove user from group controller", () => {
     // const groupRequest = {
     //     body: {},
     //     headers: {},
