@@ -5,7 +5,7 @@ type props = {
     groupDb: IMakeGroupDb["returnType"];
 };
 
-type user = {
+export type user = {
     userId: string;
     username: string;
     status: string;
