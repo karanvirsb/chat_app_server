@@ -10,6 +10,7 @@ import {
     editAnUser,
     getAnUser,
 } from "./src/Features/user/controllers";
+import groupControllers from "./src/Features/group/controllers";
 const appRoot = process.env.API_DOMAIN;
 
 let app = express();
@@ -33,5 +34,25 @@ app.get(`${appRoot}/ping`, (req, res) => {
 app.get(`${appRoot}/user`, getAnUser);
 app.delete(`${appRoot}/user/delete`, deleteAnUser);
 app.put(`${appRoot}/user/update`, editAnUser);
+
+// group routes
+app.post(`${appRoot}/addGroup`, groupControllers.addGroupController);
+app.post(`${appRoot}/group/addUser`, groupControllers.addUserToGroupController);
+app.delete(`${appRoot}/deleteGroup`, groupControllers.deleteGroupController);
+app.delete(
+    `${appRoot}/group/deleteUser`,
+    groupControllers.deleteUserFromGroupController
+);
+app.get(`${appRoot}/group/id`, groupControllers.getGroupByIdController);
+app.get(
+    `${appRoot}/group/invite`,
+    groupControllers.getGroupByInviteCodeController
+);
+app.get(
+    `${appRoot}/group/getUsers`,
+    groupControllers.getUsersByGroupIdController
+);
+app.put(`${appRoot}/group/name`, groupControllers.updateGroupNameController);
+app.put(`${appRoot}/group/invite`, groupControllers.updateInviteCodeController);
 
 export default app;
