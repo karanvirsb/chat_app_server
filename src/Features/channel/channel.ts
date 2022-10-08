@@ -13,7 +13,7 @@ type props = {
 };
 
 export default function buildChannel({ Id, sanitizeText }: props) {
-    return async function makeChannel({
+    return function makeChannel({
         channelId = Id.makeId(),
         channelName,
         groupId,
@@ -26,7 +26,7 @@ export default function buildChannel({ Id, sanitizeText }: props) {
         }
 
         if (
-            sanitizedChannelName.length < 3 &&
+            sanitizedChannelName.length < 3 ||
             sanitizedChannelName.length > 50
         ) {
             throw new Error(
