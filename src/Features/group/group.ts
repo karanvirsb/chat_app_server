@@ -45,11 +45,11 @@ export default function buildGroup({
             throw new Error("Group requires an invite code");
         }
 
-        return {
+        return Object.freeze({
             getGroupName: () => sanitizedGroupName,
             getGroupId: () => groupId,
             getInviteCode: () => inviteCode,
             getChannels: () => channels,
-        };
+        });
     };
 }
