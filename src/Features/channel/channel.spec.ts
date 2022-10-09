@@ -1,7 +1,7 @@
 import { IChannel } from "./channel";
 import makeChannel from ".";
 
-describe("Channel test", () => {
+describe.skip("Channel test", () => {
     const channelData: IChannel = {
         channelId: "123456789",
         channelName: "coolName",
