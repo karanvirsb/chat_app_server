@@ -120,12 +120,11 @@ export default function makeGroupDb({
     ): Promise<returningGroupData> {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO groupt VALUES ($1, $2, $3, $4) RETURNING *;`;
+            const query = `INSERT INTO groupt VALUES ($1, $2, $3) RETURNING *;`;
             const result = await db.query(query, [
                 groupInfo.groupId,
                 groupInfo.groupName,
                 groupInfo.inviteCode,
-                groupInfo.channels,
             ]);
 
             const q = `INSERT INTO "groupUsers" values('${groupInfo.groupId}', '${userId}', '{2000}') RETURNING *;`;
