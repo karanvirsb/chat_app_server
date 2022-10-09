@@ -6,7 +6,6 @@ describe.skip("Group creation test", () => {
         groupId: "1234",
         groupName: "Coders",
         inviteCode: "abcdefg",
-        channels: ["general"],
     };
 
     test("Group name contains html", () => {
