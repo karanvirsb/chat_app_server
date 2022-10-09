@@ -11,13 +11,12 @@ export default async function setupGroupDb() {
     CREATE TABLE IF NOT EXISTS groupt (
       "groupId" VARCHAR(50) PRIMARY KEY NOT NULL UNIQUE, 
       "groupName" VARCHAR(50) NOT NULL, 
-      "inviteCode" VARCHAR(10) UNIQUE, 
-      channels TEXT []
+      "inviteCode" VARCHAR(10) UNIQUE
     );
     
     CREATE TABLE IF NOT EXISTS "groupUsers" (
-      "gId" VARCHAR(100) REFERENCES groupt("groupId") ON DELETE CASCADE,
-      "uId" VARCHAR(100) REFERENCES usert("userId"),
+      "gId" VARCHAR(100) REFERENCES groupt("groupId") ON DELETE CASCADE ON UPDATE CASCADE,
+      "uId" VARCHAR(100) REFERENCES usert("userId") ON UPDATE CASCADE,
       roles TEXT [],
       PRIMARY KEY ("gId", "uId")
     );
