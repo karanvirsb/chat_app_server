@@ -7,6 +7,5 @@ export default async function makeFakeGroup(): Promise<IGroup> {
         groupId: cuid(),
         groupName: faker.animal.bird() + "" + faker.color.human(),
         inviteCode: cuid.slug(),
-        channels: ["general"],
     };
 }
