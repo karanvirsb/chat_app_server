@@ -50,11 +50,11 @@ export default function makeChannelDb({
         const db = await makeDb();
         try {
             const query = `INSERT INTO channelt VALUES (
-                ${channelInfo.channelId}, 
-                ${channelInfo.channelName}, 
-                ${channelInfo.dateCreated}, 
-                ${channelInfo.groupId}
-                ) RETURNNING *;`;
+                '${channelInfo.channelId}', 
+                '${channelInfo.channelName}', 
+                '${channelInfo.dateCreated}', 
+                '${channelInfo.groupId}'
+                ) RETURNING *;`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -87,7 +87,7 @@ export default function makeChannelDb({
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
-            const query = `DELETE FROM channelt WHERE "channelId" = ${channelId}) RETURNNING *;`;
+            const query = `DELETE FROM channelt WHERE "channelId" = '${channelId}' RETURNING *;`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -123,7 +123,10 @@ export default function makeChannelDb({
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
-            const query = `UPDATE channelt SET "channelName" = ${newName} WHERE "channelId" = ${channelId}) RETURNNING *;`;
+            const query = `UPDATE channelt 
+                SET "channelName" = '${newName}' 
+                WHERE "channelId" = '${channelId}' 
+                RETURNING *;`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -157,7 +160,7 @@ export default function makeChannelDb({
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM channelt WHERE "channelId" = ${channelId}) RETURNNING *;`;
+            const query = `SELECT * FROM channelt WHERE "channelId" = '${channelId}';`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -191,7 +194,7 @@ export default function makeChannelDb({
     ): Promise<returningChannelsData> {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM channelt WHERE "groupId" = ${groupId}) RETURNNING *;`;
+            const query = `SELECT * FROM channelt WHERE "groupId" = '${groupId}';`;
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
