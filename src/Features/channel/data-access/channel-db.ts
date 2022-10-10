@@ -11,6 +11,12 @@ type returningChannelData = Promise<{
     error: string;
 }>;
 
+type returningChannelsData = Promise<{
+    success: boolean;
+    data: IChannel[] | undefined;
+    error: string;
+}>;
+
 export interface IMakeChannelDb {
     returnType: Readonly<{
         createChannel: (channelInfo: IChannel) => Promise<returningChannelData>;
@@ -20,6 +26,9 @@ export interface IMakeChannelDb {
             newName: string
         ) => Promise<returningChannelData>;
         getChannelById: (channelId: string) => Promise<returningChannelData>;
+        getChannelsByGroupId: (
+            groupId: string
+        ) => Promise<returningChannelsData>;
     }>;
 }
 
@@ -31,6 +40,7 @@ export default function makeChannelDb({
         deleteChannel,
         updateChannelName,
         getChannelById,
+        getChannelsByGroupId,
     });
 
     // create channel (channelInfo);
@@ -176,4 +186,37 @@ export default function makeChannelDb({
         }
     }
     // get Channels by group Id (groupId);
+    async function getChannelsByGroupId(
+        groupId: string
+    ): Promise<returningChannelsData> {
+        const db = await makeDb();
+        try {
+            const query = `SELECT * FROM channelt WHERE "groupId" = ${groupId}) RETURNNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount >= 1) {
+                const channel: IChannel[] = res.rows;
+                return { success: true, data: channel, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find channels with that groupId.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: channel-db.ts ~ line 209 ~ error ~ getChannelsById",
+                error
+            );
+
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
 }
