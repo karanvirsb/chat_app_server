@@ -19,6 +19,7 @@ export interface IMakeChannelDb {
             channelId: string,
             newName: string
         ) => Promise<returningChannelData>;
+        getChannelById: (channelId: string) => Promise<returningChannelData>;
     }>;
 }
 
@@ -29,6 +30,7 @@ export default function makeChannelDb({
         createChannel,
         deleteChannel,
         updateChannelName,
+        getChannelById,
     });
 
     // create channel (channelInfo);
@@ -140,5 +142,38 @@ export default function makeChannelDb({
         }
     }
     // get channel by Id (channelId);
+    async function getChannelById(
+        channelId: string
+    ): Promise<returningChannelData> {
+        const db = await makeDb();
+        try {
+            const query = `SELECT * FROM channelt WHERE "channelId" = ${channelId}) RETURNNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const channel: IChannel = res.rows[0];
+                return { success: true, data: channel, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find the channel.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: channel-db.ts ~ line 165 ~ error ~ getChannelById",
+                error
+            );
+
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
     // get Channels by group Id (groupId);
 }
