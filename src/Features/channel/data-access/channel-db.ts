@@ -15,6 +15,10 @@ export interface IMakeChannelDb {
     returnType: Readonly<{
         createChannel: (channelInfo: IChannel) => Promise<returningChannelData>;
         deleteChannel: (channelId: string) => Promise<returningChannelData>;
+        updateChannelName: (
+            channelId: string,
+            newName: string
+        ) => Promise<returningChannelData>;
     }>;
 }
 
@@ -24,6 +28,7 @@ export default function makeChannelDb({
     return Object.freeze({
         createChannel,
         deleteChannel,
+        updateChannelName,
     });
 
     // create channel (channelInfo);
@@ -100,6 +105,40 @@ export default function makeChannelDb({
     }
 
     // update channelName (channelId, newName);
+    async function updateChannelName(
+        channelId: string,
+        newName: string
+    ): Promise<returningChannelData> {
+        const db = await makeDb();
+        try {
+            const query = `UPDATE channelt SET "channelName" = ${newName} WHERE "channelId" = ${channelId}) RETURNNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const channel: IChannel = res.rows[0];
+                return { success: true, data: channel, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not update the channel.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: channel-db.ts ~ line 125 ~ error ~ updateChannelName",
+                error
+            );
+
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
     // get channel by Id (channelId);
     // get Channels by group Id (groupId);
 }
