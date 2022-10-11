@@ -6,7 +6,8 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeUpdateChannelName from "../use-cases/updateChannelName";
 import makeUpdateChannelNameController from "./update-groupName";
 
-describe.skip("Get channels by group id controller", () => {
+describe.skip("Update group name controller", () => {
+    jest.setTimeout(10000);
     // const channelRequest = {
     //     body: {},
     //     headers: {},
@@ -54,12 +55,12 @@ describe.skip("Get channels by group id controller", () => {
             channelRequest
         );
 
-        expect(updatedChannel.body.data?.channelName).toBe(channel.channelName);
+        expect(updatedChannel.body.data?.channelName).toBe("coders");
     });
 
     test("ERROR: channel id does not exist", async () => {
         const channel = await makeFakeChannel();
-        channel.groupId = "";
+        channel.groupId = "123";
         const channelRequest = {
             body: { channelId: "", newName: "coders" },
             headers: {},
@@ -82,7 +83,7 @@ describe.skip("Get channels by group id controller", () => {
 
     test("ERROR: new name does not exist", async () => {
         const channel = await makeFakeChannel();
-        channel.groupId = "";
+        channel.groupId = "123";
         const channelRequest = {
             body: { channelId: channel.channelId, newName: "" },
             headers: {},
@@ -105,7 +106,7 @@ describe.skip("Get channels by group id controller", () => {
 
     test("ERROR: new name contains profanity", async () => {
         const channel = await makeFakeChannel();
-        channel.groupId = "";
+        channel.groupId = "123";
         const channelRequest = {
             body: { channelId: channel.channelId, newName: "bullshit" },
             headers: {},
