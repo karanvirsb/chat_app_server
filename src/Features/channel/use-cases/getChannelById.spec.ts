@@ -5,7 +5,7 @@ import { moderateName } from "../../../Utilities/moderateText";
 import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeGetChannelById from "./getChannelById";
 
-describe("get channel by id use case", () => {
+describe.skip("get channel by id use case", () => {
     const handleModeration: handleModerationType = async (
         channelName: string
     ) => {
