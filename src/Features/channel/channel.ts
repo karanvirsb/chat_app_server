@@ -19,6 +19,14 @@ export default function buildChannel({ Id, sanitizeText }: props) {
         groupId,
         dateCreated = new Date().toLocaleDateString(),
     }: IChannel) {
+        if (!channelId) {
+            channelId = Id.makeId();
+        }
+
+        if (!dateCreated) {
+            dateCreated = new Date().toUTCString();
+        }
+
         const sanitizedChannelName = sanitizeText(channelName);
 
         if (sanitizedChannelName.length <= 1) {
