@@ -17,10 +17,14 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface ICreateChannelUseCase {
+    createChannel: (channelInfo: IChannel) => Promise<returnData>;
+}
+
 export default function makeCreateChannel({
     handleModeration,
     channelDb,
-}: props) {
+}: props): ICreateChannelUseCase["createChannel"] {
     return async function createChannel(
         channelInfo: IChannel
     ): Promise<returnData> {
