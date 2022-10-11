@@ -1,3 +1,4 @@
+import { deleteChannel } from ".";
 import { IChannel } from "../channel";
 import { IMakeChannelDb } from "../data-access/channel-db";
 
@@ -11,7 +12,13 @@ type returnData = Promise<{
     error: string;
 }>;
 
-export default function makeDeleteChannel({ channelDb }: props) {
+export interface IDeleteChannelUseCase {
+    deleteChannel: (channelId: string) => Promise<returnData>;
+}
+
+export default function makeDeleteChannel({
+    channelDb,
+}: props): IDeleteChannelUseCase["deleteChannel"] {
     return async function deleteChannel(
         channelId: string
     ): Promise<returnData> {
