@@ -17,10 +17,17 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IUpdateChannelNameUseCase {
+    updateChannelName: (
+        channelId: string,
+        newName: string
+    ) => Promise<returnData>;
+}
+
 export default function makeUpdateChannelName({
     handleModeration,
     channelDb,
-}: props) {
+}: props): IUpdateChannelNameUseCase["updateChannelName"] {
     return async function updateChannelName(
         channelId: string,
         newName: string
