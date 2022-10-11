@@ -4,7 +4,7 @@ export interface IMessage {
     userId: string;
     dateCreated: Date;
     messageId: string;
-    dateModified?: string;
+    dateModified?: Date;
     published: boolean;
     replyTo?: string;
     text: string;
