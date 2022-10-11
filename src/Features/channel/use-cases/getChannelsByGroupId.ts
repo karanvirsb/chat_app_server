@@ -11,7 +11,13 @@ type returnData = Promise<{
     error: string;
 }>;
 
-export default function makeGetChannelsByGroupId({ channelDb }: props) {
+export interface IGetChannelsByGroupIdUseCase {
+    getChannelsByGroupId: (groupId: string) => Promise<returnData>;
+}
+
+export default function makeGetChannelsByGroupId({
+    channelDb,
+}: props): IGetChannelsByGroupIdUseCase["getChannelsByGroupId"] {
     return async function getChannelsByGroupId(
         groupId: string
     ): Promise<returnData> {
