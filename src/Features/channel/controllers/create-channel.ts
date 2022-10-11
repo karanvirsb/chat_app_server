@@ -24,7 +24,7 @@ export default function makeCreateChannelController({
         };
         try {
             const addedChannel = await createChannel(
-                httpRequest.body.ChannelInfo
+                httpRequest.body.channelInfo
             );
             return {
                 headers,
