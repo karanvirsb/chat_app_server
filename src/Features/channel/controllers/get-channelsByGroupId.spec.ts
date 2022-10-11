@@ -6,7 +6,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeGetChannelsByGroupIdController from "./get-channelsByGroupId";
 import makeGetChannelsByGroupId from "../use-cases/getChannelsByGroupId";
 
-describe("Get channels by group id controller", () => {
+describe.skip("Get channels by group id controller", () => {
     // const channelRequest = {
     //     body: {},
     //     headers: {},
