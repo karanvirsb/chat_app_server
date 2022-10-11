@@ -2,9 +2,13 @@ import { IChannel } from "../channel";
 import { IMakeChannelDb } from "../data-access/channel-db";
 import makeChannel from "../index";
 
+export type handleModerationType = {
+    (name: string): Promise<number | boolean>;
+};
+
 type props = {
     channelDb: IMakeChannelDb["returnType"];
-    handleModeration: (name: string) => Promise<number | boolean>;
+    handleModeration: handleModerationType;
 };
 
 type returnData = Promise<{
