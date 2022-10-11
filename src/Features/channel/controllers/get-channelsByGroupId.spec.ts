@@ -6,7 +6,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeGetChannelsByGroupIdController from "./get-channelsByGroupId";
 import makeGetChannelsByGroupId from "../use-cases/getChannelsByGroupId";
 
-describe.skip("Get channels by group id controller", () => {
+describe("Get channels by group id controller", () => {
     // const channelRequest = {
     //     body: {},
     //     headers: {},
@@ -36,11 +36,11 @@ describe.skip("Get channels by group id controller", () => {
         const channel = await makeFakeChannel();
         channel.groupId = "123";
         const channelRequest = {
-            body: { groupId: channel.groupId },
+            body: {},
             headers: {},
             ip: "",
             method: "POST",
-            params: {},
+            params: { groupId: channel.groupId },
             path: "",
             query: {},
         };
@@ -58,13 +58,13 @@ describe.skip("Get channels by group id controller", () => {
 
     test("ERROR: group id does not exist", async () => {
         const channel = await makeFakeChannel();
-        channel.groupId = "";
+        channel.groupId = "123";
         const channelRequest = {
-            body: { channelId: channel.channelId },
+            body: {},
             headers: {},
             ip: "",
             method: "POST",
-            params: {},
+            params: { groupId: "" },
             path: "",
             query: {},
         };
