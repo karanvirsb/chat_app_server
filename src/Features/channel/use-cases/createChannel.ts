@@ -22,18 +22,32 @@ export default function makeCreateChannel({
     channelDb,
 }: props) {
     return async function createChannel(
-        channelName: string,
-        groupId: string
+        channelInfo: IChannel
     ): Promise<returnData> {
-        if (!channelName) throw new Error("Channel name needs to be supplied");
-        if (!groupId) throw new Error("Group Id needs to be supplied");
+        if (!channelInfo.channelName)
+            throw new Error("Channel name needs to be supplied");
+        if (!channelInfo.groupId)
+            throw new Error("Group Id needs to be supplied");
 
-        const channel = makeChannel({
-            channelId: "",
-            channelName,
-            dateCreated: "",
-            groupId,
-        });
+        const channel = makeChannel(channelInfo);
+
+        const moderatedName = await handleModeration(channel.getChannelName());
+
+        if (moderatedName) {
+            return {
+                success: false,
+                data: undefined,
+                error: "Channel name contains profanity",
+            };
+        }
+
+        if (moderatedName === -1) {
+            return {
+                success: false,
+                data: undefined,
+                error: "Server Error, please try again.",
+            };
+        }
 
         const channelExists = await channelDb.getChannelById(
             channel.getChannelId()
