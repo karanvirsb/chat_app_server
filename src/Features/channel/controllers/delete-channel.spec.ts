@@ -54,9 +54,9 @@ describe.skip("Delete channel controller", () => {
     test("ERROR: channel id does not exist", async () => {
         const channel = await makeFakeChannel();
         channel.groupId = "123";
-        channel.channelId = "";
+
         const channelRequest = {
-            body: { channelId: channel.channelId },
+            body: { channelId: "" },
             headers: {},
             ip: "",
             method: "POST",
