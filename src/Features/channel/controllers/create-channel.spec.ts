@@ -6,6 +6,7 @@ import makeCreateChannelController from "./create-channel";
 import makeFakeChannel from "../../../../__test__/fixures/channel";
 
 describe.skip("Create channel controller", () => {
+    jest.setTimeout(10000);
     // const channelRequest = {
     //     body: {},
     //     headers: {},
@@ -49,9 +50,9 @@ describe.skip("Create channel controller", () => {
     test("Error: channel name not supplied", async () => {
         const channel = await makeFakeChannel();
         channel.groupId = "123";
-        channel.channelName = "";
+
         const channelRequest = {
-            body: { channelInfo: channel },
+            body: { channelInfo: { ...channel, channelName: "" } },
             headers: {},
             ip: "",
             method: "POST",
@@ -68,9 +69,9 @@ describe.skip("Create channel controller", () => {
 
     test("Error: group id was not provided", async () => {
         const channel = await makeFakeChannel();
-        channel.groupId = "";
+        channel.groupId = "123";
         const channelRequest = {
-            body: { channelInfo: channel },
+            body: { channelInfo: { ...channel, groupId: "" } },
             headers: {},
             ip: "",
             method: "POST",
@@ -85,7 +86,7 @@ describe.skip("Create channel controller", () => {
 
     test("Error: channel name contains profanity", async () => {
         const channel = await makeFakeChannel();
-        channel.groupId = "";
+        channel.groupId = "123";
         channel.channelName = "bullshit";
         const channelRequest = {
             body: { channelInfo: channel },
