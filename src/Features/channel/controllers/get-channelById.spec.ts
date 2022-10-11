@@ -7,6 +7,7 @@ import makeGetChannelById from "../use-cases/getChannelById";
 import makeGetChannelByIdController from "./get-channelbyId";
 
 describe.skip("Get channel by id controller", () => {
+    jest.setTimeout(10000);
     // const channelRequest = {
     //     body: {},
     //     headers: {},
@@ -54,13 +55,12 @@ describe.skip("Get channel by id controller", () => {
     test("ERROR: channel id does not exist", async () => {
         const channel = await makeFakeChannel();
         channel.groupId = "123";
-        channel.channelId = "";
         const channelRequest = {
-            body: { channelId: channel.channelId },
+            body: {},
             headers: {},
             ip: "",
             method: "POST",
-            params: {},
+            params: { channelId: "" },
             path: "",
             query: {},
         };
