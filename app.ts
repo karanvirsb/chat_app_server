@@ -11,6 +11,7 @@ import {
     getAnUser,
 } from "./src/Features/user/controllers";
 import groupControllers from "./src/Features/group/controllers";
+import channelControllers from "./src/Features/channel/controllers";
 const appRoot = process.env.API_DOMAIN;
 
 let app = express();
@@ -54,5 +55,18 @@ app.get(
 );
 app.put(`${appRoot}/group/name`, groupControllers.updateGroupNameController);
 app.put(`${appRoot}/group/invite`, groupControllers.updateInviteCodeController);
+
+// channel routes
+app.get(`${appRoot}/channel`, channelControllers.getChannelByIdController);
+app.get(
+    `${appRoot}/channels`,
+    channelControllers.getChannelsByGroupIdController
+);
+app.post(`${appRoot}/channel`, channelControllers.createChannelController);
+app.delete(`${appRoot}/channel`, channelControllers.deleteChannelController);
+app.put(
+    `${appRoot}/channel/name`,
+    channelControllers.updateChannelNameController
+);
 
 export default app;
