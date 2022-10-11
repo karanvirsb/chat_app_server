@@ -5,7 +5,6 @@ export interface IMessage {
     dateCreated: Date;
     messageId: string;
     dateModified?: Date;
-    published: boolean;
     replyTo?: string;
     text: string;
     channelId: string;
