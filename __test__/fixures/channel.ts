@@ -6,7 +6,7 @@ export default async function makeFakeChannel(): Promise<IChannel> {
     return {
         channelId: cuid(),
         channelName: faker.animal.cat().toString(),
-        dateCreated: new Date().toLocaleDateString(),
+        dateCreated: new Date(),
         groupId: cuid(),
     };
 }

@@ -3,7 +3,7 @@ import { IId } from "../../Utilities/id";
 export interface IChannel {
     channelId: string;
     channelName: string;
-    dateCreated: string;
+    dateCreated: Date;
     groupId: string;
 }
 
@@ -17,7 +17,7 @@ export default function buildChannel({ Id, sanitizeText }: props) {
         channelId = Id.makeId(),
         channelName,
         groupId,
-        dateCreated = new Date().toLocaleDateString(),
+        dateCreated = new Date(),
     }: IChannel) {
         const sanitizedChannelName = sanitizeText(channelName);
 
