@@ -52,13 +52,14 @@ export default function makeChannelDb({
             const query = `INSERT INTO channelt VALUES (
                 '${channelInfo.channelId}', 
                 '${channelInfo.channelName}', 
-                '${channelInfo.dateCreated}', 
+                to_timestamp(${channelInfo.dateCreated.getTime()}/1000), 
                 '${channelInfo.groupId}'
                 ) RETURNING *;`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
                 const channel: IChannel = res.rows[0];
+                channel.dateCreated = new Date(channel.dateCreated);
                 return { success: true, data: channel, error: "" };
             } else {
                 return {
@@ -131,6 +132,7 @@ export default function makeChannelDb({
 
             if (res.rowCount === 1) {
                 const channel: IChannel = res.rows[0];
+                channel.dateCreated = new Date(channel.dateCreated);
                 return { success: true, data: channel, error: "" };
             } else {
                 return {
@@ -165,6 +167,7 @@ export default function makeChannelDb({
 
             if (res.rowCount === 1) {
                 const channel: IChannel = res.rows[0];
+                channel.dateCreated = new Date(channel.dateCreated);
                 return { success: true, data: channel, error: "" };
             } else {
                 return {
@@ -198,8 +201,11 @@ export default function makeChannelDb({
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
-                const channel: IChannel[] = res.rows;
-                return { success: true, data: channel, error: "" };
+                const channels: IChannel[] = res.rows;
+                for (const channel of channels) {
+                    channel.dateCreated = new Date(channel.dateCreated);
+                }
+                return { success: true, data: channels, error: "" };
             } else {
                 return {
                     success: true,
