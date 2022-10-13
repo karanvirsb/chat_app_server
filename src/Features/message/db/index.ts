@@ -9,7 +9,13 @@ export default async function setupMessageDb() {
     const db = await makeDb();
     const result = await db.query(
         `CREATE TABLE IF NOT EXISTS messaget (
-          
+          "messageId" VARCHAR(100) PRIMARY KEY, 
+          "dateCreated" timestamp, 
+          "dateModified" timestamp, 
+          "replyTo" VARCHAR(100) references messaget("messageId"), 
+          text VARCHAR(200), 
+          "userId" VARCHAR(100) REFERENCES usert("userId"), 
+          "channelId" VARCHAR(100) REFERENCES channelt("channelId")
         );`
     );
     console.log(
