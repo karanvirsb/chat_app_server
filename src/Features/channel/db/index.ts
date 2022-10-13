@@ -11,7 +11,7 @@ export default async function setupChannelDb() {
         `CREATE TABLE IF NOT EXISTS channelt (
           "channelId" VARCHAR(100) PRIMARY KEY,
           "channelName" VARCHAR(50),
-          "dateCreated" VARCHAR(100),
+          "dateCreated" timestamp,
           "groupId" VARCHAR(100) REFERENCES groupt("groupId")
             ON DELETE CASCADE
             ON UPDATE CASCADE
