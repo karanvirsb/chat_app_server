@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default async function setupChannelDb() {
-    console.log("setting up group database...");
+    console.log("setting up channel database...");
     // database will be created if it doesnt exist already
 
     const db = await makeDb();
