@@ -17,12 +17,12 @@ type props = {
 
 export default function buildMessage({ Id, sanitizeText }: props) {
     return function makeMessage({
-        userId,
-        dateCreated = new Date(),
         messageId = Id.makeId(),
+        dateCreated = new Date(),
         dateModified,
         replyTo,
         text,
+        userId,
         channelId,
     }: IMessage) {
         const sanitizedText = sanitizeText(text);
