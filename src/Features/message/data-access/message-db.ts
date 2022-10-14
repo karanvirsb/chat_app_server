@@ -39,8 +39,8 @@ export default function makeMessageDb({
             const query = `INSERT INTO messaget VALUES (
                 '${messageInfo.messageId}',
                 to_timestamp(${messageInfo.dateCreated.getTime()}/1000),
-                ,
-                ,
+                null,
+                null,
                 '${messageInfo.text}', 
                 '${messageInfo.userId}', 
                 '${messageInfo.channelId}'
