@@ -27,6 +27,11 @@ export interface IMakeMessageDb {
             dateCreated: Date,
             limit: number
         ) => Promise<returningMessagesData>;
+        updateMessage: <Type>(
+            updateName: Partial<IMessage>,
+            messageId: string,
+            updateValue: Type
+        ) => Promise<returningMessageData>;
     }>;
 }
 
@@ -38,6 +43,7 @@ export default function makeMessageDb({
         deleteMessage,
         getMessageById,
         getMessagesByChannelId,
+        updateMessage,
     });
 
     // create message
@@ -195,4 +201,42 @@ export default function makeMessageDb({
         }
     }
     // update message
+    async function updateMessage<Type>(
+        updateName: Partial<IMessage>,
+        messageId: string,
+        updateValue: Type
+    ): Promise<returningMessageData> {
+        const db = await makeDb();
+        try {
+            const query = `
+             UPDATE TABLE messaget 
+                SET "${updateName}" = ${updateValue} 
+             WHERE messageId = '${messageId}' RETURNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const message: IMessage = res.rows[0];
+                message.dateCreated = new Date(message.dateCreated);
+                return { success: true, data: message, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find the message.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ getMessagesByChannelId",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
 }
