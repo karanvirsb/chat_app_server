@@ -20,6 +20,7 @@ type returningMessagesData = Promise<{
 export interface IMakeMessageDb {
     returnType: Readonly<{
         createMessage: (messageInfo: IMessage) => Promise<returningMessageData>;
+        deleteMessage: (messageId: string) => Promise<returningMessageData>;
     }>;
 }
 
@@ -28,6 +29,7 @@ export default function makeMessageDb({
 }: props): IMakeMessageDb["returnType"] {
     return Object.freeze({
         createMessage,
+        deleteMessage,
     });
 
     // create message
@@ -55,7 +57,7 @@ export default function makeMessageDb({
                 return {
                     success: true,
                     data: undefined,
-                    error: "Could not create the channel.",
+                    error: "Could not create the message.",
                 };
             }
         } catch (error) {
@@ -73,6 +75,39 @@ export default function makeMessageDb({
         }
     }
     // delete message
+    async function deleteMessage(
+        messageId: string
+    ): Promise<returningMessageData> {
+        const db = await makeDb();
+        try {
+            const query = `DELETE FROM messaget WHERE "messageId" = '${messageId}' RETURNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const message: IMessage = res.rows[0];
+                message.dateCreated = new Date(message.dateCreated);
+                return { success: true, data: message, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not delete the message.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ deleteMessage",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
     // get message by id
     // get messages by channel id
     // update message
