@@ -21,6 +21,7 @@ export interface IMakeMessageDb {
     returnType: Readonly<{
         createMessage: (messageInfo: IMessage) => Promise<returningMessageData>;
         deleteMessage: (messageId: string) => Promise<returningMessageData>;
+        getMessageById: (messageId: string) => Promise<returningMessageData>;
     }>;
 }
 
@@ -30,6 +31,7 @@ export default function makeMessageDb({
     return Object.freeze({
         createMessage,
         deleteMessage,
+        getMessageById,
     });
 
     // create message
@@ -109,6 +111,41 @@ export default function makeMessageDb({
         }
     }
     // get message by id
+
+    async function getMessageById(
+        messageId: string
+    ): Promise<returningMessageData> {
+        const db = await makeDb();
+        try {
+            const query = `SELECT * FROM messaget WHERE "messageId" = '${messageId}' RETURNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const message: IMessage = res.rows[0];
+                message.dateCreated = new Date(message.dateCreated);
+                return { success: true, data: message, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find the message.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ getMessageById",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
+
     // get messages by channel id
     // update message
 }
