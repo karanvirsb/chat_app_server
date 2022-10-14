@@ -22,6 +22,11 @@ export interface IMakeMessageDb {
         createMessage: (messageInfo: IMessage) => Promise<returningMessageData>;
         deleteMessage: (messageId: string) => Promise<returningMessageData>;
         getMessageById: (messageId: string) => Promise<returningMessageData>;
+        getMessagesByChannelId: (
+            channelId: string,
+            dateCreated: Date,
+            limit: number
+        ) => Promise<returningMessagesData>;
     }>;
 }
 
@@ -32,6 +37,7 @@ export default function makeMessageDb({
         createMessage,
         deleteMessage,
         getMessageById,
+        getMessagesByChannelId,
     });
 
     // create message
@@ -117,7 +123,7 @@ export default function makeMessageDb({
     ): Promise<returningMessageData> {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM messaget WHERE "messageId" = '${messageId}' RETURNING *;`;
+            const query = `SELECT * FROM messaget WHERE "messageId" = '${messageId}';`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -147,5 +153,46 @@ export default function makeMessageDb({
     }
 
     // get messages by channel id
+
+    async function getMessagesByChannelId(
+        channelId: string,
+        dateCreated: Date,
+        limit: number
+    ): Promise<returningMessagesData> {
+        const db = await makeDb();
+        try {
+            const query = `
+                SELECT * FROM messaget 
+                WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
+                dateCreated.getTime() / 1000
+            }) 
+                ORDER BY "dateCreated" DESC 
+                LIMIT ${limit};`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const message: IMessage[] = res.rows;
+                return { success: true, data: message, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find the message.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ getMessagesByChannelId",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
     // update message
 }
