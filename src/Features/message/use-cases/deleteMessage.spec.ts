@@ -13,7 +13,7 @@ describe("Create message use case", () => {
         clearDb("messaget");
     });
 
-    test("SUCCESS: creating a message", async () => {
+    test("SUCCESS: deleting a message", async () => {
         const message = await makeFakeMessage("123", "123");
         const insertedMessage = await createMessage(message);
 
