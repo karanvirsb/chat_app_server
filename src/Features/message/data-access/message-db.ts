@@ -56,7 +56,7 @@ export default function makeMessageDb({
                 '${messageInfo.messageId}',
                 to_timestamp(${messageInfo.dateCreated.getTime()}/1000),
                 null,
-                null,
+                ${messageInfo.replyTo ?? null},
                 '${messageInfo.text}', 
                 '${messageInfo.userId}', 
                 '${messageInfo.channelId}'
