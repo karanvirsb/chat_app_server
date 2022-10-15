@@ -71,4 +71,39 @@ describe("Message db method tests", () => {
         if (foundMessages.data)
             expect(foundMessages.data[0].text).toBe(message.text);
     });
+
+    test("SUCCESS: updating message", async () => {
+        jest.setTimeout(30000);
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        const insertedMessage = await messageDB.createMessage(message);
+        const updatedMessage = await messageDB.updateMessage(
+            "text",
+            message.messageId,
+            "'Coders are cool'"
+        );
+        expect(updatedMessage.data?.text).toBe("Coders are cool");
+    });
+
+    test("SUCCESS: updating message date", async () => {
+        jest.setTimeout(30000);
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        const insertedMessage = await messageDB.createMessage(message);
+        const updatedMessage = await messageDB.updateMessage(
+            "dateModified",
+            message.messageId,
+            `to_timestamp(${new Date().getTime() / 1000})`
+        );
+        console.log(updatedMessage);
+        expect(updatedMessage.data?.dateModified).not.toEqual(
+            message.dateModified
+        );
+    });
 });
