@@ -11,17 +11,64 @@ describe("Message db method tests", () => {
         await clearDb("messaget");
     });
 
-    test("SUCCESS: creating a message", async () => {
+    test.skip("SUCCESS: creating a message", async () => {
         jest.setTimeout(30000);
         const message = await makeFakeMessage(
             "123",
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
         );
 
-        delete message["dateModified"];
-        delete message["replyTo"];
-
         const insertedMessage = await messageDB.createMessage(message);
         expect(insertedMessage.data?.messageId).toBe(message.messageId);
+    });
+
+    test.skip("SUCCESS: deleting a message", async () => {
+        jest.setTimeout(30000);
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        const insertedMessage = await messageDB.createMessage(message);
+        const deletedMessage = await messageDB.deleteMessage(message.messageId);
+        expect(deletedMessage.data?.messageId).toBe(message.messageId);
+    });
+
+    test.skip("SUCCESS: getting message by id", async () => {
+        jest.setTimeout(30000);
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        const insertedMessage = await messageDB.createMessage(message);
+        const foundMessage = await messageDB.getMessageById(message.messageId);
+        expect(foundMessage.data?.text).toBe(message.text);
+    });
+
+    test.skip("SUCCESS: getting messages by channel id", async () => {
+        jest.setTimeout(30000);
+        let message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
+
+        let insertedMessage = await messageDB.createMessage(message);
+        for (let i = 0; i < 10; i++) {
+            message = await makeFakeMessage(
+                "123",
+                "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+            );
+
+            insertedMessage = await messageDB.createMessage(message);
+        }
+        const foundMessages = await messageDB.getMessagesByChannelId(
+            "123",
+            message.dateCreated,
+            10
+        );
+        console.log(foundMessages);
+        if (foundMessages.data)
+            expect(foundMessages.data[0].text).toBe(message.text);
     });
 });
