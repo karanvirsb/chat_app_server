@@ -11,7 +11,7 @@ type returnData = Promise<{
     error: string;
 }>;
 
-export default function makegetMessagesByChannelId({ messageDb }: props) {
+export default function makeGetMessagesByChannelId({ messageDb }: props) {
     return async function getMessagesByChannelId(
         messageId: string,
         dateCreated: Date,
