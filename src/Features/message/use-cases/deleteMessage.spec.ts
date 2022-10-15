@@ -27,7 +27,7 @@ describe("Create message use case", () => {
         const insertedMessage = await createMessage(message);
 
         try {
-            const deletedMessage = await deleteMessage(message.messageId);
+            const deletedMessage = await deleteMessage("");
         } catch (error) {
             if (error instanceof Error)
                 expect(error.message).toBe("Message Id needs to be supplied.");
