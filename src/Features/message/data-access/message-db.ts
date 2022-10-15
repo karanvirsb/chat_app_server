@@ -27,10 +27,10 @@ export interface IMakeMessageDb {
             dateCreated: Date,
             limit: number
         ) => Promise<returningMessagesData>;
-        updateMessage: <Type>(
-            updateName: Partial<IMessage>,
+        updateMessage: (
+            updateName: keyof IMessage,
             messageId: string,
-            updateValue: Type
+            updateValue: IMessage[typeof updateName]
         ) => Promise<returningMessageData>;
     }>;
 }
@@ -201,17 +201,18 @@ export default function makeMessageDb({
         }
     }
     // update message
-    async function updateMessage<Type>(
-        updateName: Partial<IMessage>,
+    async function updateMessage(
+        updateName: Partial<keyof IMessage>,
         messageId: string,
-        updateValue: Type
+        updateValue: IMessage[typeof updateName]
     ): Promise<returningMessageData> {
         const db = await makeDb();
         try {
             const query = `
-             UPDATE TABLE messaget 
-                SET "${updateName}" = ${updateValue} 
-             WHERE messageId = '${messageId}' RETURNING *;`;
+            UPDATE messaget 
+            SET "${updateName}" = ${updateValue} 
+            WHERE "messageId" = '${messageId}' RETURNING *;`;
+
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
