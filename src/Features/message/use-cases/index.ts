@@ -4,12 +4,14 @@ import makeDeleteMessage from "./deleteMessage";
 import makeGetMessageById from "./getMessageById";
 import makeGetMessagesByChannelId from "./getMessagesByChannelId";
 import makeUpdateMessageText from "./updateMessageText";
+import makeUpdateDateModified from "./updateDateModified";
 
 const createMessage = makeCreateMessage({ messageDb });
 const deleteMessage = makeDeleteMessage({ messageDb });
 const getMessageById = makeGetMessageById({ messageDb });
 const getMessagesByChannelId = makeGetMessagesByChannelId({ messageDb });
 const updateMessageText = makeUpdateMessageText({ messageDb });
+const updateDateModified = makeUpdateDateModified({ messageDb });
 
 const messageService = Object.freeze({
     createMessage,
@@ -17,6 +19,7 @@ const messageService = Object.freeze({
     getMessageById,
     getMessagesByChannelId,
     updateMessageText,
+    updateDateModified,
 });
 
 export default messageService;
@@ -27,4 +30,5 @@ export {
     getMessageById,
     getMessagesByChannelId,
     updateMessageText,
+    updateDateModified,
 };
