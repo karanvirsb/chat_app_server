@@ -176,7 +176,7 @@ export default function makeMessageDb({
                 LIMIT ${limit};`;
             const res = await db.query(query);
 
-            if (res.rowCount === 1) {
+            if (res.rowCount >= 1) {
                 const message: IMessage[] = res.rows;
                 return { success: true, data: message, error: "" };
             } else {
