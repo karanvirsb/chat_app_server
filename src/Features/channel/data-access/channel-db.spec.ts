@@ -54,14 +54,21 @@ describe.skip("Channel db method tests", () => {
     });
 
     test("SUCCESS: get channels by group id", async () => {
-        const channel = await makeFakeChannel();
+        let channel = await makeFakeChannel();
         channel.groupId = "123";
 
-        const res = await channelDB.createChannel(channel);
+        let res = await channelDB.createChannel(channel);
+
+        for (let i = 0; i < 5; i++) {
+            channel = await makeFakeChannel();
+            channel.groupId = "123";
+            res = await channelDB.createChannel(channel);
+        }
 
         const foundChannels = await channelDB.getChannelsByGroupId(
             channel.groupId
         );
+        console.log(foundChannels);
         if (foundChannels.data)
             expect(foundChannels.data[0].channelName).toBe(channel.channelName);
     });
