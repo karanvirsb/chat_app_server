@@ -21,7 +21,8 @@ export default function makeUpdateDateModified({ messageDb }: props) {
         updateValue: Date
     ): returnData {
         if (!messageId) throw new Error("Message Id needs to be supplied.");
-        if (!updateValue) throw new Error("Update Value needs to be supplied.");
+        if (!updateValue || Number.isNaN(updateValue.getTime()))
+            throw new Error("Update Value needs to be a Date.");
 
         // need to convert date
         const newUpdateValue = `to_timestamp(${updateValue.getTime() / 1000})`;
