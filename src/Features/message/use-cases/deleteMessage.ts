@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IDeleteMessageUseCase {
+    deleteMessage: (messageId: string) => returnData;
+}
+
 export default function makeDeleteMessage({ messageDb }: props) {
     return async function deleteMessage(messageId: string): returnData {
         if (!messageId) throw new Error("Message Id needs to be supplied.");
