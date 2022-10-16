@@ -11,6 +11,7 @@ export interface IGroup {
     groupName: string;
     groupId: string;
     inviteCode: string;
+    dateCreated: Date;
 }
 
 export default function buildGroup({
@@ -22,6 +23,7 @@ export default function buildGroup({
         groupName,
         groupId = Id.makeId(),
         inviteCode = inviteCodeGenerator.makeInviteCode(),
+        dateCreated = new Date(),
     }: IGroup) {
         let sanitizedGroupName = sanitizeText(groupName);
 
@@ -42,6 +44,9 @@ export default function buildGroup({
         if (!inviteCode) {
             throw new Error("Group requires an invite code");
         }
+
+        if (!dateCreated || Number.isNaN(dateCreated.getTime()))
+            throw new Error("Date Created needs to be supplied.");
 
         return Object.freeze({
             getGroupName: () => sanitizedGroupName,
