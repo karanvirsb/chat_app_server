@@ -5,7 +5,7 @@ import makeCreateMessage from "../use-cases/createMessage";
 import makeGetMessagesByChannelId from "../use-cases/getMessagesByChannelId";
 import makeGetMessagesByChannelIdController from "./get-messagesByChannelId";
 
-describe("getting messages by channel id controller", () => {
+describe.skip("getting messages by channel id controller", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
 
