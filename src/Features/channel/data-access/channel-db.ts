@@ -197,7 +197,10 @@ export default function makeChannelDb({
     ): Promise<returningChannelsData> {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM channelt WHERE "groupId" = '${groupId}';`;
+            const query = `
+            SELECT * FROM channelt 
+            WHERE "groupId" = '${groupId}'
+            ORDER BY "dateCreated" DESC;`;
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
