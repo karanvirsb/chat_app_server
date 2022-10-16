@@ -58,6 +58,7 @@ export default function makeAddGroup({ groupDb, handleModeration }: props) {
                 groupId: group.getGroupId(),
                 groupName: group.getGroupName(),
                 inviteCode: group.getInviteCode(),
+                dateCreated: group.getDateCreated(),
             },
             userId
         );
