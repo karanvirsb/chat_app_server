@@ -19,6 +19,13 @@ export default function makeUpdateDateModified({ messageDb }: props) {
         if (!messageId) throw new Error("Message Id needs to be supplied.");
         if (!updateValue) throw new Error("Update Value needs to be supplied.");
 
-        return messageDb.updateMessage("dateCreated", messageId, updateValue);
+        // need to convert date
+        const newUpdateValue = `to_timestamp(${updateValue.getTime() / 1000})`;
+
+        return messageDb.updateMessage(
+            "dateCreated",
+            messageId,
+            newUpdateValue
+        );
     };
 }
