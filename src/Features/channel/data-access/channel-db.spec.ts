@@ -59,11 +59,17 @@ describe.skip("Channel db method tests", () => {
 
         let res = await channelDB.createChannel(channel);
 
-        for (let i = 0; i < 5; i++) {
-            channel = await makeFakeChannel();
-            channel.groupId = "123";
-            res = await channelDB.createChannel(channel);
-        }
+        channel = await makeFakeChannel();
+        channel.groupId = "123";
+        res = await channelDB.createChannel(channel);
+
+        channel = await makeFakeChannel();
+        channel.groupId = "123";
+        res = await channelDB.createChannel(channel);
+
+        channel = await makeFakeChannel();
+        channel.groupId = "123";
+        res = await channelDB.createChannel(channel);
 
         const foundChannels = await channelDB.getChannelsByGroupId(
             channel.groupId
