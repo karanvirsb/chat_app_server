@@ -14,7 +14,10 @@ describe.skip("Create message use case", () => {
     });
 
     test("SUCCESS: getting a message", async () => {
-        const message = await makeFakeMessage("123", "123");
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
         const insertedMessage = await createMessage(message);
 
         const updatedMessage = await updateMessageText(
@@ -26,7 +29,10 @@ describe.skip("Create message use case", () => {
     });
 
     test("ERROR: missing message id ", async () => {
-        const message = await makeFakeMessage("123", "123");
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
         const insertedMessage = await createMessage(message);
 
         try {
@@ -38,7 +44,10 @@ describe.skip("Create message use case", () => {
     });
 
     test("ERROR: missing text ", async () => {
-        const message = await makeFakeMessage("123", "123");
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
         const insertedMessage = await createMessage(message);
 
         try {
