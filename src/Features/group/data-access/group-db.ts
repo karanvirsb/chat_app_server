@@ -235,10 +235,16 @@ export default function makeGroupDb({
         try {
             const query = `UPDATE groupt SET "inviteCode" = '${newCode}' WHERE "groupId" = '${groupId}' RETURNING *;`;
             const res = await db.query(query);
+            console.log("🚀 ~ file: group-db.ts ~ line 238 ~ res", res);
 
             if (res.rows.length >= 1) {
                 const group: IGroup = res.rows[0];
-                return { success: true, data: group, error: "" };
+                group.inviteCode = newCode;
+                return {
+                    success: true,
+                    data: group,
+                    error: "",
+                };
             } else {
                 return {
                     success: true,
