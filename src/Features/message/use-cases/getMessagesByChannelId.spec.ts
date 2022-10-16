@@ -4,7 +4,7 @@ import makeCreateMessage from "./createMessage";
 import makeFakeMessage from "../../../../__test__/fixures/message";
 import makeGetMessagesByChannelId from "./getMessagesByChannelId";
 
-describe.skip("Create message use case", () => {
+describe.skip("Getting messages by channel id use case", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
     const getMessagesByChannelId = makeGetMessagesByChannelId({ messageDb });
@@ -14,6 +14,7 @@ describe.skip("Create message use case", () => {
     });
 
     test("SUCCESS: getting a message", async () => {
+        jest.setTimeout(15000);
         const message = await makeFakeMessage(
             "123",
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
