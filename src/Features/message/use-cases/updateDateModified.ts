@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IUpdateDateModifiedUseCase {
+    updateDateModified: (messageId: string, updateValue: Date) => returnData;
+}
+
 export default function makeUpdateDateModified({ messageDb }: props) {
     return async function updateDateModified(
         messageId: string,
