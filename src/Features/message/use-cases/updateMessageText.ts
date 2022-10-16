@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IUpdateMessageTextUseCase {
+    updateMessageText: (messageId: string, updateValue: string) => returnData;
+}
+
 export default function makeUpdateMessageText({ messageDb }: props) {
     return async function updateMessageText(
         messageId: string,
