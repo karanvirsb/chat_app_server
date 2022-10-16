@@ -307,7 +307,8 @@ export default function makeGroupDb({
             WHERE "groupId" IN (
                 SELECT "gId" FROM "groupUsers" 
                 WHERE "uId" = '${userId}'
-                );`;
+                )
+            ORDER BY "dateCreated" DESC;`;
 
             const res = await db.query(query);
 
@@ -346,15 +347,16 @@ export default function makeGroupDb({
     ): Promise<returningUsers> {
         const db = await makeDb();
         try {
-            const query = `SELECT U."userId", U.username, U.status, E.email, E.time_joined 
-                            FROM usert U 
-                                JOIN emailpassword_users E 
-                                ON U."userId" = E.user_id 
-                            WHERE U."userId" IN (
-                                SELECT "uId" 
-                                FROM "groupUsers" 
-                                WHERE "gId" = '${groupId}'
-                                );`;
+            const query = `
+            SELECT U."userId", U.username, U.status, E.email, E.time_joined 
+            FROM usert U 
+                JOIN emailpassword_users E 
+                ON U."userId" = E.user_id 
+            WHERE U."userId" IN (
+                SELECT "uId" 
+                FROM "groupUsers" 
+                WHERE "gId" = '${groupId}'
+                );`;
 
             const res = await db.query(query);
 
