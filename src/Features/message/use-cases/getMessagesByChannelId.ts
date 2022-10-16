@@ -11,6 +11,14 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IGetMessagesByChannelIdUseCase {
+    getMessagesByChannelId: (
+        messageId: string,
+        dateCreated: Date,
+        limit: number
+    ) => returnData;
+}
+
 export default function makeGetMessagesByChannelId({ messageDb }: props) {
     return async function getMessagesByChannelId(
         messageId: string,
