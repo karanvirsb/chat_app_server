@@ -3,7 +3,6 @@ import {
     httpResponseType,
 } from "../../../express-callback/index";
 import { IMessage } from "../message";
-import { IDeleteMessageUseCase } from "../use-cases/deleteMessage";
 import { IGetMessageByIdUseCase } from "../use-cases/getMessageById";
 
 interface IGetMessageByIdResponse extends httpResponseType {
