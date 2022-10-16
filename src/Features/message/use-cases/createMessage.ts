@@ -12,6 +12,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface ICreateMessageUseCase {
+    createMessage: (messageInfo: IMessage) => returnData;
+}
+
 export default function makeCreateMessage({ messageDb }: props) {
     return async function createMessage(messageInfo: IMessage): returnData {
         if (!messageInfo.channelId)
