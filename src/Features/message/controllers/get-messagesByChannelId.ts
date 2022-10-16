@@ -3,7 +3,6 @@ import {
     httpResponseType,
 } from "../../../express-callback/index";
 import { IMessage } from "../message";
-import { IGetMessageByIdUseCase } from "../use-cases/getMessageById";
 import { IGetMessagesByChannelIdUseCase } from "../use-cases/getMessagesByChannelId";
 
 interface IGetMessagesByChannelIdResponse extends httpResponseType {
