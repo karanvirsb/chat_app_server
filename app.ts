@@ -54,6 +54,10 @@ app.get(
     `${appRoot}/group/getUsers`,
     groupControllers.getUsersByGroupIdController
 );
+app.get(
+    `${appRoot}/group/userId`,
+    groupControllers.getGroupsByUserIdController
+);
 app.put(`${appRoot}/group/name`, groupControllers.updateGroupNameController);
 app.put(`${appRoot}/group/invite`, groupControllers.updateInviteCodeController);
 
