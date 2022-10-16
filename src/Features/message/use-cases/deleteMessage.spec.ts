@@ -14,7 +14,10 @@ describe.skip("Create message use case", () => {
     });
 
     test("SUCCESS: deleting a message", async () => {
-        const message = await makeFakeMessage("123", "123");
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
         const insertedMessage = await createMessage(message);
 
         const deletedMessage = await deleteMessage(message.messageId);
@@ -23,7 +26,10 @@ describe.skip("Create message use case", () => {
     });
 
     test("ERROR: message id is missing", async () => {
-        const message = await makeFakeMessage("123", "123");
+        const message = await makeFakeMessage(
+            "123",
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
+        );
         const insertedMessage = await createMessage(message);
 
         try {
