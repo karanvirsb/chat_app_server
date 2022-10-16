@@ -23,13 +23,13 @@ export default function makeDeleteMessageController({
             "Content-Type": "application/json",
         };
         try {
-            const createdMessage = await deleteMessage(
+            const deletedMessage = await deleteMessage(
                 httpRequest.body.messageId
             );
             return {
                 headers,
                 statusCode: 200,
-                body: createdMessage,
+                body: deletedMessage,
             };
         } catch (error: any) {
             console.log(error);
