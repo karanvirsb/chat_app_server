@@ -4,7 +4,7 @@ import makeCreateMessage from "./createMessage";
 import makeFakeMessage from "../../../../__test__/fixures/message";
 import makeGetMessagesByChannelId from "./getMessagesByChannelId";
 
-describe("Create message use case", () => {
+describe.skip("Create message use case", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
     const getMessagesByChannelId = makeGetMessagesByChannelId({ messageDb });

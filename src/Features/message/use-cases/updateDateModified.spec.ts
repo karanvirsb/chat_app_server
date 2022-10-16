@@ -4,7 +4,7 @@ import makeCreateMessage from "./createMessage";
 import makeFakeMessage from "../../../../__test__/fixures/message";
 import makeUpdateDateModified from "./updateDateModified";
 
-describe("Create message use case", () => {
+describe.skip("Create message use case", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
     const updateDateModified = makeUpdateDateModified({ messageDb });
