@@ -12,6 +12,7 @@ import {
 } from "./src/Features/user/controllers";
 import groupControllers from "./src/Features/group/controllers";
 import channelControllers from "./src/Features/channel/controllers";
+import messagesController from "./src/Features/message/controllers";
 const appRoot = process.env.API_DOMAIN;
 
 let app = express();
@@ -67,6 +68,24 @@ app.delete(`${appRoot}/channel`, channelControllers.deleteChannelController);
 app.put(
     `${appRoot}/channel/name`,
     channelControllers.updateChannelNameController
+);
+
+// message routes
+
+app.get(`${appRoot}/message`, messagesController.getMessageByIdController);
+app.get(
+    `${appRoot}/message/channel`,
+    messagesController.getMessagesByChannelIdController
+);
+app.post(`${appRoot}/message`, messagesController.createMessageController);
+app.delete(`${appRoot}/message`, messagesController.deleteMessageController);
+app.put(
+    `${appRoot}/message/dateModified`,
+    messagesController.updateDateModifiedController
+);
+app.put(
+    `${appRoot}/message/text`,
+    messagesController.updateMessageTextController
 );
 
 export default app;
