@@ -11,6 +11,10 @@ type returnData = Promise<{
     error: string;
 }>;
 
+export interface IGetMessageByIdUseCase {
+    getMessageById: (messageId: string) => returnData;
+}
+
 export default function makeGetMessageById({ messageDb }: props) {
     return async function getMessageById(messageId: string): returnData {
         if (!messageId) throw new Error("Message Id needs to be supplied.");
