@@ -13,10 +13,10 @@ interface ICreateMessageResponse extends httpResponseType {
     };
 }
 
-export default function makeAddGroupController({
+export default function makeCreateMessageController({
     createMessage,
 }: ICreateMessageUseCase) {
-    return async function addGroupController(
+    return async function createMessageController(
         httpRequest: IHttpRequest
     ): Promise<ICreateMessageResponse> {
         const headers: { [key: string]: string } = {
