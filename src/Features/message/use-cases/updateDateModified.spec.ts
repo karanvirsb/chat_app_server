@@ -4,7 +4,7 @@ import makeCreateMessage from "./createMessage";
 import makeFakeMessage from "../../../../__test__/fixures/message";
 import makeUpdateDateModified from "./updateDateModified";
 
-describe.skip("Create message use case", () => {
+describe.skip("Update message date modified use case", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
     const updateDateModified = makeUpdateDateModified({ messageDb });
@@ -13,7 +13,8 @@ describe.skip("Create message use case", () => {
         clearDb("messaget");
     });
 
-    test("SUCCESS: getting a message", async () => {
+    test("SUCCESS: updating date modified", async () => {
+        jest.setTimeout(15000);
         const message = await makeFakeMessage(
             "123",
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
