@@ -52,6 +52,7 @@ export default function buildGroup({
             getGroupName: () => sanitizedGroupName,
             getGroupId: () => groupId,
             getInviteCode: () => inviteCode,
+            getDateCreated: () => dateCreated,
         });
     };
 }
