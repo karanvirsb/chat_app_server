@@ -76,7 +76,7 @@ export default function makeMessageDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ createMessage",
+                "🚀 ~ file: message-db.ts ~ line 79 ~ error ~ createMessage",
                 error
             );
             return {
@@ -110,7 +110,7 @@ export default function makeMessageDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ deleteMessage",
+                "🚀 ~ file: message-db.ts ~ line 113 ~ error ~ deleteMessage",
                 error
             );
             return {
@@ -145,7 +145,7 @@ export default function makeMessageDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ getMessageById",
+                "🚀 ~ file: message-db.ts ~ line 148 ~ error ~ getMessageById",
                 error
             );
             return {
@@ -188,7 +188,7 @@ export default function makeMessageDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ getMessagesByChannelId",
+                "🚀 ~ file: message-db.ts ~ line 191 ~ error ~ getMessagesByChannelId",
                 error
             );
             return {
@@ -228,7 +228,7 @@ export default function makeMessageDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: message-db.ts ~ line 54 ~ error ~ getMessagesByChannelId",
+                "🚀 ~ file: message-db.ts ~ line 231 ~ error ~ updateMessage",
                 error
             );
             return {
