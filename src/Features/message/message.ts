@@ -25,6 +25,7 @@ export default function buildMessage({ Id, sanitizeText }: props) {
         userId,
         channelId,
     }: IMessage) {
+        if (!text) throw new Error("Text needs to be supplied.");
         const sanitizedText = sanitizeText(text);
 
         if (sanitizedText.length < 1)
@@ -35,10 +36,10 @@ export default function buildMessage({ Id, sanitizeText }: props) {
                 "Messages can only be between 1 and 200 characters long"
             );
 
-        if (!userId) throw new Error("User Id needs to be supplied");
-        if (!dateCreated) throw new Error("Date Created needs to be supplied");
-        if (!messageId) throw new Error("Message Id needs to be supplied");
-        if (!channelId) throw new Error("Channel Id needs to be supplied");
+        if (!userId) throw new Error("User Id needs to be supplied.");
+        if (!dateCreated) throw new Error("Date Created needs to be supplied.");
+        if (!messageId) throw new Error("Message Id needs to be supplied.");
+        if (!channelId) throw new Error("Channel Id needs to be supplied.");
 
         return Object.freeze({
             getUserId: () => userId,
