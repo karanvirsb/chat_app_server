@@ -4,7 +4,8 @@ import makeCreateMessage from "./createMessage";
 import makeFakeMessage from "../../../../__test__/fixures/message";
 import makeUpdateMessageText from "./updateMessageText";
 
-describe.skip("Create message use case", () => {
+describe.skip("updating message text use case", () => {
+    jest.setTimeout(15000);
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
     const updateMessageText = makeUpdateMessageText({ messageDb });
@@ -13,7 +14,7 @@ describe.skip("Create message use case", () => {
         clearDb("messaget");
     });
 
-    test("SUCCESS: getting a message", async () => {
+    test("SUCCESS: updating a message text", async () => {
         const message = await makeFakeMessage(
             "123",
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
@@ -22,10 +23,10 @@ describe.skip("Create message use case", () => {
 
         const updatedMessage = await updateMessageText(
             message.messageId,
-            "Coders are awesome"
+            "Coder's are awesome"
         );
 
-        expect(updatedMessage.data?.text).toBe("Coders are awesome");
+        expect(updatedMessage.data?.text).toBe("Coder's are awesome");
     });
 
     test("ERROR: missing message id ", async () => {
@@ -57,7 +58,9 @@ describe.skip("Create message use case", () => {
             );
         } catch (error) {
             if (error instanceof Error)
-                expect(error.message).toBe("Text needs to be supplied.");
+                expect(error.message).toBe(
+                    "Update Value needs to be supplied."
+                );
         }
     });
 });
