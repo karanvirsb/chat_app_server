@@ -18,12 +18,6 @@ export interface ICreateMessageUseCase {
 
 export default function makeCreateMessage({ messageDb }: props) {
     return async function createMessage(messageInfo: IMessage): returnData {
-        if (!messageInfo.channelId)
-            throw new Error("Channel Id needs to be supplied.");
-        if (!messageInfo.text) throw new Error("Text needs to be supplied.");
-        if (!messageInfo.userId)
-            throw new Error("User Id needs to be supplied.");
-
         const message = makeMessage(messageInfo);
 
         return messageDb.createMessage({
