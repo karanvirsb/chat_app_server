@@ -17,6 +17,12 @@ type returningGroupData = Promise<{
     error: string;
 }>;
 
+type returningGroups = Promise<{
+    success: boolean;
+    data: IGroup[] | undefined;
+    error: string;
+}>;
+
 type returningGroupUserData = Promise<{
     success: boolean;
     data: groupUsers | undefined;
@@ -64,6 +70,7 @@ export interface IMakeGroupDb {
             groupId: string,
             userId: string
         ) => Promise<returningGroupUserData>;
+        findGroupsByUserId: (userId: string) => returningGroups;
     }>;
 }
 
@@ -80,6 +87,7 @@ export default function makeGroupDb({
         findUsersByGroupId,
         addUserToGroup,
         removeUserFromGroup,
+        findGroupsByUserId,
     });
 
     // Find group by id
@@ -290,7 +298,47 @@ export default function makeGroupDb({
         }
     }
 
-    // TODO get groups by user id
+    // get groups by user id
+    async function findGroupsByUserId(userId: string): returningGroups {
+        const db = await makeDb();
+        try {
+            const query = `
+            SELECT * FROM groupt 
+            WHERE "groupId" IN (
+                SELECT "gId" FROM "groupUsers" 
+                WHERE "uId" = '${userId}'
+                );`;
+
+            const res = await db.query(query);
+
+            if (res.rows.length >= 1) {
+                const groups: IGroup[] = res.rows;
+                return {
+                    success: true,
+                    data: groups,
+                    error: "",
+                };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find any groups.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: group-db.ts ~ line 328 ~ findGroupsByUserId ~ error",
+                error
+            );
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
 
     // find user group
     async function findUsersByGroupId(
@@ -309,7 +357,7 @@ export default function makeGroupDb({
                                 );`;
 
             const res = await db.query(query);
-            console.log(res.rows);
+
             if (res.rows.length >= 1) {
                 const users: user[] = res.rows;
                 return {
