@@ -200,7 +200,7 @@ export default function makeChannelDb({
             const query = `
             SELECT * FROM channelt 
             WHERE "groupId" = '${groupId}'
-            ORDER BY "dateCreated" ASC;`;
+            ORDER BY "dateCreated" DESC;`;
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
