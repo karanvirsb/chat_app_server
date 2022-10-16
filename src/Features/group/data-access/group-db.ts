@@ -289,8 +289,8 @@ export default function makeGroupDb({
             db.release();
         }
     }
-    // TODO add channel
-    // TODO remove channel
+
+    // TODO get groups by user id
 
     // find user group
     async function findUsersByGroupId(
