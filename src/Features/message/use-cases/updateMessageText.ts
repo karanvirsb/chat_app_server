@@ -18,7 +18,11 @@ export default function makeUpdateMessageText({ messageDb }: props) {
     ): returnData {
         if (!messageId) throw new Error("Message Id needs to be supplied.");
         if (!updateValue) throw new Error("Update Value needs to be supplied.");
+        const regex = /'/g;
 
-        return messageDb.updateMessage("text", messageId, updateValue);
+        // replace any ' with a '' to escape
+        const newUpdateValue = "'" + updateValue.replace(regex, "''") + "'";
+
+        return messageDb.updateMessage("text", messageId, newUpdateValue);
     };
 }
