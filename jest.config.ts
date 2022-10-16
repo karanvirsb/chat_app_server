@@ -6,8 +6,9 @@ const config: Config.InitialOptions = {
     testEnvironment: "node",
     preset: "ts-jest",
     transform: {
-        "^.+\\.(ts|tsx)?$": "ts-jest",
-        "^.+\\.(js|jsx)$": "babel-jest",
+        "^.+\\.(t|j)sx?$": "@swc/jest",
+        // "^.+\\.(ts|tsx)?$": "ts-jest",
+        // "^.+\\.(js|jsx)$": "babel-jest",
     },
     transformIgnorePatterns: ["/server/node_modules"],
 };
