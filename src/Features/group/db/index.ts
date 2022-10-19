@@ -12,7 +12,7 @@ export default async function setupGroupDb() {
       "groupId" VARCHAR(50) PRIMARY KEY NOT NULL UNIQUE, 
       "groupName" VARCHAR(50) NOT NULL, 
       "inviteCode" VARCHAR(10) UNIQUE,
-      "dateCreated" timestamp,
+      "dateCreated" timestamp
     );
     
     CREATE TABLE IF NOT EXISTS "groupUsers" (
