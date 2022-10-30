@@ -8,16 +8,27 @@ export default async function setupMessageDb() {
 
     const db = await makeDb();
     const result = await db.query(
-        `CREATE TABLE IF NOT EXISTS messaget (
-          "messageId" VARCHAR(100) PRIMARY KEY, 
-          "dateCreated" timestamp, 
-          "dateModified" timestamp, 
-          "replyTo" VARCHAR(100) references messaget("messageId"), 
-          text VARCHAR(200), 
-          "userId" VARCHAR(100) REFERENCES usert("userId"), 
-          "channelId" VARCHAR(100) REFERENCES channelt("channelId")
+        `CREATE TABLE IF NOT EXISTS group_messages (
+          "messageId" VARCHAR(100) PRIMARY KEY,
+          "dateCreated" timestamp,
+          "dateModified" timestamp,
+          "replyTo" VARCHAR(100) references group_messages("messageId"),
+          text VARCHAR(200),
+          "userId" VARCHAR(100) REFERENCES usert("userId"),
+          "channelId" VARCHAR(100) REFERENCES group_channels("channelId") ON DELETE CASCADE
+        ); 
+
+        CREATE TABLE IF NOT EXISTS private_messages (
+          "messageId" VARCHAR(100) PRIMARY KEY,
+          "dateCreated" timestamp,
+          "dateModified" timestamp,
+          "replyTo" VARCHAR(100) references private_messages("messageId"),
+          text VARCHAR(200),
+          "userId" VARCHAR(100) REFERENCES usert("userId"),
+          "channelId" VARCHAR(100) REFERENCES private_channels("channelId") ON DELETE CASCADE
         );`
     );
+
     console.log(
         "🚀 ~ file: index.ts ~ line 20 ~ setupMessageDb ~ result",
         result
