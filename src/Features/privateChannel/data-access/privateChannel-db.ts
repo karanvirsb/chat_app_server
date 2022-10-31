@@ -30,7 +30,7 @@ export interface IMakeChannelDb {
             channelId: string
         ) => Promise<returningPrivateChannelData>;
         getPrivateChannelsByUserId: (
-            groupId: string
+            userId: string
         ) => Promise<returningPrivateChannelsData>;
     }>;
 }
