@@ -123,23 +123,25 @@ export default function makePrivateChannelDb({
     }
 
     // get channel by Id (channelId);
-    async function getChannelById(
+    async function getPrivateChannelById(
         channelId: string
     ): Promise<returningPrivateChannelData> {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM channelt WHERE "channelId" = '${channelId}';`;
+            const query = `SELECT * FROM private_channels WHERE "channelId" = '${channelId}';`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const channel: IPrivateChannel = res.rows[0];
-                channel.dateCreated = new Date(channel.dateCreated);
-                return { success: true, data: channel, error: "" };
+                const private_channels: IPrivateChannel = res.rows[0];
+                private_channels.dateCreated = new Date(
+                    private_channels.dateCreated
+                );
+                return { success: true, data: private_channels, error: "" };
             } else {
                 return {
                     success: true,
                     data: undefined,
-                    error: "Could not find the channel.",
+                    error: "Could not find the private_channels.",
                 };
             }
         } catch (error) {
