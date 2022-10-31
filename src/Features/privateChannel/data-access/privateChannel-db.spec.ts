@@ -36,26 +36,15 @@ describe.skip("Private Channel db method tests", () => {
         expect(deletedChannel.data?.channelId).toBe(channel.channelId);
     });
 
-    test("SUCCESS: update channel name", async () => {
-        const channel = await makeFakeChannel();
-        channel.groupId = "123";
-
-        const res = await privateChannelDB.createChannel(channel);
-
-        const updatedChannel = await privateChannelDB.updateChannelName(
-            channel.channelId,
-            "coders"
+    test("SUCCESS: get private channel by id", async () => {
+        const channel = await makeFakePrivateChannel(
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+            "312c0878-04c3-4585-835e-c66900ccc7a1"
         );
-        expect(updatedChannel.data?.channelName).toBe("coders");
-    });
 
-    test("SUCCESS: get channel by id", async () => {
-        const channel = await makeFakeChannel();
-        channel.groupId = "123";
+        const res = await privateChannelDB.createPrivateChannel(channel);
 
-        const res = await privateChannelDB.createChannel(channel);
-
-        const foundChannel = await privateChannelDB.getChannelById(
+        const foundChannel = await privateChannelDB.getPrivateChannelById(
             channel.channelId
         );
         expect(foundChannel.data?.channelId).toBe(channel.channelId);
