@@ -21,7 +21,7 @@ export interface ICreatePrivateChannelUseCase {
     createChannel: (channelInfo: IPrivateChannel) => Promise<returnData>;
 }
 
-export default function makeCreateChannel({
+export default function makeCreatePrivateChannel({
     handleModeration,
     privateChannelDb,
 }: props): ICreatePrivateChannelUseCase["createChannel"] {
