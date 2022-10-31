@@ -44,7 +44,7 @@ describe("creating private channel use case", () => {
         } catch (err) {
             if (err instanceof Error)
                 expect(err.message).toBe(
-                    "Channel name Should contain valid characters"
+                    "Channel name should contain valid characters"
                 );
         }
     });
