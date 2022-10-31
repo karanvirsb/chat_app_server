@@ -2,7 +2,7 @@ import makeFakePrivateChannel from "../../../../__test__/fixures/privateChannel"
 import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makePrivateChannelDb from "./privateChannel-db";
 
-describe.skip("Private Channel db method tests", () => {
+describe("Private Channel db method tests", () => {
     jest.setTimeout(10000);
     const privateChannelDB = makePrivateChannelDb({ makeDb });
 
@@ -50,29 +50,41 @@ describe.skip("Private Channel db method tests", () => {
         expect(foundChannel.data?.channelId).toBe(channel.channelId);
     });
 
-    test("SUCCESS: get channels by group id", async () => {
-        let channel = await makeFakeChannel();
-        channel.groupId = "123";
+    test("SUCCESS: get private channels by user id", async () => {
+        let channel = await makeFakePrivateChannel(
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+            "312c0878-04c3-4585-835e-c66900ccc7a1"
+        );
 
-        let res = await privateChannelDB.createChannel(channel);
+        let res = await privateChannelDB.createPrivateChannel(channel);
 
-        channel = await makeFakeChannel();
-        channel.groupId = "123";
-        res = await privateChannelDB.createChannel(channel);
+        channel = await makeFakePrivateChannel(
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+            "312c0878-04c3-4585-835e-c66900ccc7a1"
+        );
 
-        channel = await makeFakeChannel();
-        channel.groupId = "123";
-        res = await privateChannelDB.createChannel(channel);
+        res = await privateChannelDB.createPrivateChannel(channel);
 
-        channel = await makeFakeChannel();
-        channel.groupId = "123";
-        res = await privateChannelDB.createChannel(channel);
+        channel = await makeFakePrivateChannel(
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+            "312c0878-04c3-4585-835e-c66900ccc7a1"
+        );
 
-        const foundChannels = await privateChannelDB.getChannelsByGroupId(
-            channel.groupId
+        res = await privateChannelDB.createPrivateChannel(channel);
+
+        channel = await makeFakePrivateChannel(
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+            "312c0878-04c3-4585-835e-c66900ccc7a1"
+        );
+        res = await privateChannelDB.createPrivateChannel(channel);
+
+        const foundChannels = await privateChannelDB.getPrivateChannelsByUserId(
+            channel.userId
         );
         console.log(foundChannels);
         if (foundChannels.data)
-            expect(foundChannels.data[0].channelName).toBe(channel.channelName);
+            expect(
+                foundChannels.data[foundChannels.data.length - 1].channelName
+            ).toBe(channel.channelName);
     });
 });
