@@ -17,7 +17,7 @@ type returningPrivateChannelsData = Promise<{
     error: string;
 }>;
 
-export interface IMakeChannelDb {
+export interface IMakePrivateChannelDb {
     returnType: Readonly<{
         createPrivateChannel: (
             channelInfo: IPrivateChannel
@@ -37,7 +37,7 @@ export interface IMakeChannelDb {
 
 export default function makePrivateChannelDb({
     makeDb,
-}: props): IMakeChannelDb["returnType"] {
+}: props): IMakePrivateChannelDb["returnType"] {
     return Object.freeze({
         createPrivateChannel,
         deletePrivateChannel,
