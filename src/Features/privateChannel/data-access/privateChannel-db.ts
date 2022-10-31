@@ -75,7 +75,7 @@ export default function makePrivateChannelDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: channel-db.ts ~ line 54 ~ error ~ createPrivateChannel",
+                "🚀 ~ file: privateChannel-db.ts ~ line 54 ~ error ~ createPrivateChannel",
                 error
             );
             return {
@@ -108,7 +108,7 @@ export default function makePrivateChannelDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: channel-db.ts ~ line 84 ~ error ~ deletePrivateChannel",
+                "🚀 ~ file: privateChannel-db.ts ~ line 84 ~ error ~ deletePrivateChannel",
                 error
             );
 
@@ -146,7 +146,7 @@ export default function makePrivateChannelDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: channel-db.ts ~ line 165 ~ error ~ getChannelById",
+                "🚀 ~ file: privateChannel-db.ts ~ line 165 ~ error ~ getChannelById",
                 error
             );
 
@@ -186,7 +186,7 @@ export default function makePrivateChannelDb({
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: channel-db.ts ~ line 209 ~ error ~ getPrivateChannelsById",
+                "🚀 ~ file: privateChannel-db.ts ~ line 209 ~ error ~ getPrivateChannelsById",
                 error
             );
 
