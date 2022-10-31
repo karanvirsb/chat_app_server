@@ -2,15 +2,15 @@ import makeFakePrivateChannel from "../../../../__test__/fixures/privateChannel"
 import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makePrivateChannelDb from "./privateChannel-db";
 
-describe.skip("Channel db method tests", () => {
+describe.skip("Private Channel db method tests", () => {
     jest.setTimeout(10000);
     const privateChannelDB = makePrivateChannelDb({ makeDb });
 
     afterEach(async () => {
-        await clearDb("channelt");
+        await clearDb("private_channels");
     });
 
-    test("SUCCESS: create a channel", async () => {
+    test("SUCCESS: create a private channel", async () => {
         const channel = await makeFakePrivateChannel(
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
             "312c0878-04c3-4585-835e-c66900ccc7a1"
@@ -23,12 +23,14 @@ describe.skip("Channel db method tests", () => {
     });
 
     test("SUCCESS: Delete channel", async () => {
-        const channel = await makeFakeChannel();
-        channel.groupId = "123";
+        const channel = await makeFakePrivateChannel(
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+            "312c0878-04c3-4585-835e-c66900ccc7a1"
+        );
 
-        const res = await privateChannelDB.createChannel(channel);
+        const res = await privateChannelDB.createPrivateChannel(channel);
 
-        const deletedChannel = await privateChannelDB.deleteChannel(
+        const deletedChannel = await privateChannelDB.deletePrivateChannel(
             channel.channelId
         );
         expect(deletedChannel.data?.channelId).toBe(channel.channelId);
