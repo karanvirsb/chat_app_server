@@ -160,33 +160,33 @@ export default function makePrivateChannelDb({
         }
     }
     // get Channels by group Id (groupId);
-    async function getChannelsByGroupId(
-        groupId: string
+    async function getPrivateChannelsByUserId(
+        userId: string
     ): Promise<returningPrivateChannelsData> {
         const db = await makeDb();
         try {
             const query = `
-            SELECT * FROM channelt 
-            WHERE "groupId" = '${groupId}'
+            SELECT * FROM private_channels 
+            WHERE "userId" = '${userId}'
             ORDER BY "dateCreated" DESC;`;
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
-                const channels: IPrivateChannel[] = res.rows;
-                for (const channel of channels) {
+                const privateChannels: IPrivateChannel[] = res.rows;
+                for (const channel of privateChannels) {
                     channel.dateCreated = new Date(channel.dateCreated);
                 }
-                return { success: true, data: channels, error: "" };
+                return { success: true, data: privateChannels, error: "" };
             } else {
                 return {
                     success: true,
                     data: undefined,
-                    error: "Could not find channels with that groupId.",
+                    error: "Could not find privateChannels with that groupId.",
                 };
             }
         } catch (error) {
             console.log(
-                "🚀 ~ file: channel-db.ts ~ line 209 ~ error ~ getChannelsById",
+                "🚀 ~ file: channel-db.ts ~ line 209 ~ error ~ getPrivateChannelsById",
                 error
             );
 
