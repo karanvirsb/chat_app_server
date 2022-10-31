@@ -122,45 +122,6 @@ export default function makePrivateChannelDb({
         }
     }
 
-    // update channelName (channelId, newName);
-    async function updateChannelName(
-        channelId: string,
-        newName: string
-    ): Promise<returningPrivateChannelData> {
-        const db = await makeDb();
-        try {
-            const query = `UPDATE channelt 
-                SET "channelName" = '${newName}' 
-                WHERE "channelId" = '${channelId}' 
-                RETURNING *;`;
-            const res = await db.query(query);
-
-            if (res.rowCount === 1) {
-                const channel: IPrivateChannel = res.rows[0];
-                channel.dateCreated = new Date(channel.dateCreated);
-                return { success: true, data: channel, error: "" };
-            } else {
-                return {
-                    success: true,
-                    data: undefined,
-                    error: "Could not update the channel.",
-                };
-            }
-        } catch (error) {
-            console.log(
-                "🚀 ~ file: channel-db.ts ~ line 125 ~ error ~ updateChannelName",
-                error
-            );
-
-            return {
-                success: false,
-                data: undefined,
-                error: error + "",
-            };
-        } finally {
-            db.release();
-        }
-    }
     // get channel by Id (channelId);
     async function getChannelById(
         channelId: string
