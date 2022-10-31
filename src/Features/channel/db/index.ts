@@ -15,22 +15,9 @@ export default async function setupChannelDb() {
           "groupId" VARCHAR(100) REFERENCES groupt("groupId")
             ON DELETE CASCADE
             ON UPDATE CASCADE
-        );
-         CREATE TABLE IF NOT EXISTS private_channels(
-            "channelId" VARCHAR(100) PRIMARY KEY,
-            "channelName" VARCHAR(50),
-            "dateCreated" timestamp,
-            "userId" VARCHAR(100) REFERENCES usert("userId") ON DELETE CASCADE ON UPDATE CASCADE,
-            "friendsId" VARCHAR(100) REFERENCES usert("userId") ON DELETE SET NULL ON UPDATE CASCADE
-            );
-        `
+        );`
     );
-    // CREATE TABLE private_channels(
-    // "channelId" VARCHAR(100) PRIMARY KEY,
-    // "channelName" VARCHAR(50),
-    // "dateCreated" timestamp,
-    // "userId" VARCHAR(100) REFERENCES usert("userId") ON DELETE CASCADE ON UPDATE CASCADE,
-    //     "friendsId" VARCHAR(100) REFERENCES usert("userId") ON DELETE SET NULL ON UPDATE CASCADE);
+
     console.log(
         "🚀 ~ file: index.ts ~ line 20 ~ setupChannelDb ~ result",
         result
