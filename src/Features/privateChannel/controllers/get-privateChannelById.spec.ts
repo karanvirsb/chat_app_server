@@ -2,7 +2,6 @@ import makePrivateChannelDb from "../data-access/privateChannel-db";
 import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeCreatePrivateChannel from "../use-cases/createPrivateChannel";
 import { moderateName } from "../../../Utilities/moderateText";
-import makeCreatePrivateChannelController from "./create-privateChannel";
 import makeFakePrivateChannel from "../../../../__test__/fixures/privateChannel";
 import makeGetPrivateChannelByIdController from "./get-privateChannelById";
 import makeGetPrivateChannelById from "../use-cases/getPrivateChannelById";
