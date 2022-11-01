@@ -13,10 +13,10 @@ interface IGetPrivateChannelByIdResponse extends httpResponseType {
     };
 }
 
-export default function makeGetChannelByIdController({
+export default function makeGetPrivateChannelByIdController({
     getPrivateChannelById,
 }: IGetPrivateChannelByIdUseCase) {
-    return async function getChannelByIdController(
+    return async function getPrivateChannelByIdController(
         httpRequest: IHttpRequest
     ): Promise<IGetPrivateChannelByIdResponse> {
         const headers: { [key: string]: string } = {
