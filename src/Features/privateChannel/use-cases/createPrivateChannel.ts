@@ -18,13 +18,13 @@ type returnData = Promise<{
 }>;
 
 export interface ICreatePrivateChannelUseCase {
-    createChannel: (channelInfo: IPrivateChannel) => Promise<returnData>;
+    createPrivateChannel: (channelInfo: IPrivateChannel) => Promise<returnData>;
 }
 
 export default function makeCreatePrivateChannel({
     handleModeration,
     privateChannelDb,
-}: props): ICreatePrivateChannelUseCase["createChannel"] {
+}: props): ICreatePrivateChannelUseCase["createPrivateChannel"] {
     return async function createPrivateChannel(
         channelInfo: IPrivateChannel
     ): Promise<returnData> {
