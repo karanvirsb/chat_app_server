@@ -25,7 +25,7 @@ export default async function setupMessageDb() {
           "replyTo" VARCHAR(100) references private_messages("messageId"),
           text VARCHAR(200),
           "userId" VARCHAR(100) REFERENCES usert("userId"),
-          "channelId" VARCHAR(100) REFERENCES private_channels("channelId") ON DELETE CASCADE
+          "privateChannelId" VARCHAR(100) REFERENCES private_channels("channelId") ON DELETE CASCADE
         );`
     );
 
