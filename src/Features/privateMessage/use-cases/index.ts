@@ -17,7 +17,7 @@ const updatePrivateMessageText = makeUpdatePrivateMessageText({
 });
 const updateDateModified = makeUpdateDateModified({ privateMessageDb });
 
-const messageService = Object.freeze({
+const privateMessageService = Object.freeze({
     createPrivateMessage,
     deletePrivateMessage,
     getPrivateMessageById,
@@ -26,7 +26,7 @@ const messageService = Object.freeze({
     updateDateModified,
 });
 
-export default messageService;
+export default privateMessageService;
 
 export {
     createPrivateMessage,
