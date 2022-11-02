@@ -62,7 +62,7 @@ export default function makePrivateMessageDb({
                 '${messageInfo.messageId}',
                 to_timestamp(${messageInfo.dateCreated.getTime()}/1000),
                 null,
-                ${messageInfo.replyTo ?? null},
+                ${messageInfo.replyTo ? `'${messageInfo.replyTo}'` : null},
                 '${messageInfo.text}', 
                 '${messageInfo.userId}', 
                 '${messageInfo.privateChannelId}'
@@ -167,7 +167,7 @@ export default function makePrivateMessageDb({
     // get messages by channel id
 
     async function getPrivateMessagesByChannelId(
-        channelId: string,
+        privateChannelId: string,
         dateCreated: Date,
         limit: number
     ): Promise<returningMessagesData> {
@@ -175,7 +175,7 @@ export default function makePrivateMessageDb({
         try {
             const query = `
                 SELECT * FROM private_messages 
-                WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
+                WHERE "privateChannelId" = '${privateChannelId}' AND "dateCreated" < to_timestamp(${
                 dateCreated.getTime() / 1000
             }) 
                 ORDER BY "dateCreated" DESC 
