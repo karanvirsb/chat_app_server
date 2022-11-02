@@ -1,25 +1,27 @@
-import { IChannelDb } from ".";
-import { IChannel } from "../channel";
+import { IGroupChannelDb } from ".";
+import { IGroupChannel } from "../groupChannel";
 
 type props = {
-    makeDb: IChannelDb["makeDb"];
+    makeDb: IGroupChannelDb["makeDb"];
 };
 
 type returningChannelData = Promise<{
     success: boolean;
-    data: IChannel | undefined;
+    data: IGroupChannel | undefined;
     error: string;
 }>;
 
 type returningChannelsData = Promise<{
     success: boolean;
-    data: IChannel[] | undefined;
+    data: IGroupChannel[] | undefined;
     error: string;
 }>;
 
 export interface IMakeChannelDb {
     returnType: Readonly<{
-        createChannel: (channelInfo: IChannel) => Promise<returningChannelData>;
+        createChannel: (
+            channelInfo: IGroupChannel
+        ) => Promise<returningChannelData>;
         deleteChannel: (channelId: string) => Promise<returningChannelData>;
         updateChannelName: (
             channelId: string,
@@ -45,7 +47,7 @@ export default function makeChannelDb({
 
     // create channel (channelInfo);
     async function createChannel(
-        channelInfo: IChannel
+        channelInfo: IGroupChannel
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
@@ -58,7 +60,7 @@ export default function makeChannelDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const channel: IChannel = res.rows[0];
+                const channel: IGroupChannel = res.rows[0];
                 channel.dateCreated = new Date(channel.dateCreated);
                 return { success: true, data: channel, error: "" };
             } else {
@@ -92,7 +94,7 @@ export default function makeChannelDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const channel: IChannel = res.rows[0];
+                const channel: IGroupChannel = res.rows[0];
                 return { success: true, data: channel, error: "" };
             } else {
                 return {
@@ -131,7 +133,7 @@ export default function makeChannelDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const channel: IChannel = res.rows[0];
+                const channel: IGroupChannel = res.rows[0];
                 channel.dateCreated = new Date(channel.dateCreated);
                 return { success: true, data: channel, error: "" };
             } else {
@@ -166,7 +168,7 @@ export default function makeChannelDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const channel: IChannel = res.rows[0];
+                const channel: IGroupChannel = res.rows[0];
                 channel.dateCreated = new Date(channel.dateCreated);
                 return { success: true, data: channel, error: "" };
             } else {
@@ -204,7 +206,7 @@ export default function makeChannelDb({
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
-                const channels: IChannel[] = res.rows;
+                const channels: IGroupChannel[] = res.rows;
                 for (const channel of channels) {
                     channel.dateCreated = new Date(channel.dateCreated);
                 }
