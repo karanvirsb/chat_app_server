@@ -2,13 +2,13 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IMessage } from "../groupMessage";
+import { IGroupMessage } from "../groupMessage";
 import { IDeleteMessageUseCase } from "../use-cases/deleteMessage";
 
 interface IDeleteMessageResponse extends httpResponseType {
     body: {
         success: boolean;
-        data: IMessage | undefined;
+        data: IGroupMessage | undefined;
         error: string;
     };
 }

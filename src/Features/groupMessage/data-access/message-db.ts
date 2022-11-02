@@ -1,25 +1,27 @@
-import { IMessageDb } from ".";
-import { IMessage } from "../groupMessage";
+import { IGroupMessageDb } from ".";
+import { IGroupMessage } from "../groupMessage";
 
 type props = {
-    makeDb: IMessageDb["makeDb"];
+    makeDb: IGroupMessageDb["makeDb"];
 };
 
 type returningMessageData = Promise<{
     success: boolean;
-    data: IMessage | undefined;
+    data: IGroupMessage | undefined;
     error: string;
 }>;
 
 type returningMessagesData = Promise<{
     success: boolean;
-    data: IMessage[] | undefined;
+    data: IGroupMessage[] | undefined;
     error: string;
 }>;
 
 export interface IMakeMessageDb {
     returnType: Readonly<{
-        createMessage: (messageInfo: IMessage) => Promise<returningMessageData>;
+        createMessage: (
+            messageInfo: IGroupMessage
+        ) => Promise<returningMessageData>;
         deleteMessage: (messageId: string) => Promise<returningMessageData>;
         getMessageById: (messageId: string) => Promise<returningMessageData>;
         getMessagesByChannelId: (
@@ -28,9 +30,9 @@ export interface IMakeMessageDb {
             limit: number
         ) => Promise<returningMessagesData>;
         updateMessage: (
-            updateName: keyof IMessage,
+            updateName: keyof IGroupMessage,
             messageId: string,
-            updateValue: IMessage[typeof updateName]
+            updateValue: IGroupMessage[typeof updateName]
         ) => Promise<returningMessageData>;
     }>;
 }
@@ -48,7 +50,7 @@ export default function makeMessageDb({
 
     // create message
     async function createMessage(
-        messageInfo: IMessage
+        messageInfo: IGroupMessage
     ): Promise<returningMessageData> {
         const db = await makeDb();
         try {
@@ -64,7 +66,7 @@ export default function makeMessageDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const message: IMessage = res.rows[0];
+                const message: IGroupMessage = res.rows[0];
                 message.dateCreated = new Date(message.dateCreated);
                 return { success: true, data: message, error: "" };
             } else {
@@ -98,7 +100,7 @@ export default function makeMessageDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const message: IMessage = res.rows[0];
+                const message: IGroupMessage = res.rows[0];
                 message.dateCreated = new Date(message.dateCreated);
                 return { success: true, data: message, error: "" };
             } else {
@@ -133,7 +135,7 @@ export default function makeMessageDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const message: IMessage = res.rows[0];
+                const message: IGroupMessage = res.rows[0];
                 message.dateCreated = new Date(message.dateCreated);
                 return { success: true, data: message, error: "" };
             } else {
@@ -177,7 +179,7 @@ export default function makeMessageDb({
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
-                const message: IMessage[] = res.rows;
+                const message: IGroupMessage[] = res.rows;
                 return { success: true, data: message, error: "" };
             } else {
                 return {
@@ -202,9 +204,9 @@ export default function makeMessageDb({
     }
     // update message
     async function updateMessage(
-        updateName: Partial<keyof IMessage>,
+        updateName: Partial<keyof IGroupMessage>,
         messageId: string,
-        updateValue: IMessage[typeof updateName]
+        updateValue: IGroupMessage[typeof updateName]
     ): Promise<returningMessageData> {
         const db = await makeDb();
         try {
@@ -216,7 +218,7 @@ export default function makeMessageDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const message: IMessage = res.rows[0];
+                const message: IGroupMessage = res.rows[0];
                 message.dateCreated = new Date(message.dateCreated);
                 return { success: true, data: message, error: "" };
             } else {

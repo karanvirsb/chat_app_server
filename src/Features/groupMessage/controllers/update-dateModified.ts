@@ -2,13 +2,13 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IMessage } from "../groupMessage";
+import { IGroupMessage } from "../groupMessage";
 import { IUpdateDateModifiedUseCase } from "../use-cases/updateDateModified";
 
 interface IUpdateDateModifiedResponse extends httpResponseType {
     body: {
         success: boolean;
-        data: IMessage | undefined;
+        data: IGroupMessage | undefined;
         error: string;
     };
 }

@@ -2,7 +2,7 @@ require("dotenv").config();
 import makeMessageDb from "./message-db";
 import { Pool, PoolClient } from "pg";
 
-export interface IMessageDb {
+export interface IGroupMessageDb {
     makeDb: () => Promise<PoolClient>;
 }
 

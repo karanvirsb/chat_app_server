@@ -1,6 +1,6 @@
 import { IId } from "../../Utilities/id";
 
-export interface IMessage {
+export interface IGroupMessage {
     userId: string;
     dateCreated: Date;
     messageId: string;
@@ -24,7 +24,7 @@ export default function buildMessage({ Id, sanitizeText }: props) {
         text,
         userId,
         channelId,
-    }: IMessage) {
+    }: IGroupMessage) {
         if (!text) throw new Error("Text needs to be supplied.");
         const sanitizedText = sanitizeText(text);
 

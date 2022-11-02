@@ -1,5 +1,5 @@
 import { IMakeMessageDb } from "../data-access/message-db";
-import { IMessage } from "../groupMessage";
+import { IGroupMessage } from "../groupMessage";
 
 type props = {
     messageDb: IMakeMessageDb["returnType"];
@@ -7,7 +7,7 @@ type props = {
 
 type returnData = Promise<{
     success: boolean;
-    data: IMessage | undefined;
+    data: IGroupMessage | undefined;
     error: string;
 }>;
 

@@ -1,5 +1,5 @@
 import { IMakeMessageDb } from "../data-access/message-db";
-import { IMessage } from "../groupMessage";
+import { IGroupMessage } from "../groupMessage";
 import makeMessage from "../index";
 
 type props = {
@@ -8,16 +8,18 @@ type props = {
 
 type returnData = Promise<{
     success: boolean;
-    data: IMessage | undefined;
+    data: IGroupMessage | undefined;
     error: string;
 }>;
 
 export interface ICreateMessageUseCase {
-    createMessage: (messageInfo: IMessage) => returnData;
+    createMessage: (messageInfo: IGroupMessage) => returnData;
 }
 
 export default function makeCreateMessage({ messageDb }: props) {
-    return async function createMessage(messageInfo: IMessage): returnData {
+    return async function createMessage(
+        messageInfo: IGroupMessage
+    ): returnData {
         const message = makeMessage(messageInfo);
 
         return messageDb.createMessage({

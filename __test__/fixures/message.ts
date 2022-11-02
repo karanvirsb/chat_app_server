@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
 import cuid from "cuid";
-import { IMessage } from "../../src/Features/message/message";
+import { IGroupMessage } from "../../src/Features/message/message";
 
 export default async function makeFakeMessage(
     channelId: string,
     userId: string
-): Promise<IMessage> {
+): Promise<IGroupMessage> {
     return {
         channelId: channelId,
         dateCreated: new Date(),

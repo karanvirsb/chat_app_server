@@ -2,13 +2,13 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IMessage } from "../groupMessage";
+import { IGroupMessage } from "../groupMessage";
 import { IGetMessagesByChannelIdUseCase } from "../use-cases/getMessagesByChannelId";
 
 interface IGetMessagesByChannelIdResponse extends httpResponseType {
     body: {
         success: boolean;
-        data: IMessage[] | undefined;
+        data: IGroupMessage[] | undefined;
         error: string;
     };
 }
