@@ -1,4 +1,4 @@
-import { IChannel } from "../channel";
+import { IGroupChannel } from "../groupChannel";
 import { IMakeChannelDb } from "../data-access/channel-db";
 import makeChannel from "../index";
 
@@ -13,7 +13,7 @@ type props = {
 
 type returnData = Promise<{
     success: boolean;
-    data: IChannel | undefined;
+    data: IGroupChannel | undefined;
     error: string;
 }>;
 
