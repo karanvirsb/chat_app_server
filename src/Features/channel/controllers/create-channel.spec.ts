@@ -27,7 +27,7 @@ describe.skip("Create channel controller", () => {
     });
 
     afterEach(async () => {
-        clearDb("channelt");
+        clearDb("group_channels");
     });
 
     test("SUCCESS: create channel", async () => {
