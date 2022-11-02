@@ -1,5 +1,5 @@
 import sanitizeHtml from "sanitize-html";
-import buildChannel from "./channel";
+import buildChannel from "./groupChannel";
 import Id from "../../Utilities/id";
 
 export default buildChannel({ Id, sanitizeText });
