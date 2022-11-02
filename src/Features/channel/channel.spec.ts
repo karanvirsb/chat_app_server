@@ -1,8 +1,8 @@
-import { IChannel } from "./channel";
+import { IGroupChannel } from "./groupChannel";
 import makeChannel from ".";
 
 describe.skip("Channel test", () => {
-    const channelData: IChannel = {
+    const channelData: IGroupChannel = {
         channelId: "123456789",
         channelName: "coolName",
         dateCreated: new Date(),
