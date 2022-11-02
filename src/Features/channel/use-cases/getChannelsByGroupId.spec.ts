@@ -21,7 +21,7 @@ describe.skip("get channels by group id use case", () => {
     });
 
     afterEach(async () => {
-        clearDb("channelt");
+        clearDb("group_channels");
     });
 
     test("SUCCESS: get channels by group id", async () => {
