@@ -7,7 +7,7 @@ describe.skip("Channel db method tests", () => {
     const channelDB = makeChannelDb({ makeDb });
 
     afterEach(async () => {
-        await clearDb("channelt");
+        await clearDb("group_channels");
     });
 
     test("SUCCESS: create a channel", async () => {

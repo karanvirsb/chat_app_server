@@ -51,7 +51,7 @@ export default function makeChannelDb({
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO channelt VALUES (
+            const query = `INSERT INTO group_channels VALUES (
                 '${channelInfo.channelId}', 
                 '${channelInfo.channelName}', 
                 to_timestamp(${channelInfo.dateCreated.getTime()}/1000), 
@@ -90,7 +90,7 @@ export default function makeChannelDb({
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
-            const query = `DELETE FROM channelt WHERE "channelId" = '${channelId}' RETURNING *;`;
+            const query = `DELETE FROM group_channels WHERE "channelId" = '${channelId}' RETURNING *;`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -126,7 +126,7 @@ export default function makeChannelDb({
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
-            const query = `UPDATE channelt 
+            const query = `UPDATE group_channels 
                 SET "channelName" = '${newName}' 
                 WHERE "channelId" = '${channelId}' 
                 RETURNING *;`;
@@ -164,7 +164,7 @@ export default function makeChannelDb({
     ): Promise<returningChannelData> {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM channelt WHERE "channelId" = '${channelId}';`;
+            const query = `SELECT * FROM group_channels WHERE "channelId" = '${channelId}';`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -200,7 +200,7 @@ export default function makeChannelDb({
         const db = await makeDb();
         try {
             const query = `
-            SELECT * FROM channelt 
+            SELECT * FROM group_channels 
             WHERE "groupId" = '${groupId}'
             ORDER BY "dateCreated" DESC;`;
             const res = await db.query(query);

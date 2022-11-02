@@ -17,7 +17,7 @@ describe.skip("creating channel use case", () => {
     });
 
     afterEach(async () => {
-        clearDb("channelt");
+        clearDb("group_channels");
     });
 
     test("SUCCESS: created channel", async () => {

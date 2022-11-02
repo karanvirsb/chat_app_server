@@ -33,7 +33,7 @@ describe.skip("Update group name controller", () => {
     });
 
     afterEach(async () => {
-        clearDb("channelt");
+        clearDb("group_channels");
     });
 
     test("SUCCESS: updating channel name", async () => {

@@ -22,7 +22,7 @@ describe.skip("updating channel name use case", () => {
     });
 
     afterEach(async () => {
-        clearDb("channelt");
+        clearDb("group_channels");
     });
 
     test("SUCCESS: updating channel name", async () => {

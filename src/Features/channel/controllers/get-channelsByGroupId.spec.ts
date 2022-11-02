@@ -29,7 +29,7 @@ describe.skip("Get channels by group id controller", () => {
     });
 
     afterEach(async () => {
-        clearDb("channelt");
+        clearDb("group_channels");
     });
 
     test("SUCCESS: get channel by group id", async () => {
