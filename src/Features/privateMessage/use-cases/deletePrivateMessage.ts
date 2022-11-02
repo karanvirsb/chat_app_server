@@ -2,7 +2,7 @@ import { IMakePrivateMessageDb } from "../data-access/privateMessage-db";
 import { IPrivateMessage } from "../privateMessage";
 
 type props = {
-    messageDb: IMakePrivateMessageDb["returnType"];
+    privateMessageDb: IMakePrivateMessageDb["returnType"];
 };
 
 type returnData = Promise<{
@@ -15,10 +15,10 @@ export interface IDeletePrivateMessageUseCase {
     deletePrivateMessage: (messageId: string) => returnData;
 }
 
-export default function makeDeletePrivateMessage({ messageDb }: props) {
+export default function makeDeletePrivateMessage({ privateMessageDb }: props) {
     return async function deletePrivateMessage(messageId: string): returnData {
         if (!messageId) throw new Error("Message Id needs to be supplied.");
 
-        return messageDb.deletePrivateMessage(messageId);
+        return privateMessageDb.deletePrivateMessage(messageId);
     };
 }
