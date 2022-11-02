@@ -3,7 +3,7 @@ import { IPrivateMessage } from "../privateMessage";
 import makePrivateMessage from "../index";
 
 type props = {
-    messageDb: IMakePrivateMessageDb["returnType"];
+    privateMessageDb: IMakePrivateMessageDb["returnType"];
 };
 
 type returnData = Promise<{
@@ -16,13 +16,13 @@ export interface ICreatePrivateMessageUseCase {
     createPrivateMessage: (messageInfo: IPrivateMessage) => returnData;
 }
 
-export default function makeCreatePrivateMessage({ messageDb }: props) {
+export default function makeCreatePrivateMessage({ privateMessageDb }: props) {
     return async function createPrivateMessage(
         messageInfo: IPrivateMessage
     ): returnData {
         const message = makePrivateMessage(messageInfo);
 
-        return messageDb.createPrivateMessage({
+        return privateMessageDb.createPrivateMessage({
             privateChannelId: message.getPrivateChannelId(),
             dateCreated: message.getDateCreated(),
             messageId: message.getMessageId(),
