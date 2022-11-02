@@ -2,13 +2,13 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IChannel } from "../channel";
+import { IGroupChannel } from "../groupChannel";
 import { IUpdateChannelNameUseCase } from "../use-cases/updateChannelName";
 
 interface IUpdateChannelNameResponse extends httpResponseType {
     body: {
         success: boolean;
-        data: IChannel | undefined;
+        data: IGroupChannel | undefined;
         error: string;
     };
 }
