@@ -2,7 +2,7 @@ import { IMakePrivateMessageDb } from "../data-access/privateMessage-db";
 import { IPrivateMessage } from "../privateMessage";
 
 type props = {
-    messageDb: IMakePrivateMessageDb["returnType"];
+    privateMessageDb: IMakePrivateMessageDb["returnType"];
 };
 
 type returnData = Promise<{
@@ -18,7 +18,9 @@ export interface IUpdatePrivateMessageTextUseCase {
     ) => returnData;
 }
 
-export default function makeUpdatePrivateMessageText({ messageDb }: props) {
+export default function makeUpdatePrivateMessageText({
+    privateMessageDb,
+}: props) {
     return async function updatePrivateMessageText(
         messageId: string,
         updateValue: string
@@ -30,7 +32,7 @@ export default function makeUpdatePrivateMessageText({ messageDb }: props) {
         // replace any ' with a '' to escape
         const newUpdateValue = "'" + updateValue.replace(regex, "''") + "'";
 
-        return messageDb.updatePrivateMessage(
+        return privateMessageDb.updatePrivateMessage(
             "text",
             messageId,
             newUpdateValue
