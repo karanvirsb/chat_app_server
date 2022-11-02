@@ -2,7 +2,7 @@ require("dotenv").config();
 import makeChannelDb from "./channel-db";
 import { Pool, PoolClient } from "pg";
 
-export interface IChannelDb {
+export interface IGroupChannelDb {
     makeDb: () => Promise<PoolClient>;
 }
 
