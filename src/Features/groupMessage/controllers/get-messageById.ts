@@ -2,7 +2,7 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IMessage } from "../message";
+import { IMessage } from "../groupMessage";
 import { IGetMessageByIdUseCase } from "../use-cases/getMessageById";
 
 interface IGetMessageByIdResponse extends httpResponseType {

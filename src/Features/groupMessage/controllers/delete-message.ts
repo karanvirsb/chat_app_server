@@ -2,7 +2,7 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IMessage } from "../message";
+import { IMessage } from "../groupMessage";
 import { IDeleteMessageUseCase } from "../use-cases/deleteMessage";
 
 interface IDeleteMessageResponse extends httpResponseType {

@@ -1,4 +1,4 @@
-import buildMessage from "./message";
+import buildMessage from "./groupMessage";
 import Id from "../../Utilities/id";
 import sanitize from "sanitize-html";
 

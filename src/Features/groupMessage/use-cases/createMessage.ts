@@ -1,5 +1,5 @@
 import { IMakeMessageDb } from "../data-access/message-db";
-import { IMessage } from "../message";
+import { IMessage } from "../groupMessage";
 import makeMessage from "../index";
 
 type props = {

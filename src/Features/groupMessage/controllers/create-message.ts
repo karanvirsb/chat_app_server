@@ -2,7 +2,7 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IMessage } from "../message";
+import { IMessage } from "../groupMessage";
 import { ICreateMessageUseCase } from "../use-cases/createMessage";
 
 interface ICreateMessageResponse extends httpResponseType {

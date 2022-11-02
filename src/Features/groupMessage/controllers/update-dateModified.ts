@@ -2,7 +2,7 @@ import {
     IHttpRequest,
     httpResponseType,
 } from "../../../express-callback/index";
-import { IMessage } from "../message";
+import { IMessage } from "../groupMessage";
 import { IUpdateDateModifiedUseCase } from "../use-cases/updateDateModified";
 
 interface IUpdateDateModifiedResponse extends httpResponseType {
