@@ -2,7 +2,7 @@ import { IMakePrivateMessageDb } from "../data-access/privateMessage-db";
 import { IPrivateMessage } from "../privateMessage";
 
 type props = {
-    messageDb: IMakePrivateMessageDb["returnType"];
+    privateMessageDb: IMakePrivateMessageDb["returnType"];
 };
 
 type returnData = Promise<{
@@ -20,7 +20,7 @@ export interface IGetPrivateMessagesByChannelIdUseCase {
 }
 
 export default function makeGetPrivateMessagesByChannelId({
-    messageDb,
+    privateMessageDb,
 }: props) {
     return async function getPrivateMessagesByChannelId(
         messageId: string,
@@ -31,7 +31,7 @@ export default function makeGetPrivateMessagesByChannelId({
         if (!dateCreated || Number.isNaN(dateCreated.getTime()))
             throw new Error("Date Created needs to be supplied.");
 
-        return messageDb.getPrivateMessagesByChannelId(
+        return privateMessageDb.getPrivateMessagesByChannelId(
             messageId,
             dateCreated,
             limit
