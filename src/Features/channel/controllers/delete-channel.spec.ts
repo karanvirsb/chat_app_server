@@ -29,7 +29,7 @@ describe.skip("Delete channel controller", () => {
     });
 
     afterEach(async () => {
-        clearDb("channelt");
+        clearDb("group_channels");
     });
 
     test("SUCCESS: delete channel", async () => {
