@@ -1,4 +1,4 @@
-import { IChannel } from "../channel";
+import { IGroupChannel } from "../groupChannel";
 import { IMakeChannelDb } from "../data-access/channel-db";
 import makeChannel from "../index";
 
@@ -13,12 +13,12 @@ type props = {
 
 type returnData = Promise<{
     success: boolean;
-    data: IChannel | undefined;
+    data: IGroupChannel | undefined;
     error: string;
 }>;
 
 export interface ICreateChannelUseCase {
-    createChannel: (channelInfo: IChannel) => Promise<returnData>;
+    createChannel: (channelInfo: IGroupChannel) => Promise<returnData>;
 }
 
 export default function makeCreateChannel({
@@ -26,7 +26,7 @@ export default function makeCreateChannel({
     channelDb,
 }: props): ICreateChannelUseCase["createChannel"] {
     return async function createChannel(
-        channelInfo: IChannel
+        channelInfo: IGroupChannel
     ): Promise<returnData> {
         if (!channelInfo.channelName)
             throw new Error("Channel name needs to be supplied");
