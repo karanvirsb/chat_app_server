@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
 import cuid from "cuid";
-import { IChannel } from "../../src/Features/channel/channel";
+import { IGroupChannel } from "../../src/Features/channel/groupChannel";
 
-export default async function makeFakeChannel(): Promise<IChannel> {
+export default async function makeFakeChannel(): Promise<IGroupChannel> {
     return {
         channelId: cuid(),
         channelName: faker.animal.cat().toString(),
