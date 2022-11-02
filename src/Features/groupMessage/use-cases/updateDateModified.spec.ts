@@ -10,7 +10,7 @@ describe.skip("Update message date modified use case", () => {
     const updateDateModified = makeUpdateDateModified({ messageDb });
 
     afterEach(async () => {
-        clearDb("messaget");
+        clearDb("group_messages");
     });
 
     test("SUCCESS: updating date modified", async () => {

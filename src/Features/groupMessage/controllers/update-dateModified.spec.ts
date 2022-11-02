@@ -15,7 +15,7 @@ describe.skip("updating message date modified controller", () => {
     });
 
     afterEach(async () => {
-        await clearDb("messaget");
+        await clearDb("group_messages");
     });
 
     test("SUCCESS: updated date modified", async () => {

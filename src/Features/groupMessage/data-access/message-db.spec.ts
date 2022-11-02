@@ -8,7 +8,7 @@ describe.skip("Message db method tests", () => {
     const messageDB = makeMessageDb({ makeDb });
 
     afterEach(async () => {
-        await clearDb("messaget");
+        await clearDb("group_messages");
     });
 
     test.skip("SUCCESS: creating a message", async () => {

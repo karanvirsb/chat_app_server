@@ -10,7 +10,7 @@ describe.skip("Getting messages by channel id use case", () => {
     const getMessagesByChannelId = makeGetMessagesByChannelId({ messageDb });
 
     afterEach(async () => {
-        clearDb("messaget");
+        clearDb("group_messages");
     });
 
     test("SUCCESS: getting a message", async () => {

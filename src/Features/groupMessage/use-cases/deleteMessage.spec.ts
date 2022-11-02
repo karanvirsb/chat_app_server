@@ -10,7 +10,7 @@ describe.skip("Deleting a message use case", () => {
     const deleteMessage = makeDeleteMessage({ messageDb });
 
     afterEach(async () => {
-        clearDb("messaget");
+        clearDb("group_messages");
     });
 
     test("SUCCESS: deleting a message", async () => {

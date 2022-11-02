@@ -15,7 +15,7 @@ describe.skip("getting a message by id controller", () => {
     });
 
     afterEach(async () => {
-        await clearDb("messaget");
+        await clearDb("group_messages");
     });
 
     test("SUCCESS: getting a message", async () => {

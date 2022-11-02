@@ -17,7 +17,7 @@ describe.skip("updating message text controller", () => {
     });
 
     afterEach(async () => {
-        await clearDb("messaget");
+        await clearDb("group_messages");
     });
 
     test("SUCCESS: updated message text", async () => {

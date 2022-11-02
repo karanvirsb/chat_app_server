@@ -15,7 +15,7 @@ describe.skip("deleting a message controller", () => {
     });
 
     afterEach(async () => {
-        await clearDb("messaget");
+        await clearDb("group_messages");
     });
 
     test("SUCCESS: deleting a message", async () => {

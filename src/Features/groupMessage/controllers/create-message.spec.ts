@@ -12,7 +12,7 @@ describe.skip("creating a message controller", () => {
     });
 
     afterEach(async () => {
-        await clearDb("messaget");
+        await clearDb("group_messages");
     });
 
     test("SUCCESS: create a message", async () => {

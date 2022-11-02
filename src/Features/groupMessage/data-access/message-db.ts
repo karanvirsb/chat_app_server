@@ -54,7 +54,7 @@ export default function makeMessageDb({
     ): Promise<returningMessageData> {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO messaget VALUES (
+            const query = `INSERT INTO group_messages VALUES (
                 '${messageInfo.messageId}',
                 to_timestamp(${messageInfo.dateCreated.getTime()}/1000),
                 null,
@@ -96,7 +96,7 @@ export default function makeMessageDb({
     ): Promise<returningMessageData> {
         const db = await makeDb();
         try {
-            const query = `DELETE FROM messaget WHERE "messageId" = '${messageId}' RETURNING *;`;
+            const query = `DELETE FROM group_messages WHERE "messageId" = '${messageId}' RETURNING *;`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -131,7 +131,7 @@ export default function makeMessageDb({
     ): Promise<returningMessageData> {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM messaget WHERE "messageId" = '${messageId}';`;
+            const query = `SELECT * FROM group_messages WHERE "messageId" = '${messageId}';`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
@@ -170,7 +170,7 @@ export default function makeMessageDb({
         const db = await makeDb();
         try {
             const query = `
-                SELECT * FROM messaget 
+                SELECT * FROM group_messages 
                 WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
                 dateCreated.getTime() / 1000
             }) 
@@ -211,7 +211,7 @@ export default function makeMessageDb({
         const db = await makeDb();
         try {
             const query = `
-            UPDATE messaget 
+            UPDATE group_messages 
             SET "${updateName}" = ${updateValue} 
             WHERE "messageId" = '${messageId}' RETURNING *;`;
 

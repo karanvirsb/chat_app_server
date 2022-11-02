@@ -8,7 +8,7 @@ describe.skip("Create message use case", () => {
     const createMessage = makeCreateMessage({ messageDb });
 
     afterEach(async () => {
-        clearDb("messaget");
+        clearDb("group_messages");
     });
 
     test("SUCCESS: creating a message", async () => {

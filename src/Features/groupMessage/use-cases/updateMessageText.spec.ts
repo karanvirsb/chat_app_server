@@ -11,7 +11,7 @@ describe.skip("updating message text use case", () => {
     const updateMessageText = makeUpdateMessageText({ messageDb });
 
     afterEach(async () => {
-        clearDb("messaget");
+        clearDb("group_messages");
     });
 
     test("SUCCESS: updating a message text", async () => {
