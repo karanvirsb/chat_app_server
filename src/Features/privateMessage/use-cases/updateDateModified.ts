@@ -2,7 +2,7 @@ import { IMakePrivateMessageDb } from "../data-access/privateMessage-db";
 import { IPrivateMessage } from "../privateMessage";
 
 type props = {
-    messageDb: IMakePrivateMessageDb["returnType"];
+    privateMessageDb: IMakePrivateMessageDb["returnType"];
 };
 
 type returnData = Promise<{
@@ -15,7 +15,7 @@ export interface IUpdateDateModifiedUseCase {
     updateDateModified: (messageId: string, updateValue: Date) => returnData;
 }
 
-export default function makeUpdateDateModified({ messageDb }: props) {
+export default function makeUpdateDateModified({ privateMessageDb }: props) {
     return async function updateDateModified(
         messageId: string,
         updateValue: Date
@@ -27,7 +27,7 @@ export default function makeUpdateDateModified({ messageDb }: props) {
         // need to convert date
         const newUpdateValue = `to_timestamp(${updateValue.getTime() / 1000})`;
 
-        return messageDb.updatePrivateMessage(
+        return privateMessageDb.updatePrivateMessage(
             "dateCreated",
             messageId,
             newUpdateValue
