@@ -59,4 +59,36 @@ export default function makeFriendsDb({
             db.release();
         }
     }
+
+    async function deleteFriend(userId: string, friendId: string): returnData {
+        const db = await makeDb();
+        try {
+            const query = `DELETE FROM friends WHERE "userId" = '${userId}' AND "friendId" = '${friendId}' RETURNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const friend: IFriends = res.rows[0];
+                return { success: true, data: friend, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not delete friend.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: friends-db.ts ~ line 39 ~ addFriend ~ error",
+                error
+            );
+
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
 }
