@@ -11,8 +11,8 @@ import {
     getAnUser,
 } from "./src/Features/user/controllers";
 import groupControllers from "./src/Features/group/controllers";
-import channelControllers from "./src/Features/channel/controllers";
-import messagesController from "./src/Features/message/controllers";
+import channelControllers from "./src/Features/groupChannel/controllers";
+import messagesController from "./src/Features/groupMessage/controllers";
 const appRoot = process.env.API_DOMAIN;
 
 let app = express();
