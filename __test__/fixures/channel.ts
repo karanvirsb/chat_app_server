@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import cuid from "cuid";
-import { IGroupChannel } from "../../src/Features/channel/groupChannel";
+import { IGroupChannel } from "../../src/Features/groupChannel/groupChannel";
 
 export default async function makeFakeChannel(): Promise<IGroupChannel> {
     return {
