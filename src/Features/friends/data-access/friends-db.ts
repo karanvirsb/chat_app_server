@@ -105,7 +105,7 @@ export default function makeFriendsDb({
             const query = `SELECT * FROM friends WHERE "userId" = ${userId}`;
             const res = await db.query(query);
 
-            if (res.rowCount === 1) {
+            if (res.rowCount >= 1) {
                 const friends: IFriends[] = res.rows;
                 return { success: true, data: friends, error: "" };
             } else {
