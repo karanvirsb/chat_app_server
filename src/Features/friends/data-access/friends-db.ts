@@ -102,7 +102,10 @@ export default function makeFriendsDb({
     async function getFriends(userId: string): returnFriends {
         const db = await makeDb();
         try {
-            const query = `SELECT * FROM friends WHERE "userId" = ${userId}`;
+            const query = `
+            SELECT * FROM friends 
+            WHERE "userId" = '${userId}'
+            ORDER BY "dateAdded" ASC`;
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
