@@ -33,10 +33,10 @@ export default function makeFriendsDb({
     async function addFriend(friendInfo: IFriends): returnData {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO friends VALUES(
+            const query = `INSERT INTO friends VALUES (
                 '${friendInfo.userId}',
                 '${friendInfo.friendId}',
-                '${friendInfo.dateAdded}',
+                to_timestamp(${friendInfo.dateAdded.getTime() / 1000})
             ) RETURNING *;`;
             const res = await db.query(query);
 
