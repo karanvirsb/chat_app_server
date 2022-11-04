@@ -57,7 +57,7 @@ export default function makePrivateChannelDb({
                 to_timestamp(${channelInfo.dateCreated.getTime()}/1000), 
                 '${channelInfo.userId}',
                 '${channelInfo.friendsId}',
-                to_timestamp(${channelInfo.lastActive.getTime()}/1000),
+                to_timestamp(${channelInfo.lastActive.getTime()}/1000)
                 ) RETURNING *;`;
             const res = await db.query(query);
 
