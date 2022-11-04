@@ -13,7 +13,8 @@ export default async function setupPrivateChannelDb() {
             "channelName" VARCHAR(50),
             "dateCreated" timestamp,
             "userId" VARCHAR(100) REFERENCES usert("userId") ON DELETE CASCADE ON UPDATE CASCADE,
-            "friendsId" VARCHAR(100) REFERENCES usert("userId") ON DELETE SET NULL ON UPDATE CASCADE
+            "friendsId" VARCHAR(100) REFERENCES usert("userId") ON DELETE SET NULL ON UPDATE CASCADE,
+            "lastActive" timestamp,
             );
         `
     );
