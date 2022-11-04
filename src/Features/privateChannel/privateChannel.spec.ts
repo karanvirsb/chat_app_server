@@ -8,6 +8,7 @@ describe("Channel test", () => {
         dateCreated: new Date(),
         userId: "123456789",
         friendsId: "12345",
+        lastActive: new Date(),
     };
     test("Channel make successfully", () => {
         const channel = makePrivateChannel(channelData);
