@@ -32,6 +32,10 @@ export interface IMakePrivateChannelDb {
         getPrivateChannelsByUserId: (
             userId: string
         ) => Promise<returningPrivateChannelsData>;
+        updateLastActive: (
+            channelId: string,
+            newDate: Date
+        ) => Promise<returningPrivateChannelData>;
     }>;
 }
 
@@ -43,6 +47,7 @@ export default function makePrivateChannelDb({
         deletePrivateChannel,
         getPrivateChannelById,
         getPrivateChannelsByUserId,
+        updateLastActive,
     });
 
     // create channel (channelInfo);
@@ -188,6 +193,52 @@ export default function makePrivateChannelDb({
         } catch (error) {
             console.log(
                 "🚀 ~ file: privateChannel-db.ts ~ line 209 ~ error ~ getPrivateChannelsById",
+                error
+            );
+
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
+
+    async function updateLastActive(
+        channelId: string,
+        newDate: Date
+    ): Promise<returningPrivateChannelData> {
+        const db = await makeDb();
+        try {
+            const query = `
+            UPDATE private_channels 
+            SET "lastActive" = to_timestamp(${newDate.getTime()}/1000) 
+            WHERE "channelId" = '${channelId}' 
+            RETURNING *;`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const privateChannel: IPrivateChannel = res.rows[0];
+
+                privateChannel.dateCreated = new Date(
+                    privateChannel.dateCreated
+                );
+
+                privateChannel.lastActive = new Date(privateChannel.lastActive);
+
+                return { success: true, data: privateChannel, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not update privateChannel with that channelId.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: privateChannel-db.ts ~ line 239  ~ updateLastActive ~ error",
                 error
             );
 
