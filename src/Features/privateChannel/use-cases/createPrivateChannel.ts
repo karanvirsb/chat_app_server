@@ -70,6 +70,7 @@ export default function makeCreatePrivateChannel({
             dateCreated: channel.getDateCreated(),
             userId: channel.getUserId(),
             friendsId: channel.getFriendsId(),
+            lastActive: channel.getLastActive(),
         });
     };
 }
