@@ -12,7 +12,7 @@ type returnData = Promise<{
 }>;
 
 export interface IGetFriendsUseCase {
-    getFriends: (userId: string, friendId: string) => returnData;
+    getFriends: (userId: string) => returnData;
 }
 
 export default function makeGetFriends({
