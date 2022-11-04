@@ -23,14 +23,14 @@ export default function makeGetAFriendController({
             "Content-Type": "application/json",
         };
         try {
-            const deletedFriend = await getAFriend(
+            const foundFriend = await getAFriend(
                 httpRequest.params.userId,
                 httpRequest.params.friendId
             );
             return {
                 headers,
                 statusCode: 200,
-                body: deletedFriend,
+                body: foundFriend,
             };
         } catch (error: any) {
             console.log(error);
