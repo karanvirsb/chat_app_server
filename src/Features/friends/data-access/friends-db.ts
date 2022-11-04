@@ -21,6 +21,7 @@ export interface IMakeFriendsDb {
     returnType: Readonly<{
         addFriend: (friendInfo: IFriends) => returnData;
         deleteFriend: (userId: string, friendId: string) => returnData;
+        getAFriend: (userId: string, friendId: string) => returnData;
         getFriends: (userId: string) => returnFriends;
     }>;
 }
@@ -28,7 +29,7 @@ export interface IMakeFriendsDb {
 export default function makeFriendsDb({
     makeDb,
 }: props): IMakeFriendsDb["returnType"] {
-    return Object.freeze({ addFriend, deleteFriend, getFriends });
+    return Object.freeze({ addFriend, deleteFriend, getAFriend, getFriends });
 
     async function addFriend(friendInfo: IFriends): returnData {
         const db = await makeDb();
@@ -86,6 +87,40 @@ export default function makeFriendsDb({
         } catch (error) {
             console.log(
                 "🚀 ~ file: friends-db.ts ~ line 87 ~ deleteFriend ~ error",
+                error
+            );
+
+            return {
+                success: false,
+                data: undefined,
+                error: error + "",
+            };
+        } finally {
+            db.release();
+        }
+    }
+
+    async function getAFriend(userId: string, friendId: string): returnData {
+        const db = await makeDb();
+        try {
+            const query = `
+            SELECT * FROM friends 
+            WHERE "userId" = '${userId}' AND friendId = '${friendId}';`;
+            const res = await db.query(query);
+
+            if (res.rowCount === 1) {
+                const friends: IFriends = res.rows[0];
+                return { success: true, data: friends, error: "" };
+            } else {
+                return {
+                    success: true,
+                    data: undefined,
+                    error: "Could not find friends.",
+                };
+            }
+        } catch (error) {
+            console.log(
+                "🚀 ~ file: friends-db.ts ~ line 122 ~ getAFriend ~ error",
                 error
             );
 
