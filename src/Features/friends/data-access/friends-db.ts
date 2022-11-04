@@ -105,7 +105,7 @@ export default function makeFriendsDb({
         try {
             const query = `
             SELECT * FROM friends 
-            WHERE "userId" = '${userId}' AND friendId = '${friendId}';`;
+            WHERE "userId" = '${userId}' AND "friendId" = '${friendId}';`;
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
