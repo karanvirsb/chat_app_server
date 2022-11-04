@@ -36,6 +36,21 @@ describe("friends DB testing", () => {
         expect(deletedFriend.data?.userId).toBe(friends.userId);
     });
 
+    test("SUCCESS: getting a friend", async () => {
+        const friends = await makeFakeFriends(
+            "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+            "312c0878-04c3-4585-835e-c66900ccc7a1"
+        );
+
+        const addedFriend = await friendsDb.addFriend(friends);
+        const foundAFriend = await friendsDb.getAFriend(
+            friends.userId,
+            friends.friendId
+        );
+
+        expect(foundAFriend.data?.userId).toBe(friends.userId);
+    });
+
     test("Get friends", async () => {
         let friends = await makeFakeFriends(
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
