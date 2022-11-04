@@ -1,11 +1,24 @@
 import makeFriends from "../index";
 import { IMakeFriendsDb } from "../data-access/friends-db";
+import { IFriends } from "../friends";
 
 type props = {
     friendsDb: IMakeFriendsDb["returnType"];
 };
 
-export default function makeAddFriend({ friendsDb }: props) {
+type returnData = Promise<{
+    success: boolean;
+    data: undefined | IFriends;
+    error: string;
+}>;
+
+export interface IAddFriendsUseCase {
+    addFriend: (userId: string, friendId: string) => returnData;
+}
+
+export default function makeAddFriend({
+    friendsDb,
+}: props): IAddFriendsUseCase["addFriend"] {
     return async function addFriend(userId: string, friendId: string) {
         const friends = makeFriends({
             userId,
