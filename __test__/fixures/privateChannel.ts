@@ -12,5 +12,6 @@ export default async function makeFakePrivateChannel(
         dateCreated: new Date(),
         userId,
         friendsId,
+        lastActive: new Date(),
     };
 }
