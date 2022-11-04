@@ -6,6 +6,7 @@ export interface IPrivateChannel {
     dateCreated: Date;
     userId: string;
     friendsId: string;
+    lastActive: Date;
 }
 
 type props = {
@@ -20,6 +21,7 @@ export default function buildPrivateChannel({ Id, sanitizeText }: props) {
         userId,
         friendsId,
         dateCreated = new Date(),
+        lastActive = new Date(),
     }: IPrivateChannel) {
         const sanitizedChannelName = sanitizeText(channelName);
 
@@ -50,12 +52,17 @@ export default function buildPrivateChannel({ Id, sanitizeText }: props) {
             throw new Error("Channel Id needs to be supplied");
         }
 
+        if (!lastActive || Number.isNaN(lastActive.getTime())) {
+            throw new Error("Last active needs to be supplied");
+        }
+
         return Object.freeze({
             getChannelId: () => channelId,
             getChannelName: () => channelName,
             getUserId: () => userId,
             getFriendsId: () => friendsId,
             getDateCreated: () => dateCreated,
+            getLastActive: () => lastActive,
         });
     };
 }
