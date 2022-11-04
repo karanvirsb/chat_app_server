@@ -71,6 +71,7 @@ export default function makePrivateChannelDb({
                 privateChannel.dateCreated = new Date(
                     privateChannel.dateCreated
                 );
+                privateChannel.lastActive = new Date(privateChannel.lastActive);
                 return { success: true, data: privateChannel, error: "" };
             } else {
                 return {
@@ -138,11 +139,14 @@ export default function makePrivateChannelDb({
             const res = await db.query(query);
 
             if (res.rowCount === 1) {
-                const private_channels: IPrivateChannel = res.rows[0];
-                private_channels.dateCreated = new Date(
-                    private_channels.dateCreated
+                const privateChannels: IPrivateChannel = res.rows[0];
+                privateChannels.dateCreated = new Date(
+                    privateChannels.dateCreated
                 );
-                return { success: true, data: private_channels, error: "" };
+                privateChannels.lastActive = new Date(
+                    privateChannels.lastActive
+                );
+                return { success: true, data: privateChannels, error: "" };
             } else {
                 return {
                     success: true,
@@ -181,6 +185,7 @@ export default function makePrivateChannelDb({
                 const privateChannels: IPrivateChannel[] = res.rows;
                 for (const channel of privateChannels) {
                     channel.dateCreated = new Date(channel.dateCreated);
+                    channel.lastActive = new Date(channel.lastActive);
                 }
                 return { success: true, data: privateChannels, error: "" };
             } else {
