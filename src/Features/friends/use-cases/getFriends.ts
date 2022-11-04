@@ -1,10 +1,23 @@
 import { IMakeFriendsDb } from "../data-access/friends-db";
+import { IFriends } from "../friends";
 
 type props = {
     friendsDb: IMakeFriendsDb["returnType"];
 };
 
-export default function makeGetFriends({ friendsDb }: props) {
+type returnData = Promise<{
+    success: boolean;
+    data: undefined | IFriends[];
+    error: string;
+}>;
+
+export interface IGetFriendsUseCase {
+    getFriends: (userId: string, friendId: string) => returnData;
+}
+
+export default function makeGetFriends({
+    friendsDb,
+}: props): IGetFriendsUseCase["getFriends"] {
     return async function getFriends(userId: string) {
         if (!userId) throw Error("User Id needs to be supplied.");
 
