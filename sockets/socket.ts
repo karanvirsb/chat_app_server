@@ -1,7 +1,8 @@
-import { RequestListener, Server } from "http";
+import { RequestListener } from "http";
+import { Server, ServerOptions } from "socket.io";
 
 type props = {
-    httpServer: RequestListener;
+    httpServer: Partial<ServerOptions> | undefined;
 };
 
 export default function buildSockets({ httpServer }: props) {
