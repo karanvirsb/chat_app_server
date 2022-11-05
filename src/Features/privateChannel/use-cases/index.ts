@@ -6,6 +6,7 @@ import makeCreatePrivateChannel, {
 import makeDeletePrivateChannel from "./deletePrivateChannel";
 import makeGetPrivateChannelById from "./getPrivateChannelById";
 import makeGetPrivateChannelsByUserId from "./getPrivateChannelsByUserId";
+import makeUpdateLastActive from "./updateLastActive";
 
 const handleModeration: handleModerationType = async (channelName: string) => {
     return await moderateName(channelName);
@@ -20,12 +21,14 @@ const getPrivateChannelById = makeGetPrivateChannelById({ privateChannelDb });
 const getPrivateChannelsByUserId = makeGetPrivateChannelsByUserId({
     privateChannelDb,
 });
+const updateLastActive = makeUpdateLastActive({ privateChannelDb });
 
 const privateChannelService = Object.freeze({
     createPrivateChannel,
     deletePrivateChannel,
     getPrivateChannelById,
     getPrivateChannelsByUserId,
+    updateLastActive,
 });
 
 export default privateChannelService;
@@ -35,4 +38,5 @@ export {
     deletePrivateChannel,
     getPrivateChannelById,
     getPrivateChannelsByUserId,
+    updateLastActive,
 };
