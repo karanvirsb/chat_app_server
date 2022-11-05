@@ -1,6 +1,10 @@
-import { Server } from "http";
+import { RequestListener, Server } from "http";
 
-export default function buildSockets({ httpServer }: any) {
+type props = {
+    httpServer: RequestListener;
+};
+
+export default function buildSockets({ httpServer }: props) {
     return function socketIo() {
         const io = new Server(httpServer);
 
