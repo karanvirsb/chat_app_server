@@ -7,6 +7,7 @@ import setupMessageDb from "./src/Features/groupMessage/db";
 import setupUserDb from "./src/Features/user/db";
 import setupPrivateChannelDb from "./src/Features/privateChannel/db";
 import setupPrivateMessageDb from "./src/Features/privateMessage/db";
+import setupFriendsDb from "./src/Features/friends/db";
 
 app.listen(PORT, () => {
     console.log(`listening on port: ${PORT}`);
@@ -16,4 +17,5 @@ app.listen(PORT, () => {
     setupPrivateChannelDb();
     setupMessageDb();
     setupPrivateMessageDb();
+    setupFriendsDb();
 });
