@@ -1,8 +1,7 @@
-import { RequestListener } from "http";
 import { Server, ServerOptions } from "socket.io";
 
 type props = {
-    httpServer: Partial<ServerOptions> | undefined;
+    httpServer: Partial<ServerOptions> | undefined | any;
 };
 
 export default function buildSockets({ httpServer }: props) {
