@@ -3,6 +3,7 @@ import makeCreatePrivateChannelController from "./create-privateChannel";
 import makeDeletePrivateChannelController from "./delete-privateChannel";
 import makeGetPrivateChannelByIdController from "./get-privateChannelById";
 import makeGetPrivateChannelsByUserIdController from "./get-privateChannelsByUserId";
+import makeUpdateLastActiveController from "./update-lastActive";
 
 const createPrivateChannelController = makeCreatePrivateChannelController({
     createPrivateChannel: privateChannelService.createPrivateChannel,
@@ -19,11 +20,16 @@ const getPrivateChannelsByUserIdController =
             privateChannelService.getPrivateChannelsByUserId,
     });
 
+const updateLastActiveController = makeUpdateLastActiveController({
+    updateLastActive: privateChannelService.updateLastActive,
+});
+
 const privateChannelControllers = Object.freeze({
     createPrivateChannelController,
     deletePrivateChannelController,
     getPrivateChannelByIdController,
     getPrivateChannelsByUserIdController,
+    updateLastActiveController,
 });
 
 export default privateChannelControllers;
@@ -33,4 +39,5 @@ export {
     deletePrivateChannelController,
     getPrivateChannelByIdController,
     getPrivateChannelsByUserIdController,
+    updateLastActiveController,
 };
