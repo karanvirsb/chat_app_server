@@ -11,7 +11,7 @@ export default function buildSockets({ httpServer }: props) {
         });
 
         io.on("connection", (socket) => {
-            console.log("Socket is connected", socket);
+            console.log("Socket is connected", socket.id);
         });
 
         return io;
