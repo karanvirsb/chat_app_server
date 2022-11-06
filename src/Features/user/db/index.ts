@@ -13,6 +13,6 @@ export default async function setupUserDb() {
       username VARCHAR(50) PRIMARY KEY, 
       status VARCHAR(50));
   `);
-    console.log("🚀 ~ file: index.ts ~ line 24 ~ setupUserDb ~ result", result);
+    // console.log("🚀 ~ file: index.ts ~ line 24 ~ setupUserDb ~ result", result);
     console.log("User Database set up complete...");
 }
