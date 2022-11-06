@@ -12,13 +12,17 @@ import setupFriendsDb from "./src/Features/friends/db";
 
 httpServer.listen(PORT, () => {
     console.log(`listening on port: ${PORT}`);
-    setupUserDb();
-    setUpGroupDb();
-    setupChannelDb();
-    setupPrivateChannelDb();
-    setupMessageDb();
-    setupPrivateMessageDb();
-    setupFriendsDb();
+    try {
+        setupUserDb();
+        setUpGroupDb();
+        setupChannelDb();
+        setupPrivateChannelDb();
+        setupMessageDb();
+        setupPrivateMessageDb();
+        setupFriendsDb();
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 // app.listen(PORT, () => {
