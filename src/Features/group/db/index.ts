@@ -22,9 +22,9 @@ export default async function setupGroupDb() {
       PRIMARY KEY ("gId", "uId")
     );
   `);
-    console.log(
-        "🚀 ~ file: index.ts ~ line 24 ~ setupGroupDb ~ result",
-        result
-    );
+    // console.log(
+    //     "🚀 ~ file: index.ts ~ line 24 ~ setupGroupDb ~ result",
+    //     result
+    // );
     console.log("Group Database set up complete...");
 }
