@@ -18,10 +18,10 @@ export default async function setupChannelDb() {
         );`
     );
 
-    console.log(
-        "🚀 ~ file: index.ts ~ line 20 ~ setupChannelDb ~ result",
-        result
-    );
+    // console.log(
+    //     "🚀 ~ file: index.ts ~ line 20 ~ setupChannelDb ~ result",
+    //     result
+    // );
 
     console.log("Channel Database set up complete...");
 }
