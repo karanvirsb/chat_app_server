@@ -19,10 +19,10 @@ export default async function setupPrivateMessageDb() {
         );`
     );
 
-    console.log(
-        "🚀 ~ file: index.ts ~ line 20 ~ setupPrivateMessageDb ~ result",
-        result
-    );
+    // console.log(
+    //     "🚀 ~ file: index.ts ~ line 20 ~ setupPrivateMessageDb ~ result",
+    //     result
+    // );
 
     console.log("Private Message Database set up complete...");
 }
