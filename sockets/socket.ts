@@ -8,6 +8,8 @@ export default function buildSockets({ httpServer }: props) {
     return function socketIo() {
         const io = new Server(httpServer);
 
-        io.on("connection", (socket) => {});
+        io.on("connection", (socket) => {
+            console.log("Socket is connected", socket);
+        });
     };
 }
