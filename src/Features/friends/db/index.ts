@@ -15,9 +15,9 @@ export default async function setupFriendsDb() {
       PRIMARY KEY("userId", "friendId")
     );
   `);
-    console.log(
-        "🚀 ~ file: index.ts ~ line 24 ~ setupFriendsDb ~ result",
-        result
-    );
+    // console.log(
+    //     "🚀 ~ file: index.ts ~ line 24 ~ setupFriendsDb ~ result",
+    //     result
+    // );
     console.log("Friends Database set up complete...");
 }
