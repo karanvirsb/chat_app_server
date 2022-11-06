@@ -1,7 +1,5 @@
 const PORT = 8000;
-import app from "./app";
 import httpServer from "./sockets";
-
 import setupChannelDb from "./src/Features/groupChannel/db";
 import setUpGroupDb from "./src/Features/group/db";
 import setupMessageDb from "./src/Features/groupMessage/db";
