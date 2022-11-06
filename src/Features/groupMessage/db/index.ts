@@ -16,23 +16,13 @@ export default async function setupMessageDb() {
           text VARCHAR(200),
           "userId" VARCHAR(100) REFERENCES usert("userId"),
           "channelId" VARCHAR(100) REFERENCES group_channels("channelId") ON DELETE CASCADE
-        ); 
-
-        CREATE TABLE IF NOT EXISTS private_messages (
-          "messageId" VARCHAR(100) PRIMARY KEY,
-          "dateCreated" timestamp,
-          "dateModified" timestamp,
-          "replyTo" VARCHAR(100) references private_messages("messageId"),
-          text VARCHAR(200),
-          "userId" VARCHAR(100) REFERENCES usert("userId"),
-          "privateChannelId" VARCHAR(100) REFERENCES private_channels("channelId") ON DELETE CASCADE
         );`
     );
 
-    console.log(
-        "🚀 ~ file: index.ts ~ line 20 ~ setupMessageDb ~ result",
-        result
-    );
+    // console.log(
+    //     "🚀 ~ file: index.ts ~ line 20 ~ setupMessageDb ~ result",
+    //     result
+    // );
 
     console.log("Message Database set up complete...");
 }
