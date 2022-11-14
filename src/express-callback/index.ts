@@ -30,7 +30,6 @@ export interface IController {
 
 export default function makeExpressCallback(controller: IController) {
     return (req: Request, res: Response) => {
-        console.log(req);
         const httpRequest: IHttpRequest = {
             body: req.body,
             query: req.query,
