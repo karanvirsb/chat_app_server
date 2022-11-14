@@ -16,11 +16,11 @@ import messagesController from "./src/Features/groupMessage/controllers";
 import makeExpressCallback from "./src/express-callback";
 const appRoot = process.env.API_DOMAIN;
 
-let app = express();
+const app = express();
 
 app.use(
     cors({
-        origin: ["http://localhost:3000", "http://google.com"],
+        origin: ["http://localhost:3000", "http://google.com", "*"],
         allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
         credentials: true,
     })
@@ -29,104 +29,101 @@ app.use(
 app.use(middleware());
 app.use(bodyParser.json());
 // routes
-app.get(`${appRoot}/ping`, (req, res) => {
+app.get(`/ping`, (req, res) => {
     console.log(req);
     res.status(200).json({ message: "echo" });
 });
 
 // user routes
-app.get(`${appRoot}/user`, makeExpressCallback(getAnUser));
-app.delete(`${appRoot}/user/delete`, makeExpressCallback(deleteAnUser));
-app.put(`${appRoot}/user/update`, makeExpressCallback(editAnUser));
+app.get(`/user`, makeExpressCallback(getAnUser));
+app.delete(`/user/delete`, makeExpressCallback(deleteAnUser));
+app.put(`/user/update`, makeExpressCallback(editAnUser));
 
 // group routes
+app.post(`group/add`, makeExpressCallback(groupControllers.addGroupController));
 app.post(
-    `${appRoot}group/add`,
-    makeExpressCallback(groupControllers.addGroupController)
-);
-app.post(
-    `${appRoot}/group/addUser`,
+    `/group/addUser`,
     makeExpressCallback(groupControllers.addUserToGroupController)
 );
 app.delete(
-    `${appRoot}group/delete`,
+    `group/delete`,
     makeExpressCallback(groupControllers.deleteGroupController)
 );
 app.delete(
-    `${appRoot}/group/deleteUser`,
+    `/group/deleteUser`,
     makeExpressCallback(groupControllers.deleteUserFromGroupController)
 );
 app.get(
-    `${appRoot}/group/id`,
+    `/group/id`,
     makeExpressCallback(groupControllers.getGroupByIdController)
 );
 app.get(
-    `${appRoot}/group/invite`,
+    `/group/invite`,
     makeExpressCallback(groupControllers.getGroupByInviteCodeController)
 );
 app.get(
-    `${appRoot}/group/getUsers`,
+    `/group/getUsers`,
     makeExpressCallback(groupControllers.getUsersByGroupIdController)
 );
 app.get(
-    `${appRoot}/group/userId/:userId`,
+    `/group/userId/:userId`,
     makeExpressCallback(groupControllers.getGroupsByUserIdController)
 );
 app.put(
-    `${appRoot}/group/name`,
+    `/group/name`,
     makeExpressCallback(groupControllers.updateGroupNameController)
 );
 app.put(
-    `${appRoot}/group/invite`,
+    `/group/invite`,
     makeExpressCallback(groupControllers.updateInviteCodeController)
 );
 
 // channel routes
 app.get(
-    `${appRoot}/channel`,
+    `/channel`,
     makeExpressCallback(channelControllers.getChannelByIdController)
 );
 app.get(
-    `${appRoot}/channels`,
+    `/channels`,
     makeExpressCallback(channelControllers.getChannelsByGroupIdController)
 );
 app.post(
-    `${appRoot}/channel`,
+    `/channel`,
     makeExpressCallback(channelControllers.createChannelController)
 );
 app.delete(
-    `${appRoot}/channel`,
+    `/channel`,
     makeExpressCallback(channelControllers.deleteChannelController)
 );
 app.put(
-    `${appRoot}/channel/name`,
+    `/channel/name`,
     makeExpressCallback(channelControllers.updateChannelNameController)
 );
 
 // message routes
 
 app.get(
-    `${appRoot}/message`,
+    `/message`,
     makeExpressCallback(messagesController.getMessageByIdController)
 );
 app.get(
-    `${appRoot}/message/channel`,
+    `/message/channel`,
     makeExpressCallback(messagesController.getMessagesByChannelIdController)
 );
 app.post(
-    `${appRoot}/message`,
+    `/message`,
     makeExpressCallback(messagesController.createMessageController)
 );
 app.delete(
-    `${appRoot}/message`,
+    `/message`,
     makeExpressCallback(messagesController.deleteMessageController)
 );
 app.put(
-    `${appRoot}/message/dateModified`,
+    `/message/dateModified`,
     makeExpressCallback(messagesController.updateDateModifiedController)
 );
 app.put(
-    `${appRoot}/message/text`,
+    `/message/text`,
     makeExpressCallback(messagesController.updateMessageTextController)
 );
 
