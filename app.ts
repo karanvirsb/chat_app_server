@@ -40,29 +40,29 @@ app.delete(`/user/delete`, makeExpressCallback(deleteAnUser));
 app.put(`/user/update`, makeExpressCallback(editAnUser));
 
 // group routes
-app.post(`group/add`, makeExpressCallback(groupControllers.addGroupController));
+app.post(`/group`, makeExpressCallback(groupControllers.addGroupController));
 app.post(
-    `/group/addUser`,
+    `/group/user`,
     makeExpressCallback(groupControllers.addUserToGroupController)
 );
 app.delete(
-    `group/delete`,
+    `/group`,
     makeExpressCallback(groupControllers.deleteGroupController)
 );
 app.delete(
-    `/group/deleteUser`,
+    `/group/user`,
     makeExpressCallback(groupControllers.deleteUserFromGroupController)
 );
 app.get(
-    `/group/id`,
+    `/group/:id`,
     makeExpressCallback(groupControllers.getGroupByIdController)
 );
 app.get(
-    `/group/invite`,
+    `/group/invite/:invite`,
     makeExpressCallback(groupControllers.getGroupByInviteCodeController)
 );
 app.get(
-    `/group/getUsers`,
+    `/group/users/:groupId`,
     makeExpressCallback(groupControllers.getUsersByGroupIdController)
 );
 app.get(
