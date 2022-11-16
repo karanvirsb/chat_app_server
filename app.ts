@@ -54,7 +54,7 @@ app.delete(
     makeExpressCallback(groupControllers.deleteUserFromGroupController)
 );
 app.get(
-    `/group/:id`,
+    `/group/:groupId`,
     makeExpressCallback(groupControllers.getGroupByIdController)
 );
 app.get(
