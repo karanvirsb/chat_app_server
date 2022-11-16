@@ -18,13 +18,19 @@ export default function buildSockets({ httpServer }: props) {
         });
 
         // makes the socket join all the rooms
-        io.on("JoinRooms", joinRooms());
+        io.on("join_rooms", joinRooms());
 
         return io;
     };
 }
 function joinRooms(): (...args: any[]) => void {
-    return ({ socket, rooms }: { socket: socket; rooms: string[] }) => {
+    return ({
+        socket,
+        rooms,
+    }: {
+        socket: socket;
+        rooms: string | string[];
+    }) => {
         socket.join(rooms);
     };
 }
