@@ -7,6 +7,8 @@ type props = {
 
 type socket = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
 
+const rooms = new Map<string, Set<string>>();
+
 export default function buildSockets({ httpServer }: props) {
     return function socketIo() {
         const io = new Server(httpServer, {
@@ -27,9 +29,11 @@ function joinRooms(): (...args: any[]) => void {
     return ({
         socket,
         rooms,
+        userId,
     }: {
         socket: socket;
         rooms: string | string[];
+        userId: string;
     }) => {
         socket.join(rooms);
     };
