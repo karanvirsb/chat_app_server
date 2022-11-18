@@ -21,6 +21,11 @@ export default function buildSockets({ httpServer }: props) {
 
             // makes the socket join all the rooms
             socket.on("join_rooms", joinRooms(socket));
+
+            // when the update is successful
+            socket.on("update_the_group_name", (groupData) => {
+                socket.emit("update_group_name", { data: groupData });
+            });
         });
 
         return io;
