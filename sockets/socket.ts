@@ -24,7 +24,7 @@ export default function buildSockets({ httpServer }: props) {
 
             // when the update is successful
             socket.on("update_the_group_name", (groupData) => {
-                socket.emit("update_group_name", { data: groupData });
+                io.to(groupData.groupId).emit("update_group_name", groupData);
             });
         });
 
