@@ -58,7 +58,7 @@ app.get(
     makeExpressCallback(groupControllers.getGroupByIdController)
 );
 app.get(
-    `/group/invite/:invite`,
+    `/group/invite/:inviteCode`,
     makeExpressCallback(groupControllers.getGroupByInviteCodeController)
 );
 app.get(
