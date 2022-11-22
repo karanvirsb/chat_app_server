@@ -30,6 +30,10 @@ export default function buildSockets({ httpServer }: props) {
             socket.on("delete_the_group", (groupData) => {
                 io.to(groupData.groupId).emit("delete_group");
             });
+
+            socket.on("added_user_to_group", (groupUserData) => {
+                io.to(groupUserData.gId).emit("added_user");
+            });
         });
 
         return io;
