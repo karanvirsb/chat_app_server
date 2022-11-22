@@ -1,6 +1,7 @@
 import { Server, ServerOptions, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import usersDb from "../src/Features/user/data-access";
+import { groupUsers } from "../src/Features/group/data-access/group-db";
+import { IGroup } from "../src/Features/group/group";
 
 type props = {
     httpServer: Partial<ServerOptions> | undefined | any;
@@ -23,15 +24,15 @@ export default function buildSockets({ httpServer }: props) {
             socket.on("join_rooms", joinRooms(socket));
 
             // when the update is successful
-            socket.on("update_the_group_name", (groupData) => {
+            socket.on("update_the_group_name", (groupData: IGroup) => {
                 io.to(groupData.groupId).emit("update_group_name", groupData);
             });
 
-            socket.on("delete_the_group", (groupData) => {
+            socket.on("delete_the_group", (groupData: IGroup) => {
                 io.to(groupData.groupId).emit("delete_group");
             });
 
-            socket.on("added_user_to_group", (groupUserData) => {
+            socket.on("added_user_to_group", (groupUserData: groupUsers) => {
                 io.to(groupUserData.gId).emit("added_user");
             });
         });
