@@ -33,8 +33,17 @@ export default function buildSockets({ httpServer }: props) {
             });
 
             socket.on("added_user_to_group", (groupUserData: groupUsers) => {
+                console.log(groupUserData);
                 io.to(groupUserData.gId).emit("added_user");
             });
+
+            socket.on(
+                "removed_user_from_group",
+                (groupUserData: groupUsers) => {
+                    console.log(groupUserData);
+                    io.to(groupUserData.gId).emit("removed_user");
+                }
+            );
         });
 
         return io;
