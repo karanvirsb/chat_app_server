@@ -25,23 +25,26 @@ export default function buildSockets({ httpServer }: props) {
 
             // when the update is successful
             socket.on("update_the_group_name", (groupData: IGroup) => {
-                io.to(groupData.groupId).emit("update_group_name", groupData);
+                io.in(groupData.groupId).emit("update_group_name", groupData);
             });
 
             socket.on("delete_the_group", (groupData: IGroup) => {
-                io.to(groupData.groupId).emit("delete_group");
+                io.in(groupData.groupId).emit("delete_group", groupData);
             });
 
             socket.on("added_user_to_group", (groupUserData: groupUsers) => {
                 console.log(groupUserData);
-                io.to(groupUserData.gId).emit("added_user");
+                io.in(groupUserData.gId).emit("added_user", groupUserData);
             });
 
             socket.on(
                 "removed_user_from_group",
                 (groupUserData: groupUsers) => {
                     console.log(groupUserData);
-                    io.to(groupUserData.gId).emit("removed_user");
+                    io.in(groupUserData.gId).emit(
+                        "removed_user",
+                        groupUserData
+                    );
                 }
             );
         });
