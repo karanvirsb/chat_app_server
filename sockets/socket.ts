@@ -9,6 +9,16 @@ type props = {
 
 type socket = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
 
+type InvalidateEvent = {
+    queryTags: string[];
+    id: string;
+};
+
+type UpdateEvent = {
+    groupId: string;
+    payload: Partial<IGroup>;
+};
+
 const chatRooms = new Map<string, Set<string>>();
 
 export default function buildSockets({ httpServer }: props) {
@@ -24,8 +34,8 @@ export default function buildSockets({ httpServer }: props) {
             socket.on("join_rooms", joinRooms(socket));
 
             // when the update is successful
-            socket.on("update_the_group_name", (groupData: IGroup) => {
-                io.in(groupData.groupId).emit("update_group_name", groupData);
+            socket.on("updated_group_name", (data: UpdateEvent) => {
+                io.to(data.groupId).emit("update_group_name", data);
             });
 
             socket.on("delete_the_group", (groupData: IGroup) => {
