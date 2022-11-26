@@ -19,6 +19,11 @@ type UpdateEvent = {
     payload: Partial<IGroup>;
 };
 
+export type DeleteEvent = {
+    groupId: string;
+    payload: {};
+};
+
 const chatRooms = new Map<string, Set<string>>();
 
 export default function buildSockets({ httpServer }: props) {
@@ -38,8 +43,9 @@ export default function buildSockets({ httpServer }: props) {
                 io.to(data.groupId).emit("update_group_name", data);
             });
 
-            socket.on("delete_the_group", (groupData: IGroup) => {
-                io.in(groupData.groupId).emit("delete_group", groupData);
+            socket.on("delete_the_group", (groupData: DeleteEvent) => {
+                console.log(groupData);
+                io.to(groupData.groupId).emit("delete_group", groupData);
             });
 
             socket.on("added_user_to_group", (groupUserData: groupUsers) => {
