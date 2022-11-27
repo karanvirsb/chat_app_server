@@ -354,13 +354,13 @@ export default function makeGroupDb({
         const db = await makeDb();
         try {
             const query = `
-            SELECT U."userId", U.username, U.status, E.email, E.time_joined 
+            SELECT U."userId", U.username, U.status, E.email, E.time_joined, G.roles 
             FROM usert U 
                 JOIN emailpassword_users E 
                 ON U."userId" = E.user_id 
             WHERE U."userId" IN (
                 SELECT "uId" 
-                FROM "groupUsers" 
+                FROM "groupUsers" G
                 WHERE "gId" = '${groupId}'
                 );`;
 
