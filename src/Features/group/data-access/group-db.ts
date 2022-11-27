@@ -35,7 +35,15 @@ export type user = {
     status: string;
     email: string;
     time_joined: Date;
+    roles: string[];
+    groupId: string;
 };
+
+type returningUser = Promise<{
+    success: boolean;
+    data: user | undefined;
+    error: string;
+}>;
 
 type returningUsers = Promise<{
     success: boolean;
@@ -65,7 +73,7 @@ export interface IMakeGroupDb {
             groupId: string,
             userId: string,
             roles: string[]
-        ) => Promise<returningGroupUserData>;
+        ) => Promise<returningUser>;
         removeUserFromGroup: (
             groupId: string,
             userId: string
@@ -354,15 +362,20 @@ export default function makeGroupDb({
         const db = await makeDb();
         try {
             const query = `
-            SELECT U."userId", U.username, U.status, E.email, E.time_joined, G.roles 
+            SELECT U."userId", U.username, U.status, E.email, E.time_joined, G."roles", G."gId" AS "groupId" 
             FROM usert U 
-                JOIN emailpassword_users E 
-                ON U."userId" = E.user_id 
-            WHERE U."userId" IN (
-                SELECT "uId" 
-                FROM "groupUsers" G
-                WHERE "gId" = '${groupId}'
-                );`;
+                LEFT JOIN emailpassword_users E 
+                    ON U."userId" = E.user_id 
+                LEFT JOIN  "groupUsers" G
+                    ON U."userId" = G."uId"
+            WHERE g."gId" = '${groupId}'
+            `;
+
+            // WHERE U."userId" IN (
+            //     SELECT "uId"
+            //     FROM "groupUsers" G
+            //     WHERE "gId" = '${groupId}'
+            //     );
 
             const res = await db.query(query);
 
@@ -400,18 +413,29 @@ export default function makeGroupDb({
         groupId: string,
         userId: string,
         roles: string[]
-    ): Promise<returningGroupUserData> {
+    ): Promise<returningUser> {
         const db = await makeDb();
         try {
-            const query = `INSERT INTO "groupUsers" VALUES('${groupId}','${userId}', ARRAY[${roles.join(
-                ","
-            )}]) RETURNING *`;
+            const query = `
+            WITH insertedUser AS (
+                INSERT INTO "groupUsers" VALUES(
+                    '${groupId}',
+                    '${userId}', 
+                    ARRAY[${roles.join(",")}]
+                ) RETURNING *
+            )
+            
+            SELECT U."userId", U.username, U.status, E.email, E.time_joined, (SELECT "roles" FROM insertedUser), (SELECT "gId" AS "groupId" from insertedUser) 
+            FROM usert U 
+                JOIN emailpassword_users E 
+                    ON U."userId" = E.user_id
+            WHERE U."userId" = '${userId}'`;
 
             // const joinedRoles = roles.join(", ");
             const res = await db.query(query);
 
             if (res.rows.length >= 1) {
-                const groupUser: groupUsers = res.rows[0];
+                const groupUser: user = res.rows[0];
                 return {
                     success: true,
                     data: groupUser,
