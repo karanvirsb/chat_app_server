@@ -3,7 +3,7 @@ import makeGroupDb, { IMakeGroupDb } from "./group-db";
 import makeFakerGroup from "../../../../__test__/fixures/group";
 import inviteCodeGenerator from "../../../Utilities/inviteCodeGenerator";
 
-describe.skip("Group databse access", () => {
+describe("Group databse access", () => {
     let GroupDb: IMakeGroupDb["returnType"];
 
     beforeAll(async () => {
@@ -22,7 +22,7 @@ describe.skip("Group databse access", () => {
         await closeDb();
     });
 
-    test("inserted group correctly", async () => {
+    test.skip("inserted group correctly", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -33,7 +33,7 @@ describe.skip("Group databse access", () => {
         expect(res.data?.groupId).toBe(group.groupId);
     });
 
-    test("Find group by id", async () => {
+    test.skip("Find group by id", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -45,7 +45,7 @@ describe.skip("Group databse access", () => {
         expect(foundGroup.data?.groupName).toBe(group.groupName);
     });
 
-    test("updating group name", async () => {
+    test.skip("updating group name", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -61,7 +61,7 @@ describe.skip("Group databse access", () => {
         expect(updatedGroup.data?.groupName).toBe("Coders");
     });
 
-    test("deleting group", async () => {
+    test.skip("deleting group", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -74,7 +74,7 @@ describe.skip("Group databse access", () => {
         expect(deletedGroup.data?.groupName).toBe(group.groupName);
     });
 
-    test("updating group invite code", async () => {
+    test.skip("updating group invite code", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -90,7 +90,7 @@ describe.skip("Group databse access", () => {
         expect(updatedGroup.data?.inviteCode).toBe(newCode);
     });
 
-    test("Find group by invite code", async () => {
+    test.skip("Find group by invite code", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -117,7 +117,7 @@ describe.skip("Group databse access", () => {
             );
     });
 
-    test("Adding user to group", async () => {
+    test.skip("Adding user to group", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -131,12 +131,12 @@ describe.skip("Group databse access", () => {
             ["2001"]
         );
 
-        expect(addedUser.data?.uId).toBe(
+        expect(addedUser.data?.userId).toBe(
             "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"
         );
     });
 
-    test("Remove user from group", async () => {
+    test.skip("Remove user from group", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
