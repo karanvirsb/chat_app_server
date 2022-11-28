@@ -3,12 +3,12 @@ import {
     httpResponseType,
 } from "../../../express-callback/index";
 import { IAddUserToGroup } from "../use-cases/addUserToGroup";
-import { groupUsers } from "../data-access/group-db";
+import { user } from "../data-access/group-db";
 
 interface IAddUserToGroupResponse extends httpResponseType {
     body: {
         success: boolean;
-        data: groupUsers | undefined;
+        data: user | undefined;
         error: string;
     };
 }
