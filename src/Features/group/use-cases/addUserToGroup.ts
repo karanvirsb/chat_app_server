@@ -1,4 +1,4 @@
-import { groupUsers, IMakeGroupDb } from "../data-access/group-db";
+import { user, IMakeGroupDb } from "../data-access/group-db";
 
 type props = {
     groupDb: IMakeGroupDb["returnType"];
@@ -6,7 +6,7 @@ type props = {
 
 type returnData = Promise<{
     success: boolean;
-    data: groupUsers | undefined;
+    data: user | undefined;
     error: string;
 }>;
 
