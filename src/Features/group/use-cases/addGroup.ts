@@ -38,19 +38,11 @@ export default function makeAddGroup({ groupDb, handleModeration }: props) {
         const moderatedName = await handleModeration(group.getGroupName());
 
         if (moderatedName) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Group name contains profanity",
-            };
+            throw Error("Group name contains profanity");
         }
 
         if (moderatedName === -1) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Server Error, please try again.",
-            };
+            throw Error("Server Error, please try again.");
         }
 
         return await groupDb.createGroup(
