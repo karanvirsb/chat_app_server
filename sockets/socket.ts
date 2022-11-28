@@ -35,6 +35,11 @@ export type LeaveRoomEvent = {
     payload: { userId: string };
 };
 
+export type LeaveGroupEvent = {
+    groupId: string;
+    payload: { userId: string };
+};
+
 const chatRooms = new Map<string, Set<string>>();
 
 export default function buildSockets({ httpServer }: props) {
@@ -72,16 +77,12 @@ export default function buildSockets({ httpServer }: props) {
                 }
             );
 
-            socket.on(
-                "removed_user_from_group",
-                (groupUserData: groupUsers) => {
-                    console.log(groupUserData);
-                    io.in(groupUserData.gId).emit(
-                        "removed_user",
-                        groupUserData
-                    );
-                }
-            );
+            socket.on("leave_the_group", (groupUserData: LeaveGroupEvent) => {
+                io.to(groupUserData.groupId).emit(
+                    "removed_user",
+                    groupUserData
+                );
+            });
         });
 
         return io;
