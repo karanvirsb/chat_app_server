@@ -1,7 +1,8 @@
 import { Server, ServerOptions, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import { groupUsers } from "../src/Features/group/data-access/group-db";
+import { groupUsers, user } from "../src/Features/group/data-access/group-db";
 import { IGroup } from "../src/Features/group/group";
+import { IUser } from "../src/Features/user/user";
 
 type props = {
     httpServer: Partial<ServerOptions> | undefined | any;
@@ -22,6 +23,11 @@ type UpdateEvent = {
 export type DeleteEvent = {
     groupId: string;
     payload: {};
+};
+
+export type UpdateGroupUsersEvent = {
+    groupId: string;
+    payload: { userInfo: user };
 };
 
 const chatRooms = new Map<string, Set<string>>();
@@ -48,10 +54,15 @@ export default function buildSockets({ httpServer }: props) {
                 io.to(groupData.groupId).emit("delete_group", groupData);
             });
 
-            socket.on("added_user_to_group", (groupUserData: groupUsers) => {
-                console.log(groupUserData);
-                io.in(groupUserData.gId).emit("added_user", groupUserData);
-            });
+            socket.on(
+                "update_the_group_users",
+                (groupUserData: UpdateGroupUsersEvent) => {
+                    io.in(groupUserData.groupId).emit(
+                        "update_group_users",
+                        groupUserData
+                    );
+                }
+            );
 
             socket.on(
                 "removed_user_from_group",
