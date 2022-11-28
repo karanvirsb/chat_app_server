@@ -30,6 +30,11 @@ export type UpdateGroupUsersEvent = {
     payload: { userInfo: user };
 };
 
+export type LeaveRoomEvent = {
+    groupId: string;
+    payload: { userId: string };
+};
+
 const chatRooms = new Map<string, Set<string>>();
 
 export default function buildSockets({ httpServer }: props) {
@@ -43,6 +48,10 @@ export default function buildSockets({ httpServer }: props) {
 
             // makes the socket join all the rooms
             socket.on("join_rooms", joinRooms(socket));
+
+            socket.on("leave_room", (data: LeaveRoomEvent) => {
+                socket.leave(data.groupId);
+            });
 
             // when the update is successful
             socket.on("updated_group_name", (data: UpdateEvent) => {
