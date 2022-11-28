@@ -48,19 +48,21 @@ export default function makeUpdateGroupName({
         const moderatedName = await handleModeration(sanitizedGroupName);
 
         if (moderatedName) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Group name contains profanity",
-            };
+            throw Error("Group name contains profanity");
+            // return {
+            //     success: false,
+            //     data: undefined,
+            //     error: "Group name contains profanity",
+            // };
         }
 
         if (moderatedName === -1) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Server Error, please try again.",
-            };
+            throw Error("Server Error, please try again.");
+            // return {
+            //     success: false,
+            //     data: undefined,
+            //     error: "Server Error, please try again.",
+            // };
         }
 
         return await groupDb.updateGroupName(groupId, sanitizedGroupName);
