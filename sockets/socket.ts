@@ -50,14 +50,13 @@ export default function buildSockets({ httpServer }: props) {
             });
 
             socket.on("delete_the_group", (groupData: DeleteEvent) => {
-                console.log(groupData);
                 io.to(groupData.groupId).emit("delete_group", groupData);
             });
 
             socket.on(
                 "update_the_group_users",
                 (groupUserData: UpdateGroupUsersEvent) => {
-                    io.in(groupUserData.groupId).emit(
+                    io.to(groupUserData.groupId).emit(
                         "update_group_users",
                         groupUserData
                     );
