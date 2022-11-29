@@ -38,19 +38,11 @@ export default function makeUpdateChannelName({
         const moderatedName = await handleModeration(newName);
 
         if (moderatedName) {
-            return {
-                success: false,
-                data: undefined,
-                error: "New Channel Name contains profanity",
-            };
+            throw new Error("New Channel Name contains profanity");
         }
 
         if (moderatedName === -1) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Server Error, please try again.",
-            };
+            throw new Error("Server Error, please try again.");
         }
 
         return await channelDb.updateChannelName(channelId, newName);
