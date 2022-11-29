@@ -4,7 +4,7 @@ import makeMessageDb from "../data-access/message-db";
 import makeCreateMessage from "../use-cases/createMessage";
 import makeCreateMessageController from "./create-message";
 
-describe.skip("creating a message controller", () => {
+describe("creating a message controller", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
     const createMessageController = makeCreateMessageController({

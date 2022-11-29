@@ -7,7 +7,7 @@ import makeUpdateMessageText from "../use-cases/updateMessageText";
 import makeUpdateDateModifiedController from "./update-dateModified";
 import makeUpdateMessageTextController from "./update-messageText";
 
-describe.skip("updating message text controller", () => {
+describe("updating message text controller", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
 

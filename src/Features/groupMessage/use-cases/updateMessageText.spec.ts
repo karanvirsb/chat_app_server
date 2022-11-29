@@ -4,7 +4,7 @@ import makeCreateMessage from "./createMessage";
 import makeFakeMessage from "../../../../__test__/fixures/message";
 import makeUpdateMessageText from "./updateMessageText";
 
-describe.skip("updating message text use case", () => {
+describe("updating message text use case", () => {
     jest.setTimeout(15000);
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });

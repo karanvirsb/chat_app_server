@@ -8,7 +8,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe.skip("Add User case", () => {
+describe("Add User case", () => {
     let usersDb = makeUsersDb({ makeDb });
     let addUser = makeAddUser({ usersDb, handleModeration });
 

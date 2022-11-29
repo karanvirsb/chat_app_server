@@ -5,7 +5,7 @@ import makeCreateMessage from "../use-cases/createMessage";
 import makeDeleteMessage from "../use-cases/deleteMessage";
 import makeDeleteMessageController from "./delete-message";
 
-describe.skip("deleting a message controller", () => {
+describe("deleting a message controller", () => {
     const messageDb = makeMessageDb({ makeDb });
     const createMessage = makeCreateMessage({ messageDb });
 

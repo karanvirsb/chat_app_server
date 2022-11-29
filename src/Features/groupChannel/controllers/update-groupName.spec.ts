@@ -6,7 +6,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeUpdateChannelName from "../use-cases/updateChannelName";
 import makeUpdateChannelNameController from "./update-groupName";
 
-describe.skip("Update group name controller", () => {
+describe("Update group name controller", () => {
     jest.setTimeout(10000);
     // const channelRequest = {
     //     body: {},

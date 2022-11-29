@@ -6,7 +6,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeGetChannelById from "../use-cases/getChannelById";
 import makeGetChannelByIdController from "./get-channelbyId";
 
-describe.skip("Get channel by id controller", () => {
+describe("Get channel by id controller", () => {
     jest.setTimeout(10000);
     // const channelRequest = {
     //     body: {},

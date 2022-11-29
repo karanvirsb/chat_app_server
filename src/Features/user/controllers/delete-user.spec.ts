@@ -1,6 +1,6 @@
 import { deleteAnUser } from ".";
 
-describe.skip("delete user controller", () => {
+describe("delete user controller", () => {
     it("deleting user", async () => {
         const deletedUser = await deleteAnUser({
             body: {

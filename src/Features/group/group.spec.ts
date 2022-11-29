@@ -1,11 +1,12 @@
 import buildGroup from ".";
 import { IGroup } from "./group";
 
-describe.skip("Group creation test", () => {
+describe("Group creation test", () => {
     const group: IGroup = {
         groupId: "1234",
         groupName: "Coders",
         inviteCode: "abcdefg",
+        dateCreated: new Date(),
     };
 
     test("Group name contains html", () => {

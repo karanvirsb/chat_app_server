@@ -3,7 +3,7 @@ import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeUsersDb from "../data-access/users-db";
 import makeFakeUser from "../../../../__test__/fixures/user";
 
-describe.skip("Get use case", () => {
+describe("Get use case", () => {
     jest.setTimeout(50000);
     let usersDb = makeUsersDb({ makeDb });
     let getUser = makeGetUser({ usersDb });

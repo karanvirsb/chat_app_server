@@ -1,7 +1,7 @@
 import buildUser from ".";
 import Id from "../../Utilities/id";
 
-describe.skip("user", () => {
+describe("user", () => {
     const tempUser = {
         userId: Id.makeId(),
         username: "John123",

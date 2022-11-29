@@ -14,7 +14,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe.skip("Get group and users by id controller", () => {
+describe("Get group and users by id controller", () => {
     // const groupRequest = {
     //     body: {},
     //     headers: {},

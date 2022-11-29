@@ -2,7 +2,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeChannelDb from "./channel-db";
 
-describe.skip("Channel db method tests", () => {
+describe("Channel db method tests", () => {
     jest.setTimeout(10000);
     const channelDB = makeChannelDb({ makeDb });
 

@@ -3,7 +3,7 @@ import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeFakeMessage from "../../../../__test__/fixures/message";
 import makeMessageDb from "./message-db";
 
-describe.skip("Message db method tests", () => {
+describe("Message db method tests", () => {
     jest.setTimeout(10000);
     const messageDB = makeMessageDb({ makeDb });
 

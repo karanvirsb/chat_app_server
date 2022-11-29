@@ -1,7 +1,7 @@
 import { getAnUser } from ".";
 import makeFakeUser from "../../../../__test__/fixures/user";
 
-describe.skip("Get user controller", () => {
+describe("Get user controller", () => {
     it("successfully retrieve user", async () => {
         const user = await getAnUser({
             body: {},

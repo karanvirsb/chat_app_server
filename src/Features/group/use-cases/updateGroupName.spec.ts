@@ -14,7 +14,7 @@ function sanitizeText(text: string) {
     return sanitizeHtml(text);
 }
 
-describe.skip("Updating group name use case", () => {
+describe("Updating group name use case", () => {
     let groupDb = makeGroupDb({ makeDb });
     let addGroup = makeAddGroup({ groupDb, handleModeration });
     const updateGroupName = makeUpdateGroupName({

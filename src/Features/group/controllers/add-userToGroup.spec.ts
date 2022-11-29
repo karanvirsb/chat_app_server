@@ -10,7 +10,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe.skip("add user to group controller", () => {
+describe("add user to group controller", () => {
     // const groupRequest = {
     //     body: {},
     //     headers: {},

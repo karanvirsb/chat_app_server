@@ -10,7 +10,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe.skip("Updating invite code of group use case", () => {
+describe("Updating invite code of group use case", () => {
     let groupDb = makeGroupDb({ makeDb });
     let addGroup = makeAddGroup({ groupDb, handleModeration });
     const updateInviteCode = makeUpdateInviteCode({

@@ -6,7 +6,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeDeleteChannel from "../use-cases/deleteChannel";
 import makeDeleteChannelController from "./delete-channel";
 
-describe.skip("Delete channel controller", () => {
+describe("Delete channel controller", () => {
     // const channelRequest = {
     //     body: {},
     //     headers: {},

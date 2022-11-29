@@ -11,7 +11,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe.skip("Update group invite code controller", () => {
+describe("Update group invite code controller", () => {
     // const groupRequest = {
     //     body: {},
     //     headers: {},

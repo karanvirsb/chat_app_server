@@ -3,7 +3,7 @@ import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import makeUsersDb from "../data-access/users-db";
 import makeFakeUser from "../../../../__test__/fixures/user";
 
-describe.skip("Delete use case", () => {
+describe("Delete use case", () => {
     let usersDb = makeUsersDb({ makeDb });
     let deleteUser = makeDeleteUser({ usersDb });
 

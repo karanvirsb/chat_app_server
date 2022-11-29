@@ -5,7 +5,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeDeleteChannel from "./deleteChannel";
 import { moderateName } from "../../../Utilities/moderateText";
 
-describe.skip("deleting channel use case", () => {
+describe("deleting channel use case", () => {
     const handleModeration: handleModerationType = async (
         channelName: string
     ) => {

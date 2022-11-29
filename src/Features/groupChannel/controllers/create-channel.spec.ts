@@ -5,7 +5,7 @@ import { moderateName } from "../../../Utilities/moderateText";
 import makeCreateChannelController from "./create-channel";
 import makeFakeChannel from "../../../../__test__/fixures/channel";
 
-describe.skip("Create channel controller", () => {
+describe("Create channel controller", () => {
     jest.setTimeout(10000);
     // const channelRequest = {
     //     body: {},

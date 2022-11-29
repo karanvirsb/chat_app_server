@@ -9,7 +9,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe.skip("Get groups by user id cases", () => {
+describe("Get groups by user id cases", () => {
     let groupDb = makeGroupDb({ makeDb });
     let addGroup = makeAddGroup({ groupDb, handleModeration });
     let getGroupsByUserId = makeGetGroupsByUserId({ groupDb });

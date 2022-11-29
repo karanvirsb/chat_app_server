@@ -1,6 +1,6 @@
 import makeMessage from ".";
 import makeFakeMessage from "../../../__test__/fixures/message";
-describe.skip("message tests", () => {
+describe("message tests", () => {
     test("SUCCESS: message created", async () => {
         const message = makeMessage(await makeFakeMessage("123", "123"));
         expect(message.getChannelId()).toBe("123");

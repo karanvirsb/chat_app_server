@@ -9,7 +9,7 @@ const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
-describe.skip("Deleting group use case", () => {
+describe("Deleting group use case", () => {
     let groupDb = makeGroupDb({ makeDb });
     let addGroup = makeAddGroup({ groupDb, handleModeration });
     const deleteGroup = makeDeleteGroup({ groupDb });

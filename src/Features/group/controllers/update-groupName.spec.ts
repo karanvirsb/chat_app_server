@@ -15,7 +15,7 @@ function sanitizeText(text: string) {
     return sanitizeHtml(text);
 }
 
-describe.skip("Update group name controller", () => {
+describe("Update group name controller", () => {
     // const groupRequest = {
     //     body: {},
     //     headers: {},
