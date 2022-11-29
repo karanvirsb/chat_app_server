@@ -45,6 +45,8 @@ export default function makeUpdateChannelName({
             throw new Error("Server Error, please try again.");
         }
 
-        return await channelDb.updateChannelName(channelId, newName);
+        const updatedChannelName = "'" + newName.replace(/'/g, "''") + "'";
+
+        return await channelDb.updateChannelName(channelId, updatedChannelName);
     };
 }
