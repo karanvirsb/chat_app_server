@@ -49,22 +49,15 @@ export default function makeUpdateGroupName({
 
         if (moderatedName) {
             throw Error("Group name contains profanity");
-            // return {
-            //     success: false,
-            //     data: undefined,
-            //     error: "Group name contains profanity",
-            // };
         }
 
         if (moderatedName === -1) {
             throw Error("Server Error, please try again.");
-            // return {
-            //     success: false,
-            //     data: undefined,
-            //     error: "Server Error, please try again.",
-            // };
         }
 
-        return await groupDb.updateGroupName(groupId, sanitizedGroupName);
+        // replace any ' with a '' to escape
+        const updatedGroupName =
+            "'" + sanitizedGroupName.replace(/'/g, "''") + "'";
+        return await groupDb.updateGroupName(groupId, updatedGroupName);
     };
 }
