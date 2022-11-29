@@ -56,9 +56,13 @@ export default function buildPrivateChannel({ Id, sanitizeText }: props) {
             throw new Error("Last active needs to be supplied");
         }
 
+        // replace any ' with a '' to escape
+        const newChannelName =
+            "'" + sanitizedChannelName.replace(/'/g, "''") + "'";
+
         return Object.freeze({
             getChannelId: () => channelId,
-            getChannelName: () => channelName,
+            getChannelName: () => newChannelName,
             getUserId: () => userId,
             getFriendsId: () => friendsId,
             getDateCreated: () => dateCreated,
