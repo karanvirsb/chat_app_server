@@ -41,13 +41,16 @@ export default function buildMessage({ Id, sanitizeText }: props) {
         if (!messageId) throw new Error("Message Id needs to be supplied.");
         if (!channelId) throw new Error("Channel Id needs to be supplied.");
 
+        // replace any ' with a '' to escape
+        const newText = "'" + sanitizedText.replace(/'/g, "''") + "'";
+
         return Object.freeze({
             getUserId: () => userId,
             getDateCreated: () => dateCreated,
             getMessageId: () => messageId,
             getDateModified: () => dateModified,
             getReplyTo: () => replyTo,
-            getText: () => text,
+            getText: () => newText,
             getChannelId: () => channelId,
         });
     };
