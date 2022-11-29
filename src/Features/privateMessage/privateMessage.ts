@@ -43,7 +43,7 @@ export default function buildPrivateMessage({ Id, sanitizeText }: props) {
             throw new Error("Channel Id needs to be supplied.");
 
         // replace any ' with a '' to escape
-        const newMessage = "'" + sanitizedText.replace(/'/g, "''") + "'";
+        const newMessage = sanitizedText.replace(/'/g, "''");
 
         return Object.freeze({
             getUserId: () => userId,

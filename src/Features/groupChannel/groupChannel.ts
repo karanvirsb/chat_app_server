@@ -47,8 +47,7 @@ export default function buildChannel({ Id, sanitizeText }: props) {
         }
 
         // replace any ' with a '' to escape
-        const updatedChannelName =
-            "'" + sanitizedChannelName.replace(/'/g, "''") + "'";
+        const updatedChannelName = sanitizedChannelName.replace(/'/g, "''");
 
         return Object.freeze({
             getChannelId: () => channelId,

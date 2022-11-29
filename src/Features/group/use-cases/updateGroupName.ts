@@ -56,8 +56,7 @@ export default function makeUpdateGroupName({
         }
 
         // replace any ' with a '' to escape
-        const updatedGroupName =
-            "'" + sanitizedGroupName.replace(/'/g, "''") + "'";
+        const updatedGroupName = sanitizedGroupName.replace(/'/g, "''");
         return await groupDb.updateGroupName(groupId, updatedGroupName);
     };
 }

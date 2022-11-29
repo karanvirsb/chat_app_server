@@ -30,7 +30,7 @@ export default function makeUpdatePrivateMessageText({
         const regex = /'/g;
 
         // replace any ' with a '' to escape
-        const newUpdateValue = "'" + updateValue.replace(regex, "''") + "'";
+        const newUpdateValue = updateValue.replace(regex, "''");
 
         return privateMessageDb.updatePrivateMessage(
             "text",

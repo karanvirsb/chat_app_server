@@ -50,8 +50,7 @@ export default function buildGroup({
             throw new Error("Date Created needs to be supplied.");
 
         // replace any ' with a '' to escape
-        const newGroupName =
-            "'" + sanitizedGroupName.replace(regex, "''") + "'";
+        const newGroupName = sanitizedGroupName.replace(regex, "''");
 
         return Object.freeze({
             getGroupName: () => newGroupName,
