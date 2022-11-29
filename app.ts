@@ -80,23 +80,23 @@ app.put(
 
 // channel routes
 app.get(
-    `/channel`,
+    `/groupChannel/:channelId`,
     makeExpressCallback(channelControllers.getChannelByIdController)
 );
 app.get(
-    `/channels`,
+    `/groupChannel/all/:groupId`,
     makeExpressCallback(channelControllers.getChannelsByGroupIdController)
 );
 app.post(
-    `/channel`,
+    `/groupChannel`,
     makeExpressCallback(channelControllers.createChannelController)
 );
 app.delete(
-    `/channel`,
+    `/groupChannel`,
     makeExpressCallback(channelControllers.deleteChannelController)
 );
 app.put(
-    `/channel/name`,
+    `/groupChannel/name`,
     makeExpressCallback(channelControllers.updateChannelNameController)
 );
 
