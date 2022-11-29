@@ -46,9 +46,13 @@ export default function buildChannel({ Id, sanitizeText }: props) {
             throw new Error("Channel Id needs to be supplied");
         }
 
+        // replace any ' with a '' to escape
+        const updatedChannelName =
+            "'" + sanitizedChannelName.replace(/'/g, "''") + "'";
+
         return Object.freeze({
             getChannelId: () => channelId,
-            getChannelName: () => channelName,
+            getChannelName: () => updatedChannelName,
             getGroupId: () => groupId,
             getDateCreated: () => dateCreated,
         });
