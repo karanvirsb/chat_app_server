@@ -33,19 +33,11 @@ export default function makeCreatePrivateChannel({
         const moderatedName = await handleModeration(channel.getChannelName());
 
         if (moderatedName) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Channel name contains profanity",
-            };
+            throw new Error("Channel name contains profanity");
         }
 
         if (moderatedName === -1) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Server Error, please try again.",
-            };
+            throw new Error("Server Error, please try again.");
         }
 
         const privateChannelExists =
@@ -57,11 +49,7 @@ export default function makeCreatePrivateChannel({
             privateChannelExists.success &&
             privateChannelExists.data !== undefined
         ) {
-            return {
-                success: true,
-                data: undefined,
-                error: "Private Channel already exists, try again.",
-            };
+            throw new Error("Private Channel already exists, try again.");
         }
 
         return await privateChannelDb.createPrivateChannel({
