@@ -22,7 +22,7 @@ describe("Group databse access", () => {
         await closeDb();
     });
 
-    test.skip("inserted group correctly", async () => {
+    test("inserted group correctly", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -33,7 +33,7 @@ describe("Group databse access", () => {
         expect(res.data?.groupId).toBe(group.groupId);
     });
 
-    test.skip("Find group by id", async () => {
+    test("Find group by id", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -45,7 +45,7 @@ describe("Group databse access", () => {
         expect(foundGroup.data?.groupName).toBe(group.groupName);
     });
 
-    test.skip("updating group name", async () => {
+    test("updating group name", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -61,7 +61,7 @@ describe("Group databse access", () => {
         expect(updatedGroup.data?.groupName).toBe("Coders");
     });
 
-    test.skip("deleting group", async () => {
+    test("deleting group", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -74,7 +74,7 @@ describe("Group databse access", () => {
         expect(deletedGroup.data?.groupName).toBe(group.groupName);
     });
 
-    test.skip("updating group invite code", async () => {
+    test("updating group invite code", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -90,7 +90,7 @@ describe("Group databse access", () => {
         expect(updatedGroup.data?.inviteCode).toBe(newCode);
     });
 
-    test.skip("Find group by invite code", async () => {
+    test("Find group by invite code", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -117,7 +117,7 @@ describe("Group databse access", () => {
             );
     });
 
-    test.skip("Adding user to group", async () => {
+    test("Adding user to group", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(
@@ -136,7 +136,7 @@ describe("Group databse access", () => {
         );
     });
 
-    test.skip("Remove user from group", async () => {
+    test("Remove user from group", async () => {
         const group = await makeFakerGroup();
 
         const res = await GroupDb.createGroup(

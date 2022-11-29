@@ -11,7 +11,7 @@ describe("Message db method tests", () => {
         await clearDb("group_messages");
     });
 
-    test.skip("SUCCESS: creating a message", async () => {
+    test("SUCCESS: creating a message", async () => {
         jest.setTimeout(30000);
         const message = await makeFakeMessage(
             "123",
@@ -22,7 +22,7 @@ describe("Message db method tests", () => {
         expect(insertedMessage.data?.messageId).toBe(message.messageId);
     });
 
-    test.skip("SUCCESS: deleting a message", async () => {
+    test("SUCCESS: deleting a message", async () => {
         jest.setTimeout(30000);
         const message = await makeFakeMessage(
             "123",
@@ -34,7 +34,7 @@ describe("Message db method tests", () => {
         expect(deletedMessage.data?.messageId).toBe(message.messageId);
     });
 
-    test.skip("SUCCESS: getting message by id", async () => {
+    test("SUCCESS: getting message by id", async () => {
         jest.setTimeout(30000);
         const message = await makeFakeMessage(
             "123",
@@ -46,7 +46,7 @@ describe("Message db method tests", () => {
         expect(foundMessage.data?.text).toBe(message.text);
     });
 
-    test.skip("SUCCESS: getting messages by channel id", async () => {
+    test("SUCCESS: getting messages by channel id", async () => {
         jest.setTimeout(30000);
         let message = await makeFakeMessage(
             "123",
