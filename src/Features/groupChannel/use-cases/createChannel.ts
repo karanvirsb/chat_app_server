@@ -38,19 +38,11 @@ export default function makeCreateChannel({
         const moderatedName = await handleModeration(channel.getChannelName());
 
         if (moderatedName) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Channel name contains profanity",
-            };
+            throw new Error("Channel name contains profanity");
         }
 
         if (moderatedName === -1) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Server Error, please try again.",
-            };
+            throw new Error("Server Error, please try again.");
         }
 
         const channelExists = await channelDb.getChannelById(
@@ -58,11 +50,7 @@ export default function makeCreateChannel({
         );
 
         if (channelExists.success && channelExists.data !== undefined) {
-            return {
-                success: true,
-                data: undefined,
-                error: "Channel already exists, try again.",
-            };
+            throw new Error("Channel already exists, try again.");
         }
 
         return await channelDb.createChannel({
