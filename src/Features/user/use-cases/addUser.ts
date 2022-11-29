@@ -24,29 +24,17 @@ export default function makeAddUser({ usersDb, handleModeration }: props) {
         const exists = await usersDb.findByUsername(user.getUsername());
 
         if (exists.success && exists.data !== undefined) {
-            return {
-                success: true,
-                data: undefined,
-                error: "User already exists",
-            };
+            throw new Error("User already exists");
         }
 
         const moderated = await handleModeration(user.getUsername());
 
         if (moderated) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Username contains profanity",
-            };
+            throw new Error("Username contains profanity");
         }
 
         if (moderated === -1) {
-            return {
-                success: false,
-                data: undefined,
-                error: "Server Error, please try again.",
-            };
+            throw new Error("Server Error, please try again.");
         }
 
         return await usersDb.insert({
