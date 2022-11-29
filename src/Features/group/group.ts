@@ -25,6 +25,7 @@ export default function buildGroup({
         inviteCode = inviteCodeGenerator.makeInviteCode(),
         dateCreated = new Date(),
     }: IGroup) {
+        const regex = /'/g;
         let sanitizedGroupName = sanitizeText(groupName);
 
         if (sanitizedGroupName.length < 1) {
@@ -48,8 +49,12 @@ export default function buildGroup({
         if (!dateCreated || Number.isNaN(dateCreated.getTime()))
             throw new Error("Date Created needs to be supplied.");
 
+        // replace any ' with a '' to escape
+        const newGroupName =
+            "'" + sanitizedGroupName.replace(regex, "''") + "'";
+
         return Object.freeze({
-            getGroupName: () => sanitizedGroupName,
+            getGroupName: () => newGroupName,
             getGroupId: () => groupId,
             getInviteCode: () => inviteCode,
             getDateCreated: () => dateCreated,
