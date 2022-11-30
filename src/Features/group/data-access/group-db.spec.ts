@@ -21,7 +21,6 @@ describe("Group databse access", () => {
         await clearDb('"groupUsers"');
         await closeDb();
     });
-
     test("inserted group correctly", async () => {
         const group = await makeFakerGroup();
 
@@ -82,7 +81,7 @@ describe("Group databse access", () => {
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
         );
         const newCode = inviteCodeGenerator.makeInviteCode();
-        const updatedGroup = await GroupDb.updateGroupName(
+        const updatedGroup = await GroupDb.updateInviteCode(
             group.groupId,
             newCode
         );
