@@ -1,15 +1,48 @@
+import { deleteUser } from "supertokens-node";
 import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeGroupDb, { IMakeGroupDb } from "./group-db";
 import makeFakerGroup from "../../../../__test__/fixures/group";
 import inviteCodeGenerator from "../../../Utilities/inviteCodeGenerator";
+import makeUsersDb from "../../user/data-access/users-db";
+import makeSupertokenDb, {
+    IMakeSupertokensDb,
+} from "../../../../supertokens/data-access/supertokens-db";
+import supertokens from "../../../../supertokens";
 
 describe("Group databse access", () => {
+    jest.setTimeout(15000);
     let GroupDb: IMakeGroupDb["returnType"];
+    let SupertokensDb: IMakeSupertokensDb["returnType"];
 
     beforeAll(async () => {
         GroupDb = makeGroupDb({ makeDb });
-
         await clearDb("groupt");
+        // creating user if it does not exist
+        const userDb = makeUsersDb({ makeDb });
+        const foundUser = await userDb.findById({
+            id: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+        });
+
+        // if user does not exist create
+        if (!foundUser.success && !foundUser.data) {
+            SupertokensDb = makeSupertokenDb({ makeDb });
+            const addedUser = await SupertokensDb.addUser({
+                user: {
+                    user_id: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+                    email: "anTest@gmai.com",
+                    password: "123",
+                    time_joined: Date.now(),
+                },
+            });
+            if (addedUser.data)
+                await userDb.insert({
+                    data: {
+                        userId: addedUser.data.user_id,
+                        status: "online",
+                        username: "testering",
+                    },
+                });
+        }
     });
 
     afterEach(async () => {
@@ -19,6 +52,7 @@ describe("Group databse access", () => {
     afterAll(async () => {
         await clearDb("groupt");
         await clearDb('"groupUsers"');
+        await supertokens.deleteUser("5c0fc896-1af1-4c26-b917-550ac5eefa9e");
         await closeDb();
     });
     test("inserted group correctly", async () => {
