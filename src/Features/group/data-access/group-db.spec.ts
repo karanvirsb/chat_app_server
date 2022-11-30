@@ -10,13 +10,14 @@ import makeSupertokenDb, {
 import supertokens from "../../../../supertokens";
 
 describe("Group databse access", () => {
-    jest.setTimeout(15000);
     let GroupDb: IMakeGroupDb["returnType"];
     let SupertokensDb: IMakeSupertokensDb["returnType"];
 
     beforeAll(async () => {
+        jest.setTimeout(30000);
         GroupDb = makeGroupDb({ makeDb });
-        await clearDb("groupt");
+        SupertokensDb = makeSupertokenDb({ makeDb });
+
         // creating user if it does not exist
         const userDb = makeUsersDb({ makeDb });
         const foundUser = await userDb.findById({
@@ -24,8 +25,7 @@ describe("Group databse access", () => {
         });
 
         // if user does not exist create
-        if (!foundUser.success && !foundUser.data) {
-            SupertokensDb = makeSupertokenDb({ makeDb });
+        if (!foundUser.success || !foundUser.data) {
             const addedUser = await SupertokensDb.addUser({
                 user: {
                     user_id: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
@@ -34,21 +34,21 @@ describe("Group databse access", () => {
                     time_joined: Date.now(),
                 },
             });
-            if (addedUser.data)
-                await userDb.insert({
+            if (addedUser.success && addedUser.data) {
+                const addUser = await userDb.insert({
                     data: {
                         userId: addedUser.data.user_id,
                         status: "online",
                         username: "testering",
                     },
                 });
+            }
         }
     });
 
     afterEach(async () => {
         await clearDb("groupt");
     });
-
     afterAll(async () => {
         await clearDb("groupt");
         await clearDb('"groupUsers"');
