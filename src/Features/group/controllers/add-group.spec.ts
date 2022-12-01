@@ -1,9 +1,12 @@
 import makeGroupDb from "../data-access/group-db";
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
+import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeAddGroupController from "./add-group";
 import makeAddGroup from "../use-cases/addGroup";
 import { moderateName } from "../../../Utilities/moderateText";
 import makeFakeGroup from "../../../../__test__/fixures/group";
+import supertokens from "../../../../supertokens";
+import makeSupertokenDb from "../../../../supertokens/data-access/supertokens-db";
+import makeUsersDb from "../../user/data-access/users-db";
 
 const handleModeration = async (name: string) => {
     return await moderateName(name);
@@ -24,14 +27,42 @@ describe("Add group controller", () => {
     const addGroup = makeAddGroup({ groupDb, handleModeration });
     const addGroupController = makeAddGroupController({ addGroup });
 
-    beforeEach(async () => {
-        await clearDb("groupt");
-        await clearDb('"groupUsers"');
+    let SupertokensDb = makeSupertokenDb({ makeDb });
+
+    beforeAll(async () => {
+        // creating user if it does not exist
+        const userDb = makeUsersDb({ makeDb });
+        const foundUser = await userDb.findById({
+            id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+        });
+
+        // if user does not exist create
+        if (!foundUser.success || !foundUser.data) {
+            const addedUser = await SupertokensDb.addUser({
+                user: {
+                    user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+                    email: "anTest@gmai.com",
+                    password: "123",
+                    time_joined: Date.now(),
+                },
+            });
+            if (addedUser.success && addedUser.data) {
+                const addUser = await userDb.insert({
+                    data: {
+                        userId: addedUser.data.user_id,
+                        status: "online",
+                        username: "testering",
+                    },
+                });
+            }
+        }
     });
 
     afterAll(async () => {
         await clearDb("groupt");
         await clearDb('"groupUsers"');
+        await supertokens.deleteUser("cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+        await closeDb();
     });
 
     test("SUCCESS: add group to the database", async () => {
