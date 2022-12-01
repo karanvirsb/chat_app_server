@@ -22,8 +22,10 @@ export default function makeRemoveUserFromGroup({ groupDb }: props) {
         groupId: string,
         userId: string
     ): Promise<returnData> {
-        if (!groupId) throw new Error("Group Id needs to be supplied");
-        if (!userId) throw new Error("User Id needs to be supplied");
+        if (!groupId || groupId.length === 0)
+            throw new Error("Group Id needs to be supplied");
+        if (!userId || userId.length === 0)
+            throw new Error("User Id needs to be supplied");
 
         return await groupDb.removeUserFromGroup(groupId, userId);
     };
