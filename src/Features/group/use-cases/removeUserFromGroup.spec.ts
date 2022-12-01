@@ -1,27 +1,58 @@
 import { moderateName } from "../../../Utilities/moderateText";
 import makeGroupDb from "../data-access/group-db";
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
+import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeFakeGroup from "../../../../__test__/fixures/group";
 import makeAddGroup from "./addGroup";
 import makeRemoveUserFromGroup from "./removeUserFromGroup";
+import supertokens from "../../../../supertokens";
+import makeSupertokenDb from "../../../../supertokens/data-access/supertokens-db";
+import makeUsersDb from "../../user/data-access/users-db";
 
 const handleModeration = async (name: string) => {
     return await moderateName(name);
 };
 
 describe("Removing user from a group use case", () => {
+    jest.setTimeout(15000);
     let groupDb = makeGroupDb({ makeDb });
     let addGroup = makeAddGroup({ groupDb, handleModeration });
     const removeUserFromGroup = makeRemoveUserFromGroup({ groupDb });
 
-    beforeEach(async () => {
-        await clearDb("groupt");
-        await clearDb('"groupUsers"');
+    let SupertokensDb = makeSupertokenDb({ makeDb });
+    beforeAll(async () => {
+        // creating user if it does not exist
+        const userDb = makeUsersDb({ makeDb });
+        const foundUser = await userDb.findById({
+            id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+        });
+
+        // if user does not exist create
+        if (!foundUser.success || !foundUser.data) {
+            const addedUser = await SupertokensDb.addUser({
+                user: {
+                    user_id: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+                    email: "anTest@gmai.com",
+                    password: "123",
+                    time_joined: Date.now(),
+                },
+            });
+            if (addedUser.success && addedUser.data) {
+                const addUser = await userDb.insert({
+                    data: {
+                        userId: addedUser.data.user_id,
+                        status: "online",
+                        username: "testering",
+                    },
+                });
+            }
+        }
     });
 
     afterAll(async () => {
         await clearDb("groupt");
         await clearDb('"groupUsers"');
+        await supertokens.deleteUser("cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+        await closeDb();
     });
 
     test("SUCCESS: remove user from group", async () => {
@@ -67,8 +98,10 @@ describe("Removing user from a group use case", () => {
         try {
             const groupErr = await removeUserFromGroup(group.groupId, "");
         } catch (err) {
-            if (err instanceof Error)
+            if (err instanceof Error) {
+                console.log(err.message);
                 expect(err.message).toBe("User Id needs to be supplied");
+            }
         }
     });
 });
