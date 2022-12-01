@@ -48,7 +48,7 @@ describe("Adding group use case", () => {
     afterAll(async () => {
         await clearDb("groupt");
         await clearDb('"groupUsers"');
-        await supertokens.deleteUser("5c0fc896-1af1-4c26-b917-550ac5eefa9e");
+        await supertokens.deleteUser("cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
         await closeDb();
     });
 
