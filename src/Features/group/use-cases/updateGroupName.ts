@@ -31,30 +31,28 @@ export default function makeUpdateGroupName({
         newGroupName: string
     ): Promise<returnData> {
         if (!groupId || groupId.length === 0)
-            throw new Error("Group id needs to be supplied");
+            throw Error("Group id needs to be supplied");
         if (!newGroupName || newGroupName.length === 0)
-            throw new Error("A new group name must be supplied");
+            throw Error("A new group name must be supplied");
 
         const sanitizedGroupName = sanitizeName(newGroupName);
 
         if (sanitizedGroupName.length <= 1) {
-            throw new Error("Group name must contain valid characters");
+            throw Error("Group name must contain valid characters");
         }
 
         if (sanitizedGroupName.length < 3 || sanitizedGroupName.length > 50) {
-            throw new Error(
-                "Group name must be between 3 and 50 characters long"
-            );
+            throw Error("Group name must be between 3 and 50 characters long");
         }
 
         const moderatedName = await handleModeration(sanitizedGroupName);
 
         if (moderatedName) {
-            throw new Error("Group name contains profanity");
+            throw Error("Group name contains profanity");
         }
 
         if (moderatedName === -1) {
-            throw new Error("Server Error, please try again.");
+            throw Error("Server Error, please try again.");
         }
 
         // replace any ' with a '' to escape
