@@ -30,8 +30,10 @@ export default function makeUpdateGroupName({
         groupId: string,
         newGroupName: string
     ): Promise<returnData> {
-        if (!groupId) throw new Error("Group id needs to be supplied");
-        if (!newGroupName) throw new Error("A new group name must be supplied");
+        if (!groupId || groupId.length === 0)
+            throw new Error("Group id needs to be supplied");
+        if (!newGroupName || newGroupName.length === 0)
+            throw new Error("A new group name must be supplied");
 
         const sanitizedGroupName = sanitizeName(newGroupName);
 
