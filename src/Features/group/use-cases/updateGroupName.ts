@@ -48,11 +48,11 @@ export default function makeUpdateGroupName({
         const moderatedName = await handleModeration(sanitizedGroupName);
 
         if (moderatedName) {
-            throw Error("Group name contains profanity");
+            throw new Error("Group name contains profanity");
         }
 
         if (moderatedName === -1) {
-            throw Error("Server Error, please try again.");
+            throw new Error("Server Error, please try again.");
         }
 
         // replace any ' with a '' to escape
