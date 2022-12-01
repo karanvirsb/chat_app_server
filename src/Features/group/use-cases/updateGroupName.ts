@@ -37,7 +37,7 @@ export default function makeUpdateGroupName({
 
         const sanitizedGroupName = sanitizeName(newGroupName);
 
-        if (sanitizedGroupName.length <= 1) {
+        if (sanitizedGroupName.length <= 3) {
             throw Error("Group name must contain valid characters");
         }
 
@@ -47,7 +47,7 @@ export default function makeUpdateGroupName({
 
         const moderatedName = await handleModeration(sanitizedGroupName);
 
-        if (moderatedName) {
+        if (moderatedName && sanitizedGroupName.length > 3) {
             throw Error("Group name contains profanity");
         }
 
