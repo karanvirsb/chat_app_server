@@ -5,7 +5,8 @@ import { IGroup } from "../../src/Features/group/group";
 export default async function makeFakeGroup(): Promise<IGroup> {
     return {
         groupId: cuid(),
-        groupName: faker.animal.bird() + "" + faker.color.human(),
+        groupName: faker.company.bsNoun(),
         inviteCode: cuid.slug(),
+        dateCreated: new Date(),
     };
 }
