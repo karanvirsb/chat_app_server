@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import cuid from "cuid";
-import { IGroupMessage } from "../../src/Features/groupMessage/message";
+import { IGroupMessage } from "../../src/Features/groupMessage/groupMessage";
 
 export default async function makeFakeMessage(
     channelId: string,
