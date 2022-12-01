@@ -37,7 +37,7 @@ export default function makeUpdateGroupName({
 
         const sanitizedGroupName = sanitizeName(newGroupName);
 
-        if (sanitizedGroupName.length <= 3) {
+        if (sanitizedGroupName.length < 2) {
             throw Error("Group name must contain valid characters");
         }
 
