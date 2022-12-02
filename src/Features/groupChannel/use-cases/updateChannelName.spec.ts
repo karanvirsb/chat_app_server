@@ -4,6 +4,7 @@ import makeCreateChannel, { handleModerationType } from "./createChannel";
 import { moderateName } from "../../../Utilities/moderateText";
 import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeUpdateChannelName from "./updateChannelName";
+import groupTests from "../../../../__test__/functions/group";
 
 describe("updating channel name use case", () => {
     const handleModeration: handleModerationType = async (
@@ -21,8 +22,20 @@ describe("updating channel name use case", () => {
         channelDb,
     });
 
-    afterEach(async () => {
-        clearDb("group_channels");
+    beforeAll(async () => {
+        jest.setTimeout(30000);
+        const addedGroup = await groupTests.createTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
+    });
+
+    afterAll(async () => {
+        await clearDb("group_channels");
+        const deletedGroup = await groupTests.deleteTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
     });
 
     test("SUCCESS: updating channel name", async () => {
