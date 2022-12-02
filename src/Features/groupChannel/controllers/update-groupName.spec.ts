@@ -5,6 +5,7 @@ import { moderateName } from "../../../Utilities/moderateText";
 import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeUpdateChannelName from "../use-cases/updateChannelName";
 import makeUpdateChannelNameController from "./update-groupName";
+import groupTests from "../../../../__test__/functions/group";
 
 describe("Update group name controller", () => {
     jest.setTimeout(10000);
@@ -32,8 +33,20 @@ describe("Update group name controller", () => {
         updateChannelName,
     });
 
-    afterEach(async () => {
-        clearDb("group_channels");
+    beforeAll(async () => {
+        jest.setTimeout(30000);
+        const addedGroup = await groupTests.createTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
+    });
+
+    afterAll(async () => {
+        await clearDb("group_channels");
+        const deletedGroup = await groupTests.deleteTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
     });
 
     test("SUCCESS: updating channel name", async () => {
