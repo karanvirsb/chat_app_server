@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import cuid from "cuid";
 import makeGroupDb from "../../src/Features/group/data-access/group-db";
-import makeSupertokenDb from "../../supertokens/data-access/supertokens-db";
 import makeDb from "../fixures/db";
 import userTests from "./user";
 
