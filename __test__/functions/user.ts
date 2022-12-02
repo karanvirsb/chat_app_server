@@ -53,5 +53,8 @@ async function deleteTestUser({
 }: {
     userId: string;
 }): Promise<boolean> {
-    return (await supertokens.deleteUser(userId)).status === "OK";
+    let SupertokensDb = makeSupertokenDb({ makeDb });
+    const deletedUser = await SupertokensDb.deleteUser({ userId });
+
+    return deletedUser.success && deletedUser.data !== undefined;
 }
