@@ -5,6 +5,7 @@ import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeDeleteChannel from "./deleteChannel";
 import { moderateName } from "../../../Utilities/moderateText";
 import groupTests from "../../../../__test__/functions/group";
+import userTests from "../../../../__test__/functions/user";
 
 describe("deleting channel use case", () => {
     const handleModeration: handleModerationType = async (
@@ -24,6 +25,7 @@ describe("deleting channel use case", () => {
 
     beforeAll(async () => {
         jest.setTimeout(30000);
+        const addedUser = await userTests.addTestUserToDB({ userId: "123" });
         const addedGroup = await groupTests.createTestGroup({
             groupId: "123",
             userId: "123",
@@ -32,6 +34,7 @@ describe("deleting channel use case", () => {
 
     afterAll(async () => {
         await clearDb("group_channels");
+        const deletedUser = await userTests.deleteTestUser({ userId: "123" });
         const deletedGroup = await groupTests.deleteTestGroup({
             groupId: "123",
             userId: "123",
