@@ -35,7 +35,7 @@ async function addTestUserToDB({
         if (addedUser.success && addedUser.data) {
             addUser = await userDb.insert({
                 data: {
-                    userId: addedUser.data.user_id,
+                    userId: userId,
                     status: "online",
                     username: `${faker.name.firstName()}-${faker.name.lastName()}`,
                 },
