@@ -53,8 +53,5 @@ async function deleteTestUser({
 }: {
     userId: string;
 }): Promise<boolean> {
-    return (
-        (await supertokens.deleteUser("cc7d98b5-6f88-4ca5-87e2-435d1546f1fc"))
-            .status === "OK"
-    );
+    return (await supertokens.deleteUser(userId)).status === "OK";
 }
