@@ -89,6 +89,8 @@ describe("Channel db method tests", () => {
         );
         console.log(foundChannels);
         if (foundChannels.data)
-            expect(foundChannels.data[0].channelName).toBe(channel.channelName);
+            expect(
+                foundChannels.data[foundChannels.data.length - 1].channelName
+            ).toBe(channel.channelName);
     });
 });
