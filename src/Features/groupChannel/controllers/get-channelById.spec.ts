@@ -5,6 +5,7 @@ import { moderateName } from "../../../Utilities/moderateText";
 import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeGetChannelById from "../use-cases/getChannelById";
 import makeGetChannelByIdController from "./get-channelbyId";
+import groupTests from "../../../../__test__/functions/group";
 
 describe("Get channel by id controller", () => {
     jest.setTimeout(10000);
@@ -29,8 +30,20 @@ describe("Get channel by id controller", () => {
         getChannelById,
     });
 
-    afterEach(async () => {
-        clearDb("group_channels");
+    beforeAll(async () => {
+        jest.setTimeout(30000);
+        const addedGroup = await groupTests.createTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
+    });
+
+    afterAll(async () => {
+        await clearDb("group_channels");
+        const deletedGroup = await groupTests.deleteTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
     });
 
     test("SUCCESS: get channel by id", async () => {
