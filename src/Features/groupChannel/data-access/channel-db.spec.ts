@@ -1,13 +1,26 @@
 import makeFakeChannel from "../../../../__test__/fixures/channel";
 import makeDb, { clearDb } from "../../../../__test__/fixures/db";
+import groupTests from "../../../../__test__/functions/group";
 import makeChannelDb from "./channel-db";
 
 describe("Channel db method tests", () => {
     jest.setTimeout(10000);
     const channelDB = makeChannelDb({ makeDb });
 
-    afterEach(async () => {
+    beforeAll(async () => {
+        jest.setTimeout(30000);
+        const addedGroup = await groupTests.createTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
+    });
+
+    afterAll(async () => {
         await clearDb("group_channels");
+        const deletedGroup = await groupTests.deleteTestGroup({
+            groupId: "123",
+            userId: "123",
+        });
     });
 
     test("SUCCESS: create a channel", async () => {
