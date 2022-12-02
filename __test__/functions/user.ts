@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import makeUsersDb from "../../src/Features/user/data-access/users-db";
 import supertokens from "../../supertokens";
-import { IMakeSupertokensDb } from "../../supertokens/data-access/supertokens-db";
+import makeSupertokenDb from "../../supertokens/data-access/supertokens-db";
 import makeDb from "../fixures/db";
 
 const userTests = Object.freeze({
@@ -12,11 +12,10 @@ export default userTests;
 
 async function addTestUserToDB({
     userId,
-    SupertokensDb,
 }: {
     userId: string;
-    SupertokensDb: IMakeSupertokensDb["returnType"];
 }): Promise<boolean> {
+    let SupertokensDb = makeSupertokenDb({ makeDb });
     // creating user if it does not exist
     const userDb = makeUsersDb({ makeDb });
     const foundUser = await userDb.findById({
