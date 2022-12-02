@@ -24,12 +24,10 @@ async function createTestGroup({
     };
 
     const createdUser = await userTests.addTestUserToDB({ userId });
-    if (createdUser) {
-        const addedGroup = await groupDb.createGroup(group, userId);
-        return addedGroup.success;
-    }
 
-    return false;
+    const addedGroup = await groupDb.createGroup(group, userId);
+
+    return createdUser && addedGroup;
 }
 
 async function deleteTestGroup({
