@@ -25,7 +25,7 @@ export default function makeUpdateMessageText({ messageDb }: props) {
         const regex = /'/g;
 
         // replace any ' with a '' to escape
-        const newUpdateValue = updateValue.replace(regex, "''");
+        const newUpdateValue = updateValue.replace(regex, "\\'");
 
         return messageDb.updateMessage("text", messageId, newUpdateValue);
     };
