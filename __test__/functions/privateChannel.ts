@@ -14,14 +14,16 @@ export default privateChannelTests;
 async function createTestPrivateChannel({
     userId,
     friendsId,
+    channelId,
 }: {
     userId: string;
     friendsId: string;
+    channelId: string;
 }) {
     let privateChannelDb = makePrivateChannelDb({ makeDb });
 
     const channel: IPrivateChannel = {
-        channelId: cuid(),
+        channelId,
         channelName: faker.animal.cat(),
         dateCreated: new Date(),
         userId,
