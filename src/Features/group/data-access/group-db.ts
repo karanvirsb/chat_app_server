@@ -207,9 +207,7 @@ export default function makeGroupDb({
         const db = await makeDb();
         try {
             const query = `DELETE FROM groupt WHERE "groupId" = '${groupId}' RETURNING *`;
-            const groupUsersDelete = `DELETE FROM 'groupUsers' WHERE "gId" = '${groupId}'`;
             const res = await db.query(query);
-            const deleteUsers = await db.query(groupUsersDelete);
             if (res.rows.length > 0) {
                 const deletedGroup: IGroup = res.rows[0];
                 return { success: true, data: deletedGroup, error: "" };
