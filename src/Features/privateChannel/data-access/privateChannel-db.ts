@@ -178,7 +178,7 @@ export default function makePrivateChannelDb({
             const query = `
             SELECT * FROM private_channels 
             WHERE "userId" = '${userId}'
-            ORDER BY "dateCreated" DESC;`;
+            ORDER BY "dateCreated" ASC;`;
             const res = await db.query(query);
 
             if (res.rowCount >= 1) {
