@@ -212,7 +212,7 @@ export default function makeMessageDb({
         try {
             const query = `
             UPDATE group_messages 
-            SET "${updateName}" = ${updateValue} 
+            SET "${updateName}" = E'${updateValue}' 
             WHERE "messageId" = '${messageId}' RETURNING *;`;
 
             const res = await db.query(query);
