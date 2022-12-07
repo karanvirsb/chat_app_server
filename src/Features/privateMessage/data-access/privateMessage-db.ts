@@ -216,7 +216,7 @@ export default function makePrivateMessageDb({
         try {
             const query = `
             UPDATE private_messages 
-            SET "${updateName}" = ${updateValue} 
+            SET "${updateName}" = '${updateValue}' 
             WHERE "messageId" = '${messageId}' RETURNING *;`;
 
             const res = await db.query(query);
