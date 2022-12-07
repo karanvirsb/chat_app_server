@@ -2,12 +2,35 @@ import makeFriendsDb from "./friends-db";
 import makeDb, { clearDb } from "../../../../__test__/fixures/db";
 import { IFriends } from "../friends";
 import makeFakeFriends from "../../../../__test__/fixures/friends";
+import userTests from "../../../../__test__/functions/user";
 
 describe("friends DB testing", () => {
     const friendsDb = makeFriendsDb({ makeDb });
 
+    jest.setTimeout(30000);
+    const users = [
+        "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+        "312c0878-04c3-4585-835e-c66900ccc7a1",
+        "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+    ];
+    beforeAll(async () => {
+        const fakeUser = await userTests.addTestUserToDB({ userId: users[0] });
+        const fakeUser1 = await userTests.addTestUserToDB({ userId: users[1] });
+        const fakeUser2 = await userTests.addTestUserToDB({ userId: users[2] });
+    });
+
     afterAll(async () => {
-        clearDb("friends");
+        await clearDb("friends");
+
+        const deletedFakeUser = await userTests.addTestUserToDB({
+            userId: users[0],
+        });
+        const deletedFakeUser1 = await userTests.addTestUserToDB({
+            userId: users[1],
+        });
+        const deletedFakeUser2 = await userTests.addTestUserToDB({
+            userId: users[2],
+        });
     });
 
     test("SUCCESS: creating a friend", async () => {
