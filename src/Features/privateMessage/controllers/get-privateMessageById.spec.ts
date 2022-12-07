@@ -38,7 +38,7 @@ describe("getting a private message by id controller", () => {
     });
 
     afterAll(async () => {
-        await clearDb("group_messages");
+        await clearDb("private_messages");
         const deletedPrivateChannel =
             await privateChannelTests.deleteTestPrivateChannel({
                 channelId: "123",
