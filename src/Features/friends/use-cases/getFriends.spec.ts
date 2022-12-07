@@ -16,11 +16,13 @@ describe("Getting friends use case", () => {
         "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
         "312c0878-04c3-4585-835e-c66900ccc7a1",
         "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+        "3443c648-3323-4d6b-8830-c8a1b66a043a",
     ];
     beforeAll(async () => {
         const fakeUser = await userTests.addTestUserToDB({ userId: users[0] });
         const fakeUser1 = await userTests.addTestUserToDB({ userId: users[1] });
         const fakeUser2 = await userTests.addTestUserToDB({ userId: users[2] });
+        const fakeUser3 = await userTests.addTestUserToDB({ userId: users[3] });
     });
 
     afterEach(async () => {
@@ -37,6 +39,9 @@ describe("Getting friends use case", () => {
         });
         const deletedFakeUser2 = await userTests.addTestUserToDB({
             userId: users[2],
+        });
+        const deletedFakeUser3 = await userTests.addTestUserToDB({
+            userId: users[3],
         });
     });
 
@@ -59,7 +64,7 @@ describe("Getting friends use case", () => {
         const foundFriends = await getFriends(
             "5c0fc896-1af1-4c26-b917-550ac5eefa9e"
         );
-
+        console.log(foundFriends);
         if (foundFriends.data)
             expect(
                 foundFriends.data[foundFriends.data.length - 1].friendId
