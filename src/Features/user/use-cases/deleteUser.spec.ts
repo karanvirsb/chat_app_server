@@ -13,12 +13,12 @@ describe("Delete use case", () => {
     let SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
         makeDb,
     });
-
+    jest.setTimeout(30000);
     beforeAll(async () => {
         const createdUser = await SupertokensDb.addUser({
             user: {
                 user_id: "12345678910",
-                email: "random@gmai.com",
+                email: "randoms@gmai.com",
                 password: "123",
                 time_joined: Date.now(),
             },
@@ -31,6 +31,7 @@ describe("Delete use case", () => {
         await clearDb("usert");
     });
 
+    jest.setTimeout(30000);
     afterAll(async () => {
         const deletedUser = await SupertokensDb.deleteUser({
             userId: "12345678910",
