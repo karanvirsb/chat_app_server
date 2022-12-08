@@ -18,7 +18,7 @@ describe("Get user controller", () => {
     beforeAll(async () => {
         const createdUser = await SupertokensDb.addUser({
             user: {
-                user_id: "312c0878-04c3-4585-835e-c66900ccc7a1",
+                user_id: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
                 email: "randoms@gmai.com",
                 password: "123",
                 time_joined: Date.now(),
@@ -35,14 +35,14 @@ describe("Get user controller", () => {
     jest.setTimeout(3000);
     afterAll(async () => {
         const deletedUser = await SupertokensDb.deleteUser({
-            userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
+            userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
         });
         await closeDb();
     });
 
     it("successfully retrieve user", async () => {
         const fakeUser = await makeFakeUser({
-            userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
+            userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
         });
         const resp = await addUser(fakeUser);
         const user = await getAnUser({
