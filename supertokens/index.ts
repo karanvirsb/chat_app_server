@@ -220,4 +220,4 @@ function createUserObj(input: {
     return user;
 }
 
-export default supertokens;
+export default SuperTokens;
