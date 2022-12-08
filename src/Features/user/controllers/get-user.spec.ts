@@ -55,6 +55,6 @@ describe("Get user controller", () => {
             query: {},
         });
         console.log(user);
-        expect(user.body.data.username).toBe("tester");
+        expect(user.body.data.username).toBe(fakeUser.username);
     });
 });
