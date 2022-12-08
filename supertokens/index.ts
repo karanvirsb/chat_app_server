@@ -8,6 +8,7 @@ import {
 } from "../src/Features/user/use-cases";
 import { IUser } from "../src/Features/user/user";
 import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
+import SuperTokens from "supertokens-node/lib/build/supertokens";
 
 type signupResponse =
     | {
@@ -20,7 +21,7 @@ type signupResponse =
       }
     | GeneralErrorResponse;
 
-supertokens.init({
+SuperTokens.init({
     framework: "express",
     supertokens: {
         // try.supertokens.com is for demo purposes. Replace this with the address of your core instance (sign up on supertokens.com), or self host a core.
