@@ -52,7 +52,9 @@ describe("Group databse access", () => {
     afterAll(async () => {
         await clearDb("groupt");
         await clearDb('"groupUsers"');
-        await supertokens.deleteUser("5c0fc896-1af1-4c26-b917-550ac5eefa9e");
+        await SupertokensDb.deleteUser({
+            userId: "5c0fc896-1af1-4c26-b917-550ac5eefa9e",
+        });
         await closeDb();
     });
     test("inserted group correctly", async () => {
