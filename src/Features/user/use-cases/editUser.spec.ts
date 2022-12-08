@@ -19,10 +19,11 @@ describe("Edit Users use case", () => {
         makeDb,
     });
 
+    jest.setTimeout(30000);
     beforeAll(async () => {
         const createdUser = await SupertokensDb.addUser({
             user: {
-                user_id: "1234",
+                user_id: "12345678910",
                 email: "random@gmai.com",
                 password: "123",
                 time_joined: Date.now(),
@@ -36,8 +37,11 @@ describe("Edit Users use case", () => {
         await clearDb("usert");
     });
 
+    jest.setTimeout(50000);
     afterAll(async () => {
-        const deletedUser = await SupertokensDb.deleteUser({ userId: "1234" });
+        const deletedUser = await SupertokensDb.deleteUser({
+            userId: "12345678910",
+        });
         await closeDb();
     });
 
@@ -54,7 +58,7 @@ describe("Edit Users use case", () => {
     });
 
     it("Edit user successfully", async () => {
-        const user = await makeFakeUser({ userId: "1234" });
+        const user = await makeFakeUser({ userId: "12345678910" });
         const insertedUser = await usersDb.insert({ data: user });
 
         const updatedUser = await editUser({
