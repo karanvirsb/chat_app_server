@@ -42,7 +42,7 @@ describe("Edit user controller", () => {
 
     it("edit user ", async () => {
         const user = await makeFakeUser({
-            userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
+            userId: "312c0878-04c3-4585-835e-c66900ccc7a1",
         });
         const resp = await addUser(user);
         const edittedUser = await editAnUser({
@@ -58,7 +58,7 @@ describe("Edit user controller", () => {
             query: {},
         });
 
-        expect(edittedUser.body.data.status).toBe("offline");
         console.log(edittedUser);
+        expect(edittedUser.body.data.status).toBe("offline");
     });
 });
