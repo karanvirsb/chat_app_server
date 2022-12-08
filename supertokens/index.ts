@@ -21,7 +21,7 @@ type signupResponse =
       }
     | GeneralErrorResponse;
 
-SuperTokens.init({
+supertokens.init({
     framework: "express",
     supertokens: {
         // try.supertokens.com is for demo purposes. Replace this with the address of your core instance (sign up on supertokens.com), or self host a core.
@@ -220,4 +220,4 @@ function createUserObj(input: {
     return user;
 }
 
-export default SuperTokens;
+export default supertokens;
