@@ -61,7 +61,9 @@ describe("Add group controller", () => {
     afterAll(async () => {
         await clearDb("groupt");
         await clearDb('"groupUsers"');
-        await supertokens.deleteUser("cc7d98b5-6f88-4ca5-87e2-435d1546f1fc");
+        await SupertokensDb.deleteUser({
+            userId: "cc7d98b5-6f88-4ca5-87e2-435d1546f1fc",
+        });
         await closeDb();
     });
 
