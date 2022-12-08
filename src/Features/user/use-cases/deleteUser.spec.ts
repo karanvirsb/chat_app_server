@@ -1,14 +1,41 @@
 import makeDeleteUser from "./deleteUser";
-import makeDb, { clearDb } from "../../../../__test__/fixures/db";
+import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeUsersDb from "../data-access/users-db";
 import makeFakeUser from "../../../../__test__/fixures/user";
+import makeSupertokenDb, {
+    IMakeSupertokensDb,
+} from "../../../../supertokens/data-access/supertokens-db";
 
 describe("Delete use case", () => {
     let usersDb = makeUsersDb({ makeDb });
     let deleteUser = makeDeleteUser({ usersDb });
 
-    afterAll(() => {
-        clearDb("usert");
+    let SupertokensDb: IMakeSupertokensDb["returnType"] = makeSupertokenDb({
+        makeDb,
+    });
+
+    beforeAll(async () => {
+        const createdUser = await SupertokensDb.addUser({
+            user: {
+                user_id: "12345678910",
+                email: "random@gmai.com",
+                password: "123",
+                time_joined: Date.now(),
+            },
+        });
+        usersDb = makeUsersDb({ makeDb });
+        await clearDb("usert");
+    });
+
+    afterEach(async () => {
+        await clearDb("usert");
+    });
+
+    afterAll(async () => {
+        const deletedUser = await SupertokensDb.deleteUser({
+            userId: "12345678910",
+        });
+        await closeDb();
     });
 
     it("Error: Userid was not passed", async () => {
@@ -16,7 +43,7 @@ describe("Delete use case", () => {
     });
 
     it("Deleted user successfully", async () => {
-        const user = await makeFakeUser();
+        const user = await makeFakeUser({ userId: "12345678910" });
         const insertedUser = await usersDb.insert({ data: user });
         const deletedUser = await deleteUser(user.userId);
 
