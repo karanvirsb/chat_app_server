@@ -1,5 +1,4 @@
 import { ISupertokensDb } from ".";
-import { deleteUser } from "supertokens-node";
 
 type props = {
     makeDb: ISupertokensDb["makeDb"];
@@ -82,7 +81,6 @@ export default function makeSupertokenDb({
         try {
             const query = `DELETE FROM emailpassword_users WHERE user_id = '${userId}' RETURNING *;`;
             const res = await db.query(query);
-            await deleteUser({ userId });
             if (res.rowCount === 1) {
                 const user: user = res.rows[0];
                 return { success: true, data: user, error: "" };
