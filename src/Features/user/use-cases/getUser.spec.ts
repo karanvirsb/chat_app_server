@@ -15,6 +15,7 @@ describe("Get use case", () => {
         makeDb,
     });
 
+    jest.setTimeout(30000);
     beforeAll(async () => {
         const createdUser = await SupertokensDb.addUser({
             user: {
@@ -32,6 +33,7 @@ describe("Get use case", () => {
         await clearDb("usert");
     });
 
+    jest.setTimeout(3000);
     afterAll(async () => {
         const deletedUser = await SupertokensDb.deleteUser({
             userId: "12345678910",
