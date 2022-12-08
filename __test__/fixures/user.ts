@@ -2,9 +2,13 @@ import { faker } from "@faker-js/faker";
 import cuid from "cuid";
 import { IUser } from "../../src/Features/user/user";
 
-export default async function makeFakeUser(): Promise<IUser> {
+export default async function makeFakeUser({
+    userId,
+}: {
+    userId: string;
+}): Promise<IUser> {
     return {
-        userId: "1234",
+        userId,
         username: faker.name.firstName() + faker.color.human(),
         status: "online",
     };
