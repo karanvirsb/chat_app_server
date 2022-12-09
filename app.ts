@@ -106,7 +106,7 @@ app.put(
 // message routes
 
 app.get(
-    `/groupMessage`,
+    `/groupMessage/:messageId`,
     makeExpressCallback(messagesController.getMessageByIdController)
 );
 app.get(
@@ -181,7 +181,7 @@ app.put(
 );
 // privateMessage
 app.get(
-    `/privateMessage`,
+    `/privateMessage/:messageId`,
     makeExpressCallback(
         privateMessagesController.getPrivateMessageByIdController
     )
