@@ -16,6 +16,7 @@ import messagesController from "./src/Features/groupMessage/controllers";
 import makeExpressCallback from "./src/express-callback";
 import privateChannelControllers from "./src/Features/privateChannel/controllers";
 import privateMessagesController from "./src/Features/privateMessage/controllers";
+import friendsControllers from "./src/Features/friends/controllers";
 const appRoot = process.env.API_DOMAIN;
 
 const app = express();
@@ -130,6 +131,24 @@ app.put(
 );
 
 // Friends
+
+app.post(
+    "/friends/add",
+    makeExpressCallback(friendsControllers.addFriendController)
+);
+app.delete(
+    "/friends/delete",
+    makeExpressCallback(friendsControllers.deleteFriendController)
+);
+app.get(
+    "/friends/:userId&:friendId",
+    makeExpressCallback(friendsControllers.getAFriendController)
+);
+app.get(
+    "/friends/:userId",
+    makeExpressCallback(friendsControllers.getFriendsController)
+);
+
 // privateChannel
 
 app.get(
