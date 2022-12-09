@@ -14,6 +14,7 @@ import groupControllers from "./src/Features/group/controllers";
 import channelControllers from "./src/Features/groupChannel/controllers";
 import messagesController from "./src/Features/groupMessage/controllers";
 import makeExpressCallback from "./src/express-callback";
+import privateChannelControllers from "./src/Features/privateChannel/controllers";
 const appRoot = process.env.API_DOMAIN;
 
 const app = express();
@@ -126,5 +127,38 @@ app.put(
     `/groupMessage/text`,
     makeExpressCallback(messagesController.updateMessageTextController)
 );
+
+// Friends
+// privateChannel
+
+app.get(
+    `/privateChannel/:channelId`,
+    makeExpressCallback(
+        privateChannelControllers.getPrivateChannelByIdController
+    )
+);
+app.get(
+    `/privateChannel/user/:userId`,
+    makeExpressCallback(
+        privateChannelControllers.getPrivateChannelsByUserIdController
+    )
+);
+app.post(
+    `/privateChannel`,
+    makeExpressCallback(
+        privateChannelControllers.createPrivateChannelController
+    )
+);
+app.delete(
+    `/privateChannel`,
+    makeExpressCallback(
+        privateChannelControllers.deletePrivateChannelController
+    )
+);
+app.put(
+    `/privateChannel/lastActive`,
+    makeExpressCallback(privateChannelControllers.updateLastActiveController)
+);
+// privateMessage
 
 export default app;
