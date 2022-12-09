@@ -38,7 +38,7 @@ app.get(`/ping`, (req, res) => {
 });
 
 // user routes
-app.get(`/user`, makeExpressCallback(getAnUser));
+app.get(`/user/:id`, makeExpressCallback(getAnUser));
 app.delete(`/user/delete`, makeExpressCallback(deleteAnUser));
 app.put(`/user/update`, makeExpressCallback(editAnUser));
 
