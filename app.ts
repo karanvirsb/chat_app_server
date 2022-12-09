@@ -103,27 +103,27 @@ app.put(
 // message routes
 
 app.get(
-    `/message`,
+    `/groupMessage`,
     makeExpressCallback(messagesController.getMessageByIdController)
 );
 app.get(
-    `/message/channel`,
+    `/groupMessage/channel`,
     makeExpressCallback(messagesController.getMessagesByChannelIdController)
 );
 app.post(
-    `/message`,
+    `/groupMessage`,
     makeExpressCallback(messagesController.createMessageController)
 );
 app.delete(
-    `/message`,
+    `/groupMessage`,
     makeExpressCallback(messagesController.deleteMessageController)
 );
 app.put(
-    `/message/dateModified`,
+    `/groupMessage/dateModified`,
     makeExpressCallback(messagesController.updateDateModifiedController)
 );
 app.put(
-    `/message/text`,
+    `/groupMessage/text`,
     makeExpressCallback(messagesController.updateMessageTextController)
 );
 
