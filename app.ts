@@ -15,6 +15,7 @@ import channelControllers from "./src/Features/groupChannel/controllers";
 import messagesController from "./src/Features/groupMessage/controllers";
 import makeExpressCallback from "./src/express-callback";
 import privateChannelControllers from "./src/Features/privateChannel/controllers";
+import privateMessagesController from "./src/Features/privateMessage/controllers";
 const appRoot = process.env.API_DOMAIN;
 
 const app = express();
@@ -160,5 +161,39 @@ app.put(
     makeExpressCallback(privateChannelControllers.updateLastActiveController)
 );
 // privateMessage
+app.get(
+    `/privateMessage`,
+    makeExpressCallback(
+        privateMessagesController.getPrivateMessageByIdController
+    )
+);
+app.get(
+    `/privateMessage/channel`,
+    makeExpressCallback(
+        privateMessagesController.getPrivateMessagesByChannelIdController
+    )
+);
+app.post(
+    `/privateMessage`,
+    makeExpressCallback(
+        privateMessagesController.createPrivateMessageController
+    )
+);
+app.delete(
+    `/privateMessage`,
+    makeExpressCallback(
+        privateMessagesController.deletePrivateMessageController
+    )
+);
+app.put(
+    `/privateMessage/dateModified`,
+    makeExpressCallback(privateMessagesController.updateDateModifiedController)
+);
+app.put(
+    `/privateMessage/text`,
+    makeExpressCallback(
+        privateMessagesController.updatePrivateMessageTextController
+    )
+);
 
 export default app;
