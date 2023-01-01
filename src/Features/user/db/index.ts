@@ -9,8 +9,8 @@ export default async function setupUserDb() {
   const db = await makeDb();
   const result = await db.query(`
     CREATE TABLE IF NOT EXISTS usert (
-      "userId" VARCHAR(100) REFERENCES emailpassword_users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-      username VARCHAR(50) PRIMARY KEY, 
+      "userId" VARCHAR(100) REFERENCES emailpassword_users(user_id) ON DELETE CASCADE ON UPDATE CASCADE PRIMARY KEY,
+      username VARCHAR(50) UNIQUE, 
       status VARCHAR(50));
   `);
   // console.log("🚀 ~ file: index.ts ~ line 24 ~ setupUserDb ~ result", result);
