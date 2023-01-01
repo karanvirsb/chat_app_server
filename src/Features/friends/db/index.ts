@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default async function setupFriendsDb() {
-    console.log("setting up friends database...");
-    // database will be created if it doesnt exist already
-
+  console.log("setting up friends database...");
+  // database will be created if it doesnt exist already
+  try {
     const db = await makeDb();
     const result = await db.query(`
     CREATE TABLE IF NOT EXISTS friends(
@@ -20,4 +20,7 @@ export default async function setupFriendsDb() {
     //     result
     // );
     console.log("Friends Database set up complete...");
+  } catch (err) {
+    console.log("Friends DB ERROR: ", err);
+  }
 }

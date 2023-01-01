@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default async function setupMessageDb() {
-    console.log("setting up message database...");
-    // database will be created if it doesnt exist already
-
+  console.log("setting up message database...");
+  // database will be created if it doesnt exist already
+  try {
     const db = await makeDb();
     const result = await db.query(
-        `CREATE TABLE IF NOT EXISTS group_messages (
+      `CREATE TABLE IF NOT EXISTS group_messages (
           "messageId" VARCHAR(100) PRIMARY KEY,
           "dateCreated" timestamp,
           "dateModified" timestamp,
@@ -25,4 +25,7 @@ export default async function setupMessageDb() {
     // );
 
     console.log("Message Database set up complete...");
+  } catch (error) {
+    console.log("Group Message DB ERROR", error);
+  }
 }
