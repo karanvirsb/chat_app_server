@@ -7,7 +7,9 @@ import {
   DeleteEvent,
   UpdateGroupUsersEvent,
   LeaveGroupEvent,
-} from "./types/groupChannel";
+} from "./types/group";
+
+import { UpdateChannelsListEvent } from "./types/groupChannel";
 
 type props = {
   httpServer: Partial<ServerOptions> | undefined | any;
@@ -54,6 +56,14 @@ export default function buildSockets({ httpServer }: props) {
 
       socket.on("leave_the_group", (groupUserData: LeaveGroupEvent) => {
         io.to(groupUserData.groupId).emit("removed_user", groupUserData);
+      });
+
+      // group channel events
+      socket.on("update_channel_lists", (data: UpdateChannelsListEvent) => {
+        io.to(data.groupId).emit(
+          "update_channel_list",
+          data.payload.channelInfo
+        );
       });
     });
 
