@@ -6,9 +6,9 @@ import cors from "cors";
 import { middleware } from "supertokens-node/framework/express";
 import supertokens from "./supertokens";
 import {
-    deleteAnUser,
-    editAnUser,
-    getAnUser,
+  deleteAnUser,
+  editAnUser,
+  getAnUser,
 } from "./src/Features/user/controllers";
 import groupControllers from "./src/Features/group/controllers";
 import channelControllers from "./src/Features/groupChannel/controllers";
@@ -22,19 +22,19 @@ const appRoot = process.env.API_DOMAIN;
 const app = express();
 
 app.use(
-    cors({
-        origin: ["http://localhost:3000", "http://google.com", "*"],
-        allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
-        credentials: true,
-    })
+  cors({
+    origin: ["http://localhost:3000", "http://google.com", "*"],
+    allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
+    credentials: true,
+  })
 );
 
 app.use(middleware());
 app.use(bodyParser.json());
 // routes
 app.get(`/ping`, (req, res) => {
-    console.log(req);
-    res.status(200).json({ message: "echo" });
+  console.log(req);
+  res.status(200).json({ message: "echo" });
 });
 
 // user routes
@@ -45,174 +45,162 @@ app.put(`/user/update`, makeExpressCallback(editAnUser));
 // group routes
 app.post(`/group`, makeExpressCallback(groupControllers.addGroupController));
 app.post(
-    `/group/user`,
-    makeExpressCallback(groupControllers.addUserToGroupController)
+  `/group/user`,
+  makeExpressCallback(groupControllers.addUserToGroupController)
 );
 app.delete(
-    `/group`,
-    makeExpressCallback(groupControllers.deleteGroupController)
+  `/group`,
+  makeExpressCallback(groupControllers.deleteGroupController)
 );
 app.delete(
-    `/group/user`,
-    makeExpressCallback(groupControllers.deleteUserFromGroupController)
+  `/group/user`,
+  makeExpressCallback(groupControllers.deleteUserFromGroupController)
 );
 app.get(
-    `/group/:groupId`,
-    makeExpressCallback(groupControllers.getGroupByIdController)
+  `/group/:groupId`,
+  makeExpressCallback(groupControllers.getGroupByIdController)
 );
 app.get(
-    `/group/invite/:inviteCode`,
-    makeExpressCallback(groupControllers.getGroupByInviteCodeController)
+  `/group/invite/:inviteCode`,
+  makeExpressCallback(groupControllers.getGroupByInviteCodeController)
 );
 app.get(
-    `/group/users/:groupId`,
-    makeExpressCallback(groupControllers.getUsersByGroupIdController)
+  `/group/users/:groupId`,
+  makeExpressCallback(groupControllers.getUsersByGroupIdController)
 );
 app.get(
-    `/group/userId/:userId`,
-    makeExpressCallback(groupControllers.getGroupsByUserIdController)
+  `/group/userId/:userId`,
+  makeExpressCallback(groupControllers.getGroupsByUserIdController)
 );
 app.put(
-    `/group/name`,
-    makeExpressCallback(groupControllers.updateGroupNameController)
+  `/group/name`,
+  makeExpressCallback(groupControllers.updateGroupNameController)
 );
 app.put(
-    `/group/invite`,
-    makeExpressCallback(groupControllers.updateInviteCodeController)
+  `/group/invite`,
+  makeExpressCallback(groupControllers.updateInviteCodeController)
 );
 
 // channel routes
 app.get(
-    `/groupChannel/:channelId`,
-    makeExpressCallback(channelControllers.getChannelByIdController)
+  `/groupChannel/:channelId`,
+  makeExpressCallback(channelControllers.getChannelByIdController)
 );
 app.get(
-    `/groupChannel/all/:groupId`,
-    makeExpressCallback(channelControllers.getChannelsByGroupIdController)
+  `/groupChannel/all/:groupId`,
+  makeExpressCallback(channelControllers.getChannelsByGroupIdController)
 );
 app.post(
-    `/groupChannel`,
-    makeExpressCallback(channelControllers.createChannelController)
+  `/groupChannel`,
+  makeExpressCallback(channelControllers.createChannelController)
 );
 app.delete(
-    `/groupChannel`,
-    makeExpressCallback(channelControllers.deleteChannelController)
+  `/groupChannel`,
+  makeExpressCallback(channelControllers.deleteChannelController)
 );
 app.put(
-    `/groupChannel/name`,
-    makeExpressCallback(channelControllers.updateChannelNameController)
+  `/groupChannel/name`,
+  makeExpressCallback(channelControllers.updateChannelNameController)
 );
 
 // message routes
 
 app.get(
-    `/groupMessage/:messageId`,
-    makeExpressCallback(messagesController.getMessageByIdController)
-);
-app.get(
-    `/groupMessage/channel`,
-    makeExpressCallback(messagesController.getMessagesByChannelIdController)
+  `/groupMessage/:messageId`,
+  makeExpressCallback(messagesController.getMessageByIdController)
 );
 app.post(
-    `/groupMessage`,
-    makeExpressCallback(messagesController.createMessageController)
+  `/groupMessage/channel`,
+  makeExpressCallback(messagesController.getMessagesByChannelIdController)
+);
+app.post(
+  `/groupMessage`,
+  makeExpressCallback(messagesController.createMessageController)
 );
 app.delete(
-    `/groupMessage`,
-    makeExpressCallback(messagesController.deleteMessageController)
+  `/groupMessage`,
+  makeExpressCallback(messagesController.deleteMessageController)
 );
 app.put(
-    `/groupMessage/dateModified`,
-    makeExpressCallback(messagesController.updateDateModifiedController)
+  `/groupMessage/dateModified`,
+  makeExpressCallback(messagesController.updateDateModifiedController)
 );
 app.put(
-    `/groupMessage/text`,
-    makeExpressCallback(messagesController.updateMessageTextController)
+  `/groupMessage/text`,
+  makeExpressCallback(messagesController.updateMessageTextController)
 );
 
 // Friends
 
 app.post(
-    "/friends/add",
-    makeExpressCallback(friendsControllers.addFriendController)
+  "/friends/add",
+  makeExpressCallback(friendsControllers.addFriendController)
 );
 app.delete(
-    "/friends/delete",
-    makeExpressCallback(friendsControllers.deleteFriendController)
+  "/friends/delete",
+  makeExpressCallback(friendsControllers.deleteFriendController)
 );
 app.get(
-    "/friends/:userId&:friendId",
-    makeExpressCallback(friendsControllers.getAFriendController)
+  "/friends/:userId&:friendId",
+  makeExpressCallback(friendsControllers.getAFriendController)
 );
 app.get(
-    "/friends/:userId",
-    makeExpressCallback(friendsControllers.getFriendsController)
+  "/friends/:userId",
+  makeExpressCallback(friendsControllers.getFriendsController)
 );
 
 // privateChannel
 
 app.get(
-    `/privateChannel/:channelId`,
-    makeExpressCallback(
-        privateChannelControllers.getPrivateChannelByIdController
-    )
+  `/privateChannel/:channelId`,
+  makeExpressCallback(privateChannelControllers.getPrivateChannelByIdController)
 );
 app.get(
-    `/privateChannel/user/:userId`,
-    makeExpressCallback(
-        privateChannelControllers.getPrivateChannelsByUserIdController
-    )
+  `/privateChannel/user/:userId`,
+  makeExpressCallback(
+    privateChannelControllers.getPrivateChannelsByUserIdController
+  )
 );
 app.post(
-    `/privateChannel`,
-    makeExpressCallback(
-        privateChannelControllers.createPrivateChannelController
-    )
+  `/privateChannel`,
+  makeExpressCallback(privateChannelControllers.createPrivateChannelController)
 );
 app.delete(
-    `/privateChannel`,
-    makeExpressCallback(
-        privateChannelControllers.deletePrivateChannelController
-    )
+  `/privateChannel`,
+  makeExpressCallback(privateChannelControllers.deletePrivateChannelController)
 );
 app.put(
-    `/privateChannel/lastActive`,
-    makeExpressCallback(privateChannelControllers.updateLastActiveController)
+  `/privateChannel/lastActive`,
+  makeExpressCallback(privateChannelControllers.updateLastActiveController)
 );
 // privateMessage
 app.get(
-    `/privateMessage/:messageId`,
-    makeExpressCallback(
-        privateMessagesController.getPrivateMessageByIdController
-    )
+  `/privateMessage/:messageId`,
+  makeExpressCallback(privateMessagesController.getPrivateMessageByIdController)
 );
 app.get(
-    `/privateMessage/channel`,
-    makeExpressCallback(
-        privateMessagesController.getPrivateMessagesByChannelIdController
-    )
+  `/privateMessage/channel`,
+  makeExpressCallback(
+    privateMessagesController.getPrivateMessagesByChannelIdController
+  )
 );
 app.post(
-    `/privateMessage`,
-    makeExpressCallback(
-        privateMessagesController.createPrivateMessageController
-    )
+  `/privateMessage`,
+  makeExpressCallback(privateMessagesController.createPrivateMessageController)
 );
 app.delete(
-    `/privateMessage`,
-    makeExpressCallback(
-        privateMessagesController.deletePrivateMessageController
-    )
+  `/privateMessage`,
+  makeExpressCallback(privateMessagesController.deletePrivateMessageController)
 );
 app.put(
-    `/privateMessage/dateModified`,
-    makeExpressCallback(privateMessagesController.updateDateModifiedController)
+  `/privateMessage/dateModified`,
+  makeExpressCallback(privateMessagesController.updateDateModifiedController)
 );
 app.put(
-    `/privateMessage/text`,
-    makeExpressCallback(
-        privateMessagesController.updatePrivateMessageTextController
-    )
+  `/privateMessage/text`,
+  makeExpressCallback(
+    privateMessagesController.updatePrivateMessageTextController
+  )
 );
 
 export default app;
