@@ -24,9 +24,9 @@ export default function makeGetMessagesByChannelIdController({
     };
     try {
       const foundMessages = await getMessagesByChannelId(
-        httpRequest.params.channelId,
-        new Date(httpRequest.params.dateCreated),
-        parseInt(httpRequest.params.limit)
+        httpRequest.body.channelId,
+        new Date(httpRequest.body.dateCreated),
+        parseInt(httpRequest.body.limit)
       );
       return {
         headers,
