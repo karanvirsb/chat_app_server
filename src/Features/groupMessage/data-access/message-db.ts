@@ -176,6 +176,7 @@ export default function makeMessageDb({
     dateCreated: Date,
     limit: number
   ): Promise<returingPaginatedMessages> {
+    console.log(dateCreated);
     const db = await makeDb();
     try {
       const query = `
@@ -193,21 +194,21 @@ export default function makeMessageDb({
           WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
         dateCreated.getTime() / 1000
       }) 
-          ORDER BY "dateCreated" DESC 
+          ORDER BY "dateCreated" DESC
           LIMIT ${limit + 1}
           ) as t
       ) AS rows
 `;
       const res = await db.query(query);
-      console.log(res);
+      console.log(res.rows);
       if (res.rowCount >= 1) {
-        const message: IGroupMessage[] = res.rows;
+        const message: { count: number; rows: IGroupMessage[] } = res.rows[0];
         return {
           success: true,
           data: pagination<IGroupMessage>({
-            prevDate: message[message.length - 2].dateCreated,
-            nextDate: message[message.length - 1].dateCreated,
-            rows: message,
+            prevDate: message.rows[message.rows.length - 2].dateCreated,
+            nextDate: message.rows[message.rows.length - 1].dateCreated,
+            rows: message.rows,
           }),
           error: "",
         };
