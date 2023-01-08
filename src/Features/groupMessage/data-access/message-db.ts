@@ -14,7 +14,7 @@ type returningMessageData = Promise<{
   error: string;
 }>;
 
-type returingPaginatedMessages = Promise<{
+export type returingPaginatedMessages = Promise<{
   success: boolean;
   data: Pagination<IGroupMessage> | undefined;
   error: string;
