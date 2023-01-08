@@ -1,26 +1,24 @@
 type props = {
-  page: number;
-  limit: number;
-  count: number;
+  prevDate: Date;
+  nextDate: Date | null;
   rows: unknown[];
 };
 
 interface ReturnPagination<T> {
   hasNextPage: boolean;
-  hasPrevPage: boolean;
+  cursor: Date | null;
   data: T[];
 }
 export default function pagination({
-  page,
-  limit,
-  count,
+  prevDate,
+  nextDate,
   rows,
 }: props): ReturnPagination<unknown> {
-  const hasNextPage = count - page * limit > 0;
-  const hasPrevPage = page > 1;
+  const hasNextPage = nextDate !== null;
+
   return {
     hasNextPage,
-    hasPrevPage,
+    cursor: nextDate ? prevDate : null,
     data: rows,
   };
 }
