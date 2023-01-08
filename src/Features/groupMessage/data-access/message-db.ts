@@ -170,14 +170,27 @@ export default function makeMessageDb({
     const db = await makeDb();
     try {
       const query = `
-                SELECT * FROM group_messages 
-                WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
+      SELECT
+      (
+        SELECT COUNT(*) 
+          FROM group_messages
+          WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
+        dateCreated.getTime() / 1000
+      })
+      ) as count,
+      (
+        SELECT json_agg(t.*) FROM (
+          SELECT * FROM group_messages 
+          WHERE "channelId" = '${channelId}' AND "dateCreated" < to_timestamp(${
         dateCreated.getTime() / 1000
       }) 
-                ORDER BY "dateCreated" DESC 
-                LIMIT ${limit};`;
+          ORDER BY "dateCreated" DESC 
+          LIMIT ${limit}
+          ) as t
+      ) AS rows
+`;
       const res = await db.query(query);
-
+      console.log(res);
       if (res.rowCount >= 1) {
         const message: IGroupMessage[] = res.rows;
         return { success: true, data: message, error: "" };
