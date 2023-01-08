@@ -4,21 +4,18 @@ type props = {
   rows: unknown[];
 };
 
-interface ReturnPagination<T> {
+export interface Pagination<T> {
   hasNextPage: boolean;
   cursor: Date | null;
   data: T[];
 }
-export default function pagination({
-  prevDate,
-  nextDate,
-  rows,
-}: props): ReturnPagination<unknown> {
+
+export default function pagination<T>({ prevDate, nextDate, rows }: props) {
   const hasNextPage = nextDate !== null;
 
   return {
     hasNextPage,
     cursor: nextDate ? prevDate : null,
-    data: rows,
+    data: rows as T[],
   };
 }
