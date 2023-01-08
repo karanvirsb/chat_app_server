@@ -1,3 +1,4 @@
+import { Pagination } from "../../../Utilities/pagination/pagination";
 import {
   IHttpRequest,
   httpResponseType,
@@ -8,7 +9,7 @@ import { IGetMessagesByChannelIdUseCase } from "../use-cases/getMessagesByChanne
 interface IGetMessagesByChannelIdResponse extends httpResponseType {
   body: {
     success: boolean;
-    data: IGroupMessage[] | undefined;
+    data: Pagination<IGroupMessage> | undefined;
     error: string;
   };
 }
