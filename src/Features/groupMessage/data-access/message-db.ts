@@ -1,4 +1,7 @@
 import { IGroupMessageDb } from ".";
+import pagination, {
+  Pagination,
+} from "../../../Utilities/pagination/pagination";
 import { IGroupMessage } from "../groupMessage";
 
 type props = {
@@ -8,6 +11,12 @@ type props = {
 type returningMessageData = Promise<{
   success: boolean;
   data: IGroupMessage | undefined;
+  error: string;
+}>;
+
+type returingPaginatedMessages = Promise<{
+  success: boolean;
+  data: Pagination<IGroupMessage> | undefined;
   error: string;
 }>;
 
@@ -28,7 +37,7 @@ export interface IMakeMessageDb {
       channelId: string,
       dateCreated: Date,
       limit: number
-    ) => Promise<returningMessagesData>;
+    ) => Promise<returingPaginatedMessages>;
     updateMessage: (
       updateName: keyof IGroupMessage,
       messageId: string,
@@ -166,7 +175,7 @@ export default function makeMessageDb({
     channelId: string,
     dateCreated: Date,
     limit: number
-  ): Promise<returningMessagesData> {
+  ): Promise<returingPaginatedMessages> {
     const db = await makeDb();
     try {
       const query = `
@@ -185,7 +194,7 @@ export default function makeMessageDb({
         dateCreated.getTime() / 1000
       }) 
           ORDER BY "dateCreated" DESC 
-          LIMIT ${limit}
+          LIMIT ${limit + 1}
           ) as t
       ) AS rows
 `;
@@ -193,7 +202,15 @@ export default function makeMessageDb({
       console.log(res);
       if (res.rowCount >= 1) {
         const message: IGroupMessage[] = res.rows;
-        return { success: true, data: message, error: "" };
+        return {
+          success: true,
+          data: pagination<IGroupMessage>({
+            prevDate: message[message.length - 2].dateCreated,
+            nextDate: message[message.length - 1].dateCreated,
+            rows: message,
+          }),
+          error: "",
+        };
       } else {
         return {
           success: true,
