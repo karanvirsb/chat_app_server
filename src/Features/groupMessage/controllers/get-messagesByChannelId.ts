@@ -3,13 +3,24 @@ import {
   IHttpRequest,
   httpResponseType,
 } from "../../../express-callback/index";
+import { returingPaginatedMessages } from "../data-access/message-db";
 import { IGroupMessage } from "../groupMessage";
 import { IGetMessagesByChannelIdUseCase } from "../use-cases/getMessagesByChannelId";
 
 interface IGetMessagesByChannelIdResponse extends httpResponseType {
   body: {
     success: boolean;
-    data: Pagination<IGroupMessage> | undefined;
+    data:
+      | undefined
+      | {
+          hasNextPage: boolean;
+          cursor: {
+            cursor: Date | null;
+            channelId: string;
+            limit: number;
+          };
+          data: IGroupMessage[];
+        };
     error: string;
   };
 }
