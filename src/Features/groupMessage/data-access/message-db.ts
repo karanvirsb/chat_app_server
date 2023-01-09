@@ -214,6 +214,7 @@ export default function makeMessageDb({
           nextDate: message.rows[limit - 1]?.dateCreated ?? null,
           rows: message.rows,
         });
+
         const nextPage = `${process.env.API_DOMAIN}/groupMessage/channel/messages?channelId=${channelId}&limit=${limit}&dateCreated=${paginatedData.cursor}`;
         return {
           success: true,
