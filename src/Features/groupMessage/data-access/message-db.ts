@@ -210,8 +210,8 @@ export default function makeMessageDb({
       if (res.rowCount >= 1) {
         const message: { count: number; rows: IGroupMessage[] } = res.rows[0];
         const paginatedData = pagination<IGroupMessage>({
-          prevDate: message.rows[message.rows.length - 2].dateCreated,
-          nextDate: message.rows[message.rows.length - 1].dateCreated,
+          prevDate: message.rows[limit - 2]?.dateCreated ?? null,
+          nextDate: message.rows[limit - 1]?.dateCreated ?? null,
           rows: message.rows,
         });
         const cursor = { cursor: paginatedData.cursor, channelId, limit };
