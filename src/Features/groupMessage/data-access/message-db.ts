@@ -16,7 +16,13 @@ type returningMessageData = Promise<{
 
 export type returingPaginatedMessages = Promise<{
   success: boolean;
-  data: Pagination<IGroupMessage> | undefined;
+  data:
+    | {
+        hasNextPage: boolean;
+        cursor: { cursor: Date | null; channelId: string; limit: number };
+        data: IGroupMessage[];
+      }
+    | undefined;
   error: string;
 }>;
 
@@ -203,13 +209,19 @@ export default function makeMessageDb({
       console.log(res.rows);
       if (res.rowCount >= 1) {
         const message: { count: number; rows: IGroupMessage[] } = res.rows[0];
+        const paginatedData = pagination<IGroupMessage>({
+          prevDate: message.rows[message.rows.length - 2].dateCreated,
+          nextDate: message.rows[message.rows.length - 1].dateCreated,
+          rows: message.rows,
+        });
+        const cursor = { cursor: paginatedData.cursor, channelId, limit };
         return {
           success: true,
-          data: pagination<IGroupMessage>({
-            prevDate: message.rows[message.rows.length - 2].dateCreated,
-            nextDate: message.rows[message.rows.length - 1].dateCreated,
-            rows: message.rows,
-          }),
+          data: {
+            cursor,
+            data: paginatedData.data,
+            hasNextPage: paginatedData.hasNextPage,
+          },
           error: "",
         };
       } else {
