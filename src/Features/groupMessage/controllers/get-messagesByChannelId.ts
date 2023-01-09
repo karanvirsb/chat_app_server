@@ -35,10 +35,13 @@ export default function makeGetMessagesByChannelIdController({
       "Content-Type": "application/json",
     };
     try {
+      const channelId: string = httpRequest.query.channelId as any;
+      const dateCreated: string = httpRequest.query.dateCreated as any;
+      const limit: string = httpRequest.query.limit as any;
       const foundMessages = await getMessagesByChannelId(
-        httpRequest.body.channelId,
-        new Date(httpRequest.body.dateCreated),
-        parseInt(httpRequest.body.limit)
+        channelId,
+        new Date(dateCreated),
+        parseInt(limit)
       );
       return {
         headers,
