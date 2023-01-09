@@ -109,8 +109,8 @@ app.get(
   `/groupMessage/:messageId`,
   makeExpressCallback(messagesController.getMessageByIdController)
 );
-app.post(
-  `/groupMessage/channel`,
+app.get(
+  `/groupMessage/channel/messages`,
   makeExpressCallback(messagesController.getMessagesByChannelIdController)
 );
 app.post(
