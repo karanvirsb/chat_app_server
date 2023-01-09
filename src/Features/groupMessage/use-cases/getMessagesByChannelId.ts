@@ -25,6 +25,10 @@ export default function makeGetMessagesByChannelId({ messageDb }: props) {
     if (!dateCreated || Number.isNaN(dateCreated.getTime()))
       throw new Error("Date Created needs to be supplied.");
 
-    return messageDb.getMessagesByChannelId(channelId, dateCreated, limit);
+    return await messageDb.getMessagesByChannelId(
+      channelId,
+      dateCreated,
+      limit
+    );
   };
 }
