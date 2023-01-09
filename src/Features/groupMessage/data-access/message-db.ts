@@ -17,12 +17,12 @@ type returningMessageData = Promise<{
 export type returingPaginatedMessages = Promise<{
   success: boolean;
   data:
+    | undefined
     | {
         hasNextPage: boolean;
         cursor: { cursor: Date | null; channelId: string; limit: number };
         data: IGroupMessage[];
-      }
-    | undefined;
+      };
   error: string;
 }>;
 
@@ -43,7 +43,7 @@ export interface IMakeMessageDb {
       channelId: string,
       dateCreated: Date,
       limit: number
-    ) => Promise<returingPaginatedMessages>;
+    ) => returingPaginatedMessages;
     updateMessage: (
       updateName: keyof IGroupMessage,
       messageId: string,
@@ -181,7 +181,7 @@ export default function makeMessageDb({
     channelId: string,
     dateCreated: Date,
     limit: number
-  ): Promise<returingPaginatedMessages> {
+  ): returingPaginatedMessages {
     console.log(dateCreated);
     const db = await makeDb();
     try {
