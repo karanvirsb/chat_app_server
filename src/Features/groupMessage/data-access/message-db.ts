@@ -19,7 +19,7 @@ export type returingPaginatedMessages = Promise<{
   data:
     | {
         hasNextPage: boolean;
-        nextPage: string;
+        nextPage: string | null;
         data: IGroupMessage[];
       }
     | undefined;
@@ -218,7 +218,7 @@ export default function makeMessageDb({
         return {
           success: true,
           data: {
-            nextPage,
+            nextPage: paginatedData.hasNextPage ? nextPage : null,
             data: paginatedData.data,
             hasNextPage: paginatedData.hasNextPage,
           },
