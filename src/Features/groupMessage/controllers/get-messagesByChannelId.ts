@@ -14,11 +14,7 @@ interface IGetMessagesByChannelIdResponse extends httpResponseType {
       | undefined
       | {
           hasNextPage: boolean;
-          cursor: {
-            cursor: Date | null;
-            channelId: string;
-            limit: number;
-          };
+          nextPage: string | null;
           data: IGroupMessage[];
         };
     error: string;
