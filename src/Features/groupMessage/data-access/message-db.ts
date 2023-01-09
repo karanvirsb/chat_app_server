@@ -17,12 +17,12 @@ type returningMessageData = Promise<{
 export type returingPaginatedMessages = Promise<{
   success: boolean;
   data:
-    | undefined
     | {
         hasNextPage: boolean;
-        cursor: { cursor: Date | null; channelId: string; limit: number };
+        nextPage: string;
         data: IGroupMessage[];
-      };
+      }
+    | undefined;
   error: string;
 }>;
 
@@ -214,11 +214,11 @@ export default function makeMessageDb({
           nextDate: message.rows[limit - 1]?.dateCreated ?? null,
           rows: message.rows,
         });
-        const cursor = { cursor: paginatedData.cursor, channelId, limit };
+        const nextPage = `${process.env.API_DOMAIN}/groupMessage/channel/messages?channelId=${channelId}&limit=${limit}&dateCreated=${paginatedData.cursor}`;
         return {
           success: true,
           data: {
-            cursor,
+            nextPage,
             data: paginatedData.data,
             hasNextPage: paginatedData.hasNextPage,
           },
