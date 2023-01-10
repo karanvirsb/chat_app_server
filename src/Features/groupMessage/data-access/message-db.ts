@@ -206,9 +206,10 @@ export default function makeMessageDb({
       ) AS rows
 `;
       const res = await db.query(query);
-      console.log(res.rows);
+
       if (res.rowCount >= 1) {
         const message: { count: number; rows: IGroupMessage[] } = res.rows[0];
+
         const paginatedData = pagination<IGroupMessage>({
           prevDate: message.rows[limit - 2]?.dateCreated ?? null,
           nextDate: message.rows[limit - 1]?.dateCreated ?? null,
