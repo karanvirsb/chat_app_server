@@ -15,7 +15,7 @@ export default function pagination<T>({ prevDate, nextDate, rows }: props) {
 
   return {
     hasNextPage,
-    cursor: nextDate ? new Date(nextDate).toISOString() : null,
+    cursor: nextDate ? prevDate + ".000Z" : null,
     data: rows as T[],
   };
 }
