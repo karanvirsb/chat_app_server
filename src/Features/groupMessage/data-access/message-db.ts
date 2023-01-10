@@ -213,7 +213,7 @@ export default function makeMessageDb({
         const paginatedData = pagination<IGroupMessage>({
           prevDate: message.rows[limit - 2]?.dateCreated ?? null,
           nextDate: message.rows[limit - 1]?.dateCreated ?? null,
-          rows: message.rows,
+          rows: message.rows.reverse(),
         });
 
         const nextPage = `${process.env.API_DOMAIN}/groupMessage/channel/messages?channelId=${channelId}&limit=${limit}&dateCreated=${paginatedData.cursor}`;
