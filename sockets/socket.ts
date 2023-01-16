@@ -22,7 +22,13 @@ const chatRooms = new Map<string, Set<string>>();
 export default function buildSockets({ httpServer }: props) {
   return function socketIo() {
     const io = new Server(httpServer, {
-      cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] },
+      cors: {
+        origin: "http://localhost:3000",
+        preflightContinue: false,
+        credentials: true,
+        methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+        optionsSuccessStatus: 204,
+      },
     });
 
     io.on("connection", (socket) => {
