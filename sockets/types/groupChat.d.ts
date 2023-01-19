@@ -1,16 +1,16 @@
 import { IGroupMessage } from "../../src/Features/groupMessage/groupMessage";
 
 export interface ICreateGroupMessageEvent {
-  channelId: string;
+  groupId: string;
   payload: { messageInfo: IGroupMessage };
 }
 
 export interface IUpdateGroupMessageEvent {
-  channelId: string;
+  groupId: string;
   payload: { messageInfo: Partial<IGroupMessage> };
 }
 
 export interface IDeleteGroupMessageEvent {
-  channelId: string;
-  payload: { messageId: string };
+  groupId: string;
+  payload: { messageId: string; channelId: string };
 }
