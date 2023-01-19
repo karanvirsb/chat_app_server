@@ -10,6 +10,11 @@ import {
 } from "./types/group";
 
 import { UpdateChannelsListEvent } from "./types/groupChannel";
+import {
+  ICreateGroupMessageEvent,
+  IDeleteGroupMessageEvent,
+  IUpdateGroupMessageEvent,
+} from "./types/groupChat";
 
 type props = {
   httpServer: Partial<ServerOptions> | undefined | any;
@@ -70,6 +75,19 @@ export default function buildSockets({ httpServer }: props) {
           "update_channel_list",
           data.payload.channelInfo
         );
+      });
+
+      // group chat events
+      socket.on("create_group_message", (data: ICreateGroupMessageEvent) => {
+        io.to(data.groupId).emit("new_group_chat_message", data);
+      });
+
+      socket.on("update_group_message", (data: IUpdateGroupMessageEvent) => {
+        io.to(data.groupId).emit("update_group_chat_message", data);
+      });
+
+      socket.on("delete_group_message", (data: IDeleteGroupMessageEvent) => {
+        io.to(data.groupId).emit("delete_group_chat_message", data);
       });
     });
 
