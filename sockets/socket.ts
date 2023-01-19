@@ -79,14 +79,19 @@ export default function buildSockets({ httpServer }: props) {
 
       // group chat events
       socket.on("create_group_message", (data: ICreateGroupMessageEvent) => {
+        console.log(data);
         io.to(data.groupId).emit("new_group_chat_message", data);
       });
 
       socket.on("update_group_message", (data: IUpdateGroupMessageEvent) => {
+        console.log(data);
+
         io.to(data.groupId).emit("update_group_chat_message", data);
       });
 
       socket.on("delete_group_message", (data: IDeleteGroupMessageEvent) => {
+        console.log(data);
+
         io.to(data.groupId).emit("delete_group_chat_message", data);
       });
     });
