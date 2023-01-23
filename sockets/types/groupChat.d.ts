@@ -12,5 +12,10 @@ export interface IUpdateGroupMessageEvent {
 
 export interface IDeleteGroupMessageEvent {
   groupId: string;
-  payload: { messageId: string; channelId: string };
+  payload: {
+    messageId: string;
+    channelId: string;
+    pageIndex: number;
+    currIndex: number;
+  };
 }
