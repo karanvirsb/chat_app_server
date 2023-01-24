@@ -15,6 +15,8 @@ import {
   IDeleteGroupMessageEvent,
   IUpdateGroupMessageEvent,
 } from "./types/groupChat";
+import { ILogoutEvent } from "./types/user";
+import { editUser } from "../src/Features/user/use-cases";
 
 type props = {
   httpServer: Partial<ServerOptions> | undefined | any;
@@ -39,6 +41,7 @@ export default function buildSockets({ httpServer }: props) {
     io.on("connection", (socket) => {
       console.log("Socket is connected", socket.id);
 
+      // USER EVENTS
       // makes the socket join all the rooms
       socket.on("join_rooms", joinRooms(socket));
 
@@ -46,6 +49,17 @@ export default function buildSockets({ httpServer }: props) {
         socket.leave(data.groupId);
       });
 
+      socket.on("logout_user", async (data: ILogoutEvent) => {
+        await editUser({ userId: data.userId, updates: { status: "offline" } });
+        data.payload.groupIds.forEach((groupId) => {
+          io.to(groupId).emit("logged_out_user", {
+            userId: data.userId,
+            payload: groupId,
+          });
+        });
+      });
+
+      // GROUP EVENTS
       // when the update is successful
       socket.on("updated_group_name", (data: UpdateEvent) => {
         io.to(data.groupId).emit("update_group_name", data);
