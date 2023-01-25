@@ -49,6 +49,17 @@ export default function buildSockets({ httpServer }: props) {
         socket.leave(data.groupId);
       });
 
+      socket.on("login_user", async (data: ILogoutEvent) => {
+        await editUser({ userId: data.userId, updates: { status: "online" } });
+        data.payload.groupIds.forEach((groupId) => {
+          console.log(`userId: ${data.userId}, groupId: ${groupId}`);
+          io.to(groupId).emit("logged_user_in", {
+            userId: data.userId,
+            payload: groupId,
+          });
+        });
+      });
+
       socket.on("logout_user", async (data: ILogoutEvent) => {
         await editUser({ userId: data.userId, updates: { status: "offline" } });
         data.payload.groupIds.forEach((groupId) => {
