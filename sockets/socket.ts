@@ -41,42 +41,26 @@ export default function buildSockets({ httpServer }: props) {
       },
     });
 
+    let droppedConnectionTimeout: NodeJS.Timeout;
     io.on("connection", (socket) => {
       console.log("Socket is connected", socket.id);
       // socket.on("disconnect", () => {
       //   console.log("socket disconnected: ", socket.id, socket.disconnected);
       // });
-      let drop: NodeJS.Timeout;
-      const dropCheck = () => {
-        if (!socket) return; // if socket does not exist exit
-        socket.emit("echo"); //emit an echo
-        // check to see if user will respond
-        drop = setTimeout(async () => {
-          console.log("socket did not respond");
-          await editUser({
-            userId: socket.data.userId,
-            updates: { status: "offline" },
-          });
-          socket.rooms.forEach((room) => {
-            io.to(room).emit("logged_user_out", {
-              userId: socket.data.userId,
-              payload: room,
-            });
-          });
-        }, 5000);
-      };
-
-      const setDrop = () => setTimeout(() => dropCheck(), MAX_TIMEOUT);
 
       socket.on("ping", () => {
-        console.log("received ping");
-        clearTimeout(drop);
-        setDrop();
+        clearTimeout(droppedConnectionTimeout);
+        setCheckDroppedConnection(socket, droppedConnectionTimeout, io);
       });
 
       // USER EVENTS
       // makes the socket join all the rooms
-      socket.on("join_rooms", joinRooms(socket, setDrop));
+      socket.on(
+        "join_rooms",
+        joinRooms(socket, () =>
+          setCheckDroppedConnection(socket, droppedConnectionTimeout, io)
+        )
+      );
 
       socket.on("leave_room", (data: LeaveRoomEvent) => {
         socket.leave(data.groupId);
@@ -155,15 +139,47 @@ export default function buildSockets({ httpServer }: props) {
 }
 function joinRooms(
   socket: socket,
-  setDrop: () => NodeJS.Timeout
+  setCheckDroppedConnection: () => void
 ): (...args: any[]) => void {
   return ({ rooms, userId }: { rooms: string | string[]; userId: string }) => {
     socket.data["userId"] = userId;
-    setDrop();
+    setCheckDroppedConnection();
     console.log(
       `socketId: ${socket.id} and userId: ${socket.data.userId} is joining rooms: ${rooms}`
     );
     socket.emit("joined_room");
     socket.join(rooms);
   };
+}
+
+function isConnectionDropped(
+  socket: socket,
+  drop: NodeJS.Timeout,
+  io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+) {
+  if (!socket) return; // if socket does not exist exit
+  socket.emit("echo"); //emit an echo
+
+  // check to see if user will respond
+  drop = setTimeout(async () => {
+    console.log("socket did not respond");
+    await editUser({
+      userId: socket.data.userId,
+      updates: { status: "offline" },
+    }); // set status to offline
+    socket.rooms.forEach((room) => {
+      io.to(room).emit("logged_user_out", {
+        userId: socket.data.userId,
+        payload: room,
+      });
+    }); // send status change to other users
+  }, 5000);
+}
+
+function setCheckDroppedConnection(
+  socket: socket,
+  drop: NodeJS.Timeout,
+  io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>
+) {
+  setTimeout(() => isConnectionDropped(socket, drop, io), MAX_TIMEOUT);
 }
