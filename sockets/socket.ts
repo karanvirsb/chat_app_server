@@ -27,6 +27,8 @@ type socket = Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
 
 const chatRooms = new Map<string, Set<string>>();
 
+const MAX_TIMEOUT = 240000; // 3 mins
+
 export default function buildSockets({ httpServer }: props) {
   return function socketIo() {
     const io = new Server(httpServer, {
@@ -49,13 +51,22 @@ export default function buildSockets({ httpServer }: props) {
         if (!socket) return; // if socket does not exist exit
         socket.emit("echo"); //emit an echo
         // check to see if user will respond
-        drop = setTimeout(() => {
+        drop = setTimeout(async () => {
           console.log("socket did not respond");
-          socket.disconnect();
+          await editUser({
+            userId: socket.data.userId,
+            updates: { status: "offline" },
+          });
+          socket.rooms.forEach((room) => {
+            io.to(room).emit("logged_user_out", {
+              userId: socket.data.userId,
+              payload: room,
+            });
+          });
         }, 5000);
       };
 
-      const setDrop = () => setTimeout(() => dropCheck(), 5000);
+      const setDrop = () => setTimeout(() => dropCheck(), MAX_TIMEOUT);
 
       socket.on("ping", () => {
         console.log("received ping");
