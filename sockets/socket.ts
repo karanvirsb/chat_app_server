@@ -17,6 +17,7 @@ import {
 } from "./types/groupChat";
 import { ILogoutEvent } from "./types/user";
 import { editUser } from "../src/Features/user/use-cases";
+import { disconnect } from "process";
 
 type props = {
   httpServer: Partial<ServerOptions> | undefined | any;
@@ -40,10 +41,31 @@ export default function buildSockets({ httpServer }: props) {
 
     io.on("connection", (socket) => {
       console.log("Socket is connected", socket.id);
+      // socket.on("disconnect", () => {
+      //   console.log("socket disconnected: ", socket.id, socket.disconnected);
+      // });
+      let drop: NodeJS.Timeout;
+      const dropCheck = () => {
+        if (!socket) return; // if socket does not exist exit
+        socket.emit("echo"); //emit an echo
+        // check to see if user will respond
+        drop = setTimeout(() => {
+          console.log("socket did not respond");
+          socket.disconnect();
+        }, 5000);
+      };
+
+      const setDrop = () => setTimeout(() => dropCheck(), 5000);
+
+      socket.on("ping", () => {
+        console.log("received ping");
+        clearTimeout(drop);
+        setDrop();
+      });
 
       // USER EVENTS
       // makes the socket join all the rooms
-      socket.on("join_rooms", joinRooms(socket));
+      socket.on("join_rooms", joinRooms(socket, setDrop));
 
       socket.on("leave_room", (data: LeaveRoomEvent) => {
         socket.leave(data.groupId);
@@ -120,22 +142,15 @@ export default function buildSockets({ httpServer }: props) {
     return io;
   };
 }
-function joinRooms(socket: socket): (...args: any[]) => void {
+function joinRooms(
+  socket: socket,
+  setDrop: () => NodeJS.Timeout
+): (...args: any[]) => void {
   return ({ rooms, userId }: { rooms: string | string[]; userId: string }) => {
-    // for (let room of rooms) {
-    //     // if room exists added user
-    //     if (chatRooms.has(room)) {
-    //         const users = chatRooms.get(room);
-    //         users?.add(userId);
-    //     } else {
-    //         // if room doesnt exist add room and user
-    //         const users = new Set<string>();
-    //         users.add(userId);
-    //         chatRooms.set(room, users);
-    //     }
-    // }
+    socket.data["userId"] = userId;
+    setDrop();
     console.log(
-      `socketId: ${socket.id} and userId: ${userId} is joining rooms: ${rooms}`
+      `socketId: ${socket.id} and userId: ${socket.data.userId} is joining rooms: ${rooms}`
     );
     socket.emit("joined_room");
     socket.join(rooms);
