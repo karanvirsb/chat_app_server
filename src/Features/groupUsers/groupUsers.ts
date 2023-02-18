@@ -1,29 +1,28 @@
 export interface IGroupUser {
-  groupId: string;
-  userId: string;
+  gId: string;
+  uId: string;
   roles: string[];
   lastChecked: Date;
 }
 
 export default function makeGroupUser() {
   return function createGroupUser({
-    groupId,
-    userId,
+    gId,
+    uId,
     roles,
     lastChecked,
   }: IGroupUser) {
-    if (groupId === null || groupId.length <= 0)
+    if (gId === null || gId.length <= 0)
       throw new Error("Group Id must be string.");
-    if (userId === null || userId.length <= 0)
-      throw new Error("UserId must be string.");
+    if (uId === null || uId.length <= 0) throw new Error("uId must be string.");
     if (roles === null || roles.length <= 0)
       throw new Error("Roles must be an array.");
     if (lastChecked === null || Number.isNaN(lastChecked.getTime()))
       throw new Error("LastChecked must be a real date.");
 
     return Object.freeze({
-      getGroupId: () => groupId,
-      getUserId: () => userId,
+      getgId: () => gId,
+      getuId: () => uId,
       getRoles: () => roles,
       getLastChecked: () => lastChecked,
     });
