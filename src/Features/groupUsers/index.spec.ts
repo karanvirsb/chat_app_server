@@ -27,5 +27,11 @@ describe("Testing group user", () => {
       "UserId must be string."
     );
   });
-  it("ERROR: roles needs to exist", () => {});
+  it("ERROR: roles needs to exist", () => {
+    const userWithoutRoles = structuredClone(fakeGroupUser);
+    userWithoutRoles.roles = [];
+    expect(() => buildGroupUser(userWithoutRoles)).toThrow(
+      "Roles must be an array."
+    );
+  });
 });
