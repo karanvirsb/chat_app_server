@@ -139,7 +139,7 @@ export default function makeGroupDb({
         groupInfo.groupName,
         groupInfo.inviteCode,
       ]);
-
+      // TODO add group users use case
       if (result.rows.length >= 1) {
         const group = result.rows[0];
         return { success: true, data: group, error: "" };
