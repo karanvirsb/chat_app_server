@@ -12,7 +12,7 @@ export default async function setupGroupDb() {
         "gId" VARCHAR(100) REFERENCES groupt("groupId") ON DELETE CASCADE ON UPDATE CASCADE,
         "uId" VARCHAR(100) REFERENCES usert("userId") ON UPDATE CASCADE ON DELETE CASCADE,
         roles TEXT [],
-        "lastActive" timestamp,
+        "lastChecked" timestamp,
         PRIMARY KEY ("gId", "uId")
       );
     `);
