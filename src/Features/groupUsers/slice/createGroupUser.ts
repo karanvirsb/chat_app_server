@@ -11,14 +11,14 @@ export function makeCreateGroupDBAccess({
   makeDb,
 }: makeCreateGroupDBAccessProps) {
   return async function createGroupDb({
-    groupId,
-    userId,
+    gId,
+    uId,
     lastChecked,
     roles,
   }: IGroupUser) {
     const db = await makeDb(); // creating db access
     try {
-      const q = `INSERT INTO "groupUsers" values('${groupId}', '${userId}', '{${roles.join(
+      const q = `INSERT INTO "groupUsers" values('${gId}', '${uId}', '{${roles.join(
         ", "
       )}}', to_timestamp(${lastChecked.getTime()}/1000)) RETURNING *;`;
 

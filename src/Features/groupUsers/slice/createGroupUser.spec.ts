@@ -22,14 +22,14 @@ describe("Create Group User Tests", () => {
   });
   it("Create user successfully", async () => {
     const groupUser = await createGroupDb({
-      groupId: "123",
-      userId: "123",
+      gId: "123",
+      uId: "123",
       roles: ["2000"],
       lastChecked: new Date(),
     });
     console.log(groupUser);
     expect(groupUser.data?.gId).toBe("123");
 
-    expect(groupUser.data?.userId).toBe("123");
+    expect(groupUser.data?.uId).toBe("123");
   });
 });
