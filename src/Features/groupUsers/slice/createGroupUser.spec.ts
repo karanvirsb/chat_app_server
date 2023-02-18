@@ -28,7 +28,8 @@ describe("Create Group User Tests", () => {
       lastChecked: new Date(),
     });
     console.log(groupUser);
-    expect(groupUser.data?.groupId).toBe("123");
+    expect(groupUser.data?.gId).toBe("123");
+
     expect(groupUser.data?.userId).toBe("123");
   });
 });
