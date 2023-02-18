@@ -1,7 +1,34 @@
+import buildGroupUser from "..";
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
 
-export function makeCreateGroupUseCase() {}
+type createGroupDb = {
+  createGroupDb: ({ gId, uId, lastChecked, roles }: IGroupUser) => Promise<
+    | {
+        success: boolean;
+        data: IGroupUser;
+        error: string;
+      }
+    | {
+        success: boolean;
+        data: undefined;
+        error: string;
+      }
+  >;
+};
+
+export function makeCreateGroupUseCase({ createGroupDb }: createGroupDb) {
+  return async function createGroupUseCase(groupUserInfo: IGroupUser) {
+    const groupUser = buildGroupUser(groupUserInfo);
+
+    return await createGroupDb({
+      gId: groupUser.getgId(),
+      uId: groupUser.getuId(),
+      lastChecked: groupUser.getLastChecked(),
+      roles: groupUser.getRoles(),
+    });
+  };
+}
 
 type makeCreateGroupDBAccessProps = {
   makeDb: IGroupUsersDb["makeDb"];
