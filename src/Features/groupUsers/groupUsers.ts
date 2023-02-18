@@ -1,4 +1,4 @@
-interface IGroupUser {
+export interface IGroupUser {
   groupId: string;
   userId: string;
   roles: string[];
