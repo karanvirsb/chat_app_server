@@ -14,12 +14,18 @@ describe("Testing group user", () => {
     expect(user.getGroupId()).toBe(fakeGroupUser.groupId);
   });
   it("ERROR: groupid needs to exist", () => {
-    const userWithoutGroupId = fakeGroupUser;
+    const userWithoutGroupId = structuredClone(fakeGroupUser);
     userWithoutGroupId.groupId = "";
     expect(() => buildGroupUser(userWithoutGroupId)).toThrow(
       "Group Id must be string."
     );
   });
-  it("ERROR: userid needs to exist", () => {});
+  it("ERROR: userid needs to exist", () => {
+    const userWithoutUserId = structuredClone(fakeGroupUser);
+    userWithoutUserId.userId = "";
+    expect(() => buildGroupUser(userWithoutUserId)).toThrow(
+      "UserId must be string."
+    );
+  });
   it("ERROR: roles needs to exist", () => {});
 });
