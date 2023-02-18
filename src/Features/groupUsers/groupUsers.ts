@@ -17,7 +17,7 @@ export default function makeGroupUser() {
     if (userId === null || userId.length <= 0)
       throw new Error("UserId must be string.");
     if (roles === null || roles.length <= 0)
-      throw new Error("Roles must be array.");
+      throw new Error("Roles must be an array.");
     if (lastChecked === null || Number.isNaN(lastChecked.getTime()))
       throw new Error("LastChecked must be a real date.");
 
