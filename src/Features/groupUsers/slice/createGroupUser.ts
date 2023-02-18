@@ -20,7 +20,7 @@ export function makeCreateGroupDBAccess({
     try {
       const q = `INSERT INTO "groupUsers" values('${groupId}', '${userId}', '{${roles.join(
         ", "
-      )}}', to_timestamp(${lastChecked.getTime()}/1000),) RETURNING *;`;
+      )}}', to_timestamp(${lastChecked.getTime()}/1000)) RETURNING *;`;
 
       const result = await db.query(q);
 
