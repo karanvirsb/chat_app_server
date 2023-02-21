@@ -1,11 +1,15 @@
 import {
+  makeDeleteGroupUserController,
   makeDeleteGroupUserDBA,
   makeDeleteGroupUserUC,
 } from "./deleteGroupUser";
+import request from "supertest";
 import makeDb from "../../../../__test__/fixures/db";
 import groupTests from "../../../../__test__/functions/group";
 import userTests from "../../../../__test__/functions/user";
 import groupUserTests from "../../../../__test__/functions/groupUser";
+import app from "../../../../app";
+import { IGroupUser } from "../groupUsers";
 
 describe("Testing deleting group user DB", () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
@@ -116,5 +120,64 @@ describe("Test Delete group user use case", () => {
         );
       }
     }
+  });
+});
+
+describe("Test Delete group user controller", () => {
+  const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
+  const deleteGroupUserMockedDBA = jest.fn(deleteGroupUserDBA);
+  deleteGroupUserMockedDBA.mockResolvedValueOnce(
+    Promise.resolve({
+      success: true,
+      data: {
+        gId: "123",
+        uId: "123",
+        roles: ["2000"],
+        lastChecked: new Date(),
+      },
+      error: "",
+    })
+  );
+  let deleteGroupUserUC = makeDeleteGroupUserUC({
+    deleteGroupUserDBA: deleteGroupUserMockedDBA,
+  });
+
+  let deleteGroupUserC = makeDeleteGroupUserController({ deleteGroupUserUC });
+
+  beforeAll(async () => {
+    let testUser = await userTests.addTestUserToDB({ userId: "123" });
+    let testGroup = await groupTests.createTestGroup({
+      groupId: "123",
+      userId: "123",
+    });
+    let testGroupUser = await groupUserTests.createGroupUserTest({
+      groupId: "123",
+      userId: "123",
+    });
+  });
+
+  afterAll(async () => {
+    let testUser = await userTests.deleteTestUser({ userId: "123" });
+    let testGroup = await groupTests.deleteTestGroup({
+      groupId: "123",
+      userId: "123",
+    });
+    let testGroupUser = await groupUserTests.deleteGroupUserTest({
+      groupId: "123",
+      userId: "123",
+    });
+    jest.resetAllMocks();
+  });
+
+  it("SUCCESS: Delete group user", async () => {
+    request(app)
+      .delete(`/group-users?groupId=123&userId=123`)
+      .expect(200)
+      .then((response) => {
+        console.log(response.body);
+        const groupUser = response.body.data as IGroupUser;
+        expect(response.body.success).toBe(true);
+        expect(groupUser.gId).toBe("123");
+      });
   });
 });
