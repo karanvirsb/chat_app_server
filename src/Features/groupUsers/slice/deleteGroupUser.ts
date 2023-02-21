@@ -24,7 +24,28 @@ export type deleteGroupUserUCDependency = {
 
 export function deleteGroupUserUC({
   deleteGroupUserDb,
-}: deleteGroupUserUCDependency) {}
+}: deleteGroupUserUCDependency) {
+  return async function ({
+    groupId,
+    userId,
+  }: {
+    groupId: string;
+    userId: string;
+  }) {
+    if (groupId.length === 0 || groupId === null) {
+      throw new Error(
+        "GroupId must be a string and must have length greater than 0."
+      );
+    }
+    if (userId.length === 0 || userId === null) {
+      throw new Error(
+        "UserId must be a string and must have length greater than 0."
+      );
+    }
+
+    return await deleteGroupUserDb({ groupId, userId });
+  };
+}
 
 export type deleteGroupUserDBAProps = {
   makeDb: IGroupUsersDb["makeDb"];
