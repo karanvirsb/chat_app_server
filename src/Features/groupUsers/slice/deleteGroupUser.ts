@@ -33,14 +33,14 @@ export function deleteGroupUserDBA({ makeDb }: deleteGroupUserDBAProps) {
       } else {
         return {
           success: true,
-          data: [],
+          data: undefined,
           error: "Could not remove the user from the group.",
         };
       }
     } catch (error) {
       return {
         success: true,
-        data: [],
+        data: undefined,
         error: error + "",
       };
     } finally {
