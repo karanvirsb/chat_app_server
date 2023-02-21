@@ -1,8 +1,10 @@
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
 
+export function deleteGroupUserC() {}
+
 export type deleteGroupUserUCDependency = {
-  deleteGroupUserDb: ({
+  deleteGroupUserDBA: ({
     groupId,
     userId,
   }: {
@@ -22,10 +24,10 @@ export type deleteGroupUserUCDependency = {
   >;
 };
 
-export function deleteGroupUserUC({
-  deleteGroupUserDb,
+export function makeDeleteGroupUserUC({
+  deleteGroupUserDBA,
 }: deleteGroupUserUCDependency) {
-  return async function ({
+  return async function deleteGroupUserUC({
     groupId,
     userId,
   }: {
@@ -43,7 +45,7 @@ export function deleteGroupUserUC({
       );
     }
 
-    return await deleteGroupUserDb({ groupId, userId });
+    return await deleteGroupUserDBA({ groupId, userId });
   };
 }
 
@@ -51,8 +53,8 @@ export type deleteGroupUserDBAProps = {
   makeDb: IGroupUsersDb["makeDb"];
 };
 
-export function deleteGroupUserDBA({ makeDb }: deleteGroupUserDBAProps) {
-  return async function deleteGroupUserDB({
+export function makeDeleteGroupUserDBA({ makeDb }: deleteGroupUserDBAProps) {
+  return async function deleteGroupUserDBA({
     groupId,
     userId,
   }: {
