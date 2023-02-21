@@ -1,6 +1,31 @@
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
 
+export type deleteGroupUserUCDependency = {
+  deleteGroupUserDb: ({
+    groupId,
+    userId,
+  }: {
+    groupId: string;
+    userId: string;
+  }) => Promise<
+    | {
+        success: boolean;
+        data: IGroupUser;
+        error: string;
+      }
+    | {
+        success: boolean;
+        data: undefined;
+        error: string;
+      }
+  >;
+};
+
+export function deleteGroupUserUC({
+  deleteGroupUserDb,
+}: deleteGroupUserUCDependency) {}
+
 export type deleteGroupUserDBAProps = {
   makeDb: IGroupUsersDb["makeDb"];
 };
