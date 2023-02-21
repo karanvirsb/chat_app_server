@@ -1,5 +1,6 @@
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
+import { IHttpRequest, httpResponseType } from "../../../express-callback";
 
 export type deleteGroupUserReturn = ({
   groupId,
@@ -24,7 +25,48 @@ export type makeDeleteGroupUserControllerDep = {
   deleteGroupUserUC: deleteGroupUserReturn;
 };
 
-export function makeDeleteGroupUserController() {}
+export interface IDeleteGroupUserC extends httpResponseType {
+  body: {
+    success: boolean;
+    data: IGroupUser | undefined;
+    error: string;
+  };
+}
+
+export function makeDeleteGroupUserController({
+  deleteGroupUserUC,
+}: makeDeleteGroupUserControllerDep) {
+  return async function deleteGroupUserController(
+    httpRequest: IHttpRequest
+  ): Promise<IDeleteGroupUserC> {
+    const headers: { [key: string]: string } = {
+      "Content-Type": "application/json",
+    };
+
+    try {
+      const result = await deleteGroupUserUC({
+        groupId: httpRequest.query.groupId as string,
+        userId: httpRequest.query.userId as string,
+      });
+
+      return { headers, statusCode: 200, body: result };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          headers,
+          statusCode: 400,
+          body: { success: false, data: undefined, error: error.message },
+        };
+      } else {
+        return {
+          headers,
+          statusCode: 400,
+          body: { success: false, data: undefined, error: error + "" },
+        };
+      }
+    }
+  };
+}
 
 export type deleteGroupUserUCDependency = {
   deleteGroupUserDBA: deleteGroupUserReturn;
