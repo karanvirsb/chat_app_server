@@ -1,27 +1,33 @@
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
 
-export function deleteGroupUserC() {}
+export type deleteGroupUserReturn = ({
+  groupId,
+  userId,
+}: {
+  groupId: string;
+  userId: string;
+}) => Promise<
+  | {
+      success: boolean;
+      data: IGroupUser;
+      error: string;
+    }
+  | {
+      success: boolean;
+      data: undefined;
+      error: string;
+    }
+>;
+
+export type makeDeleteGroupUserControllerDep = {
+  deleteGroupUserUC: deleteGroupUserReturn;
+};
+
+export function makeDeleteGroupUserController() {}
 
 export type deleteGroupUserUCDependency = {
-  deleteGroupUserDBA: ({
-    groupId,
-    userId,
-  }: {
-    groupId: string;
-    userId: string;
-  }) => Promise<
-    | {
-        success: boolean;
-        data: IGroupUser;
-        error: string;
-      }
-    | {
-        success: boolean;
-        data: undefined;
-        error: string;
-      }
-  >;
+  deleteGroupUserDBA: deleteGroupUserReturn;
 };
 
 export function makeDeleteGroupUserUC({
