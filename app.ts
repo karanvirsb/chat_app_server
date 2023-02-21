@@ -83,10 +83,7 @@ app.put(
 );
 
 // GROUP USER ROUTES
-app.delete(
-  "/group-users?:groupId&:userId",
-  makeExpressCallback(deleteGroupUserController)
-);
+app.delete("/group-users", makeExpressCallback(deleteGroupUserController));
 
 // channel routes
 app.get(
