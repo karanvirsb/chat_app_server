@@ -30,12 +30,18 @@ export function deleteGroupUserDBA({ makeDb }: deleteGroupUserDBAProps) {
           data: groupUser,
           error: "",
         };
+      } else {
+        return {
+          success: true,
+          data: [],
+          error: "Could not remove the user from the group.",
+        };
       }
     } catch (error) {
       return {
         success: true,
         data: [],
-        error: "Could not remove the user from the group.",
+        error: error + "",
       };
     } finally {
       db.release();
