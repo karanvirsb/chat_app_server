@@ -10,6 +10,7 @@ import userTests from "../../../../__test__/functions/user";
 import groupUserTests from "../../../../__test__/functions/groupUser";
 import app from "../../../../app";
 import { IGroupUser } from "../groupUsers";
+import Express from "express";
 
 describe("Testing deleting group user DB", () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
@@ -42,7 +43,7 @@ describe("Testing deleting group user DB", () => {
       groupId: "123",
       userId: "123",
     });
-    console.log(deleteGroupUser);
+
     expect(deleteGroupUser.data?.gId).toBe("123");
 
     expect(deleteGroupUser.data?.uId).toBe("123");
@@ -125,21 +126,20 @@ describe("Test Delete group user use case", () => {
 
 describe("Test Delete group user controller", () => {
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
-  const deleteGroupUserMockedDBA = jest.fn(deleteGroupUserDBA);
-  deleteGroupUserMockedDBA.mockResolvedValueOnce(
-    Promise.resolve({
+  type args = { groupId: string; userId: string };
+  let deleteGroupUserUC = makeDeleteGroupUserUC({ deleteGroupUserDBA });
+  let deleteGroupUserUCMock = jest.fn<typeof deleteGroupUserUC, []>();
+  deleteGroupUserUCMock.mockImplementation(() => ({ groupId, userId }) => {
+    return Promise.resolve({
       success: true,
       data: {
-        gId: "123",
-        uId: "123",
+        gId: groupId,
+        uId: userId,
         roles: ["2000"],
         lastChecked: new Date(),
-      },
+      } as IGroupUser,
       error: "",
-    })
-  );
-  let deleteGroupUserUC = makeDeleteGroupUserUC({
-    deleteGroupUserDBA: deleteGroupUserMockedDBA,
+    });
   });
 
   let deleteGroupUserC = makeDeleteGroupUserController({ deleteGroupUserUC });
@@ -166,18 +166,17 @@ describe("Test Delete group user controller", () => {
       groupId: "123",
       userId: "123",
     });
-    jest.resetAllMocks();
   });
 
   it("SUCCESS: Delete group user", async () => {
-    request(app)
-      .delete(`/group-users?groupId=123&userId=123`)
-      .expect(200)
-      .then((response) => {
-        console.log(response.body);
-        const groupUser = response.body.data as IGroupUser;
-        expect(response.body.success).toBe(true);
-        expect(groupUser.gId).toBe("123");
-      });
+    const httpRequest = Express.request;
+    httpRequest.query = {
+      groupId: "123",
+      userId: "123",
+    };
+
+    const result = await deleteGroupUserC(httpRequest);
+
+    expect(result.body.data?.gId).toBe("123");
   });
 });
