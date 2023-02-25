@@ -1,8 +1,14 @@
-function DBUpdateStr(args: { [key: string]: any }) {
+export default function DBUpdateStr(args: { [key: string]: any }) {
   const updateArr: string[] = [];
+
+  for (let i in args) {
+    updateArr.push(DBUpdateStrBroker(i, args[i]));
+  }
+
+  return updateArr.join(", ");
 }
 
-function DBUpdateStrBroker(key: string, value: unknown) {
+export function DBUpdateStrBroker(key: string, value: unknown) {
   if (typeof value === "string") {
     return StringToDBString(key, value);
   } else if (typeof value === "boolean") {
