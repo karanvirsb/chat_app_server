@@ -61,7 +61,9 @@ export function convertedArrayValues(arr: unknown[]): unknown[] {
     } else if (value === null) {
       return "NULL";
     } else {
-      return Array.isArray(value) ? convertedArrayValues(value) : "";
+      return Array.isArray(value)
+        ? `'{${convertedArrayValues(value).join(", ")}}'`
+        : "";
     }
   });
 }
