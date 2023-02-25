@@ -1,6 +1,7 @@
 import {
   BooleanToDBBoolean,
   DateToDBDate,
+  NullToDBNull,
   NumberToDBNumber,
   StringToDBString,
 } from ".";
@@ -23,6 +24,9 @@ describe("Testing out DBUpdateString", () => {
     const res = DateToDBDate("date", date);
     expect(res).toBe(`'date' = to_timestamp(${date.getTime()}/1000)`);
   });
-  it.skip("Testing out Null", () => {});
+  it("Testing out Null", () => {
+    const res = NullToDBNull("date");
+    expect(res).toBe(`'date' = NULL`);
+  });
   it.skip("Testing out Array", () => {});
 });
