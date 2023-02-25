@@ -1,4 +1,4 @@
-export default function DBUpdateStr(args: { [key: string]: any }) {
+export default function DBUpdateStr(args: { [key: string]: any }): string {
   const updateArr: string[] = [];
 
   for (let i in args) {
