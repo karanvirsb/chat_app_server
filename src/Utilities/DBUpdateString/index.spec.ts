@@ -30,7 +30,7 @@ describe("Testing out DBUpdateString", () => {
     expect(res).toBe(`'date' = NULL`);
   });
   it("Testing out Array", () => {
-    const res = ArrayToDBArray("random", [12, 14, true, "nice"]);
-    expect(res).toBe(`'random' = '{12, 14, TRUE, "nice"}'`);
+    const res = ArrayToDBArray("random", [12, 14, true, "nice", ["str", 12]]);
+    expect(res).toBe(`'random' = '{12, 14, TRUE, "nice", '{"str", 12}'}'`);
   });
 });
