@@ -44,8 +44,26 @@ export function BooleanToDBBoolean(key: string, value: string): string {
 }
 // Array -> '{join(", ")}'
 export function ArrayToDBArray(key: string, value: unknown[]): string {
-  const arrToStringArr = value.map((value) => `${value}`);
-  return `'${key}' = '{${value.join(", ")}}'`;
+  const newArr = convertedArrayValues(value);
+  return `'${key}' = '{${newArr.join(", ")}}'`;
+}
+
+export function convertedArrayValues(arr: unknown[]): unknown[] {
+  return arr.map((value) => {
+    if (typeof value === "string") {
+      return `"${value}"`;
+    } else if (typeof value === "boolean") {
+      return value === true ? "TRUE" : "FALSE";
+    } else if (typeof value === "number") {
+      return value;
+    } else if (value instanceof Date) {
+      return `to_timestamp(${value.getTime()}/1000)`;
+    } else if (value === null) {
+      return "NULL";
+    } else {
+      return Array.isArray(value) ? convertedArrayValues(value) : "";
+    }
+  });
 }
 // Null -> NULL
 export function NullToDBNull(key: string): string {
