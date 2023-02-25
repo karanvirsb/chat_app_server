@@ -1,4 +1,5 @@
 import {
+  ArrayToDBArray,
   BooleanToDBBoolean,
   DateToDBDate,
   NullToDBNull,
@@ -28,5 +29,8 @@ describe("Testing out DBUpdateString", () => {
     const res = NullToDBNull("date");
     expect(res).toBe(`'date' = NULL`);
   });
-  it.skip("Testing out Array", () => {});
+  it("Testing out Array", () => {
+    const res = ArrayToDBArray("random", [12, 14, true, "nice"]);
+    expect(res).toBe(`'random' = '{12, 14, TRUE, "nice"}'`);
+  });
 });
