@@ -12,7 +12,7 @@ export function DBUpdateStrBroker(key: string, value: unknown) {
   if (typeof value === "string") {
     return StringToDBString(key, value);
   } else if (typeof value === "boolean") {
-    return BooleanToDBBoolean(key, `${value}`);
+    return BooleanToDBBoolean(key, value);
   } else if (typeof value === "number") {
     return NumberToDBNumber(key, value);
   } else if (value instanceof Date) {
@@ -37,10 +37,10 @@ export function NumberToDBNumber(key: string, value: number): string {
   return `'${key}' = ${value}`;
 }
 // Boolean -> uppercase
-export function BooleanToDBBoolean(key: string, value: string): string {
+export function BooleanToDBBoolean(key: string, value: Boolean): string {
   // true -> TRUE
   // false -> FALSE
-  return `'${key}' = ${value.toUpperCase()}`;
+  return `'${key}' = ${value === true ? "TRUE" : "FALSE"}`;
 }
 // Array -> '{join(", ")}'
 export function ArrayToDBArray(key: string, value: unknown[]): string {
