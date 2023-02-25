@@ -1,4 +1,4 @@
-import {
+import DBUpdateStr, {
   ArrayToDBArray,
   BooleanToDBBoolean,
   DateToDBDate,
@@ -13,7 +13,7 @@ describe("Testing out DBUpdateString", () => {
     expect(result).toBe("'name' = \"john\"");
   });
   it("Testing out Boolean", () => {
-    const result = BooleanToDBBoolean("name", "true");
+    const result = BooleanToDBBoolean("name", true);
     expect(result).toBe("'name' = TRUE");
   });
   it("Testing out Number", () => {
@@ -32,5 +32,20 @@ describe("Testing out DBUpdateString", () => {
   it("Testing out Array", () => {
     const res = ArrayToDBArray("random", [12, 14, true, "nice", ["str", 12]]);
     expect(res).toBe(`'random' = '{12, 14, TRUE, "nice", '{"str", 12}'}'`);
+  });
+
+  it("Testing out full function", () => {
+    const obj = {
+      name: "john",
+      boo: true,
+      num: 15,
+      date: new Date(),
+      email: null,
+      random: [12, 14, true, "nice", ["str", 12]],
+    };
+    const res = DBUpdateStr(obj);
+    expect(res).toBe(
+      `'name' = "john", 'boo' = TRUE, 'num' = 15, 'date' = to_timestamp(${obj.date.getTime()}/1000), 'email' = NULL, 'random' = '{12, 14, TRUE, "nice", '{"str", 12}'}'`
+    );
   });
 });
