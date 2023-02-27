@@ -7,15 +7,15 @@ type makeUpdateGroupUserDBADeps = {
   DBUpdateStr: DBUpdateStr;
 };
 
+type updateGroupUserDBAProps = {
+  groupId: string;
+  userId: string;
+  updates: Partial<Omit<IGroupUser, "gId" | "uId">>;
+};
 export function makeUpdateGroupUserDBA({
   makeDb,
   DBUpdateStr,
 }: makeUpdateGroupUserDBADeps) {
-  type updateGroupUserDBAProps = {
-    groupId: string;
-    userId: string;
-    updates: Partial<Omit<IGroupUser, "gId" | "uId">>;
-  };
   return async function updateGroupUserDBA({
     groupId,
     userId,
