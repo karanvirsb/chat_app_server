@@ -45,7 +45,7 @@ describe("Testing out DBUpdateString", () => {
     };
     const res = DBUpdateStr(obj);
     expect(res).toBe(
-      `"name" = "john", "boo" = TRUE, "num" = 15, "date" = to_timestamp(${obj.date.getTime()}/1000), "email" = NULL, "random" = '{12, 14, TRUE, "nice", '{"str", 12}'}'`
+      `"name" = 'john', "boo" = TRUE, "num" = 15, "date" = to_timestamp(${obj.date.getTime()}/1000), "email" = NULL, "random" = '{12, 14, TRUE, "nice", '{"str", 12}'}'`
     );
   });
 });
