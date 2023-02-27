@@ -28,32 +28,32 @@ export function DBUpdateStrBroker(key: string, value: unknown) {
 
 // String -> 'add'
 export function StringToDBString(key: string, value: string): string {
-  return `'${key}' = "${value}"`;
+  return `"${key}" = '${value}'`;
 }
 // Date -> to_timestamp(date.getTime()/1000)
 export function DateToDBDate(key: string, value: Date): string {
-  return `'${key}' = to_timestamp(${value.getTime()}/1000)`;
+  return `"${key}" = to_timestamp(${value.getTime()}/1000)`;
 }
 // Number -> add
 export function NumberToDBNumber(key: string, value: number): string {
-  return `'${key}' = ${value}`;
+  return `"${key}" = ${value}`;
 }
 // Boolean -> uppercase
 export function BooleanToDBBoolean(key: string, value: Boolean): string {
   // true -> TRUE
   // false -> FALSE
-  return `'${key}' = ${value === true ? "TRUE" : "FALSE"}`;
+  return `"${key}" = ${value === true ? "TRUE" : "FALSE"}`;
 }
 // Array -> '{join(", ")}'
 export function ArrayToDBArray(key: string, value: unknown[]): string {
   const newArr = convertedArrayValues(value);
-  return `'${key}' = '{${newArr.join(", ")}}'`;
+  return `"${key}" = '{${newArr.join(", ")}}'`;
 }
 
 export function convertedArrayValues(arr: unknown[]): unknown[] {
   return arr.map((value) => {
     if (typeof value === "string") {
-      return `"${value}"`;
+      return `'${value}'`;
     } else if (typeof value === "boolean") {
       return value === true ? "TRUE" : "FALSE";
     } else if (typeof value === "number") {
@@ -71,5 +71,5 @@ export function convertedArrayValues(arr: unknown[]): unknown[] {
 }
 // Null -> NULL
 export function NullToDBNull(key: string): string {
-  return `'${key}' = NULL`;
+  return `"${key}" = NULL`;
 }
