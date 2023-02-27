@@ -53,7 +53,7 @@ export function ArrayToDBArray(key: string, value: unknown[]): string {
 export function convertedArrayValues(arr: unknown[]): unknown[] {
   return arr.map((value) => {
     if (typeof value === "string") {
-      return `'${value}'`;
+      return `"${value}"`;
     } else if (typeof value === "boolean") {
       return value === true ? "TRUE" : "FALSE";
     } else if (typeof value === "number") {
