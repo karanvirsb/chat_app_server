@@ -3,12 +3,10 @@ import {
   makeDeleteGroupUserDBA,
   makeDeleteGroupUserUC,
 } from "./deleteGroupUser";
-import request from "supertest";
 import makeDb from "../../../../__test__/fixures/db";
 import groupTests from "../../../../__test__/functions/group";
 import userTests from "../../../../__test__/functions/user";
 import groupUserTests from "../../../../__test__/functions/groupUser";
-import app from "../../../../app";
 import { IGroupUser } from "../groupUsers";
 import Express from "express";
 
