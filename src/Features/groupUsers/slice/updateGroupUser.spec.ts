@@ -31,16 +31,20 @@ describe("Testing update group user DB Access", () => {
     });
   });
   it("Successfully updating group roles", async () => {
-    try {
-      const result = await updateGroupUserDBA({
-        groupId: "123",
-        userId: "123",
-        updates: { roles: ["2000", "2001"] },
-      });
-      expect(result.data?.roles).toEqual(["2000", "2001"]);
-    } catch (error) {
-      console.log("🚀 ~ file: updateGroupUser.spec.ts:43 ~ it ~ error:", error);
-    }
+    const result = await updateGroupUserDBA({
+      groupId: "123",
+      userId: "123",
+      updates: { roles: ["2000", "2001"] },
+    });
+    expect(result.data?.roles).toEqual(["2000", "2001"]);
   });
-  it("Successfully updating lastChecked", () => {});
+  it("Successfully updating lastChecked", async () => {
+    const date = new Date();
+    const result = await updateGroupUserDBA({
+      groupId: "123",
+      userId: "123",
+      updates: { lastChecked: date },
+    });
+    expect(result.data?.lastChecked).toEqual(date);
+  });
 });
