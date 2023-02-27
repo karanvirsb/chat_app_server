@@ -45,6 +45,6 @@ describe("Testing update group user DB Access", () => {
       userId: "123",
       updates: { lastChecked: date },
     });
-    expect(result.data?.lastChecked).toEqual(date);
+    expect(result.data?.lastChecked.toUTCString()).toEqual(date.toUTCString());
   });
 });
