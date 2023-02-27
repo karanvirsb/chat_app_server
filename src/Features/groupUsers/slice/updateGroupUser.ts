@@ -23,6 +23,7 @@ export function makeUpdateGroupUserDBA({
   }: updateGroupUserDBAProps) {
     const db = await makeDb();
     const updateStr = DBUpdateStr(updates);
+
     const query = `
       UPDATE "groupUsers" 
       SET ${updateStr} 
@@ -30,6 +31,7 @@ export function makeUpdateGroupUserDBA({
         AND "uId" = '${userId}' 
       RETURNING *;
     `;
+    console.log(query);
     try {
       const result = await db.query(query);
 
