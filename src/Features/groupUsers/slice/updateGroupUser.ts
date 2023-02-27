@@ -2,16 +2,46 @@ import { DBUpdateStr } from "../../../Utilities/DBUpdateString";
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
 
+type updateGroupUserProps = {
+  groupId: string;
+  userId: string;
+  updates: Partial<Omit<IGroupUser, "gId" | "uId">>;
+};
+
+type makeUpdateGroupUserUCDeps = {
+  updateGroupUserDBA: ({
+    groupId,
+    userId,
+    updates,
+  }: updateGroupUserProps) => Promise<
+    | {
+        success: boolean;
+        data: IGroupUser;
+        error: string;
+      }
+    | {
+        success: boolean;
+        data: undefined;
+        error: string;
+      }
+  >;
+};
+
+export function makeUpdateGroupUserUC({
+  updateGroupUserDBA,
+}: makeUpdateGroupUserUCDeps) {
+  return async function updateGroupUserUC({
+    groupId,
+    updates,
+    userId,
+  }: updateGroupUserProps) {};
+}
+
 type makeUpdateGroupUserDBADeps = {
   makeDb: IGroupUsersDb["makeDb"];
   DBUpdateStr: DBUpdateStr;
 };
 
-type updateGroupUserDBAProps = {
-  groupId: string;
-  userId: string;
-  updates: Partial<Omit<IGroupUser, "gId" | "uId">>;
-};
 export function makeUpdateGroupUserDBA({
   makeDb,
   DBUpdateStr,
@@ -20,7 +50,7 @@ export function makeUpdateGroupUserDBA({
     groupId,
     userId,
     updates,
-  }: updateGroupUserDBAProps) {
+  }: updateGroupUserProps) {
     const db = await makeDb();
     const updateStr = DBUpdateStr(updates);
 
