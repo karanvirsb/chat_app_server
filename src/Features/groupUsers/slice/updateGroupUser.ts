@@ -33,7 +33,7 @@ export function makeUpdateGroupUserDBA({
     `;
     try {
       const result = await db.query(query);
-      console.log(result);
+
       if (result.rowCount >= 1) {
         const groupUser: IGroupUser = result.rows[0];
         return {
@@ -49,7 +49,6 @@ export function makeUpdateGroupUserDBA({
         error: "Could not update group user.",
       };
     } catch (error) {
-      console.log("🚀 ~ file: updateGroupUser.ts:52 ~ error:", error);
       if (error instanceof Error) {
         return {
           success: true,
