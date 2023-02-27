@@ -1,11 +1,16 @@
+import { DBUpdateStr } from "../../../Utilities/DBUpdateString";
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
 
 type makeUpdateGroupUserDBADeps = {
   makeDb: IGroupUsersDb["makeDb"];
+  DBUpdateStr: DBUpdateStr;
 };
 
-export function makeUpdateGroupUserDBA({ makeDb }: makeUpdateGroupUserDBADeps) {
+export function makeUpdateGroupUserDBA({
+  makeDb,
+  DBUpdateStr,
+}: makeUpdateGroupUserDBADeps) {
   type updateGroupUserDBAProps = {
     groupId: string;
     userId: string;
@@ -17,10 +22,46 @@ export function makeUpdateGroupUserDBA({ makeDb }: makeUpdateGroupUserDBADeps) {
     updates,
   }: updateGroupUserDBAProps) {
     const db = await makeDb();
-    const lastCheckedToStr = updates.lastChecked
-      ? `to_timestamp(${updates.lastChecked.getTime()}/1000)`
-      : "";
-    const rolesToStr = updates.roles ? `'{${updates.roles.join(", ")}}'` : "";
-    // { lastChecked: lastCheckedToStr, roles: rolesToStr }
+    const updateStr = DBUpdateStr(updates);
+    const query = `
+      UPDATE "groupUsers" 
+      SET ${updateStr} 
+      WHERE "gId" = '${groupId}' 
+        AND "uId" = '${userId}' 
+      RETURNING *;
+    `;
+    try {
+      const result = await db.query(query);
+
+      if (result.rowCount >= 1) {
+        const groupUser: IGroupUser = result.rows[0];
+        return {
+          success: true,
+          data: groupUser,
+          error: "",
+        };
+      }
+
+      return {
+        success: true,
+        data: undefined,
+        error: "Could not update group user.",
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          success: true,
+          data: undefined,
+          error: error.message,
+        };
+      }
+      return {
+        success: true,
+        data: undefined,
+        error: error + "",
+      };
+    } finally {
+      db.release();
+    }
   };
 }
