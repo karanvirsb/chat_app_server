@@ -37,6 +37,7 @@ describe("Testing update group user DB Access", () => {
         userId: "123",
         updates: { roles: ["2000", "2001"] },
       });
+      expect(result.data?.roles).toEqual(["2000", "2001"]);
     } catch (error) {
       console.log("🚀 ~ file: updateGroupUser.spec.ts:43 ~ it ~ error:", error);
     }
