@@ -1,3 +1,5 @@
+export type DBUpdateStr = (args: { [key: string]: any }) => string;
+
 export default function DBUpdateStr(args: { [key: string]: any }): string {
   const updateArr: string[] = [];
 
