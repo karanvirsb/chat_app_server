@@ -30,6 +30,16 @@ describe("Testing update group user DB Access", () => {
       userId: "123",
     });
   });
-  it("Successfully updating group roles", async () => {});
-  it("Successfully updating lastChecked");
+  it("Successfully updating group roles", async () => {
+    try {
+      const result = await updateGroupUserDBA({
+        groupId: "123",
+        userId: "123",
+        updates: { roles: ["2000", "2001"] },
+      });
+    } catch (error) {
+      console.log("🚀 ~ file: updateGroupUser.spec.ts:43 ~ it ~ error:", error);
+    }
+  });
+  it("Successfully updating lastChecked", () => {});
 });
