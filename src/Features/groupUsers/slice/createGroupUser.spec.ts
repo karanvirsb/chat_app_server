@@ -7,6 +7,7 @@ import {
 } from "./createGroupUser";
 import id from "../../../Utilities/id";
 import { ZodError } from "zod";
+import { IGroupUser } from "../groupUsers";
 
 describe("Create Group User Tests DBA", () => {
   let createGroupDb = makeCreateGroupDBAccess({ makeDb });
@@ -102,11 +103,9 @@ describe("Testing create group user use case", () => {
         lastChecked: new Date(),
       });
     } catch (error) {
-      if (error instanceof ZodError) {
-        expect(error.format()?.gId?._errors[0]).toBe(
-          "String must contain at least 21 character(s)"
-        );
-      }
+      expect((error as ZodError<IGroupUser>).format()?.gId?._errors[0]).toBe(
+        "String must contain at least 21 character(s)"
+      );
     }
   });
 });
