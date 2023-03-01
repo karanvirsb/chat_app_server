@@ -24,7 +24,9 @@ export default function makeGroupUser() {
     //   throw new Error("LastChecked must be a real date.");
 
     const result = IGroupUserSchema.safeParse({ gId, uId, roles, lastChecked });
-    if (!result.success) throw new ZodError(result.error.errors);
+    if (!result.success) {
+      throw new ZodError<IGroupUser>(result.error.errors);
+    }
 
     return Object.freeze({
       getgId: () => gId,
