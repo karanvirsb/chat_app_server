@@ -10,8 +10,8 @@ import type {
 } from "../types/updateGroupUser";
 
 export const updateGroupUserPropsSchema = z.object({
-  groupId: z.string(),
-  userId: z.string(),
+  groupId: IGroupUserSchema.omit({ roles: true, lastChecked: true, uId: true }),
+  userId: IGroupUserSchema.omit({ roles: true, lastChecked: true, gId: true }),
   updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
 });
 
