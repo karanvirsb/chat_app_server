@@ -1,13 +1,19 @@
 import { IHttpRequest } from "../../../express-callback";
-import { IGroupUser } from "../groupUsers";
-import { ZodError } from "zod";
-import {
+import { IGroupUser, IGroupUserSchema } from "../groupUsers";
+import { ZodError, z } from "zod";
+import type {
   makeUpdateGroupUserControllerDeps,
   IUpdateGroupUserC,
-  makeUpdateGroupUserUCDeps,
   updateGroupUserProps,
+  makeUpdateGroupUserUCDeps,
   makeUpdateGroupUserDBADeps,
 } from "../types/updateGroupUser";
+
+export const updateGroupUserPropsSchema = z.object({
+  groupId: z.string(),
+  userId: z.string(),
+  updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
+});
 
 export function updateGroupUserController({
   updateGroupUserUC,
@@ -53,7 +59,7 @@ export function makeUpdateGroupUserUC({
   }: updateGroupUserProps) {
     try {
       // test with zod
-      await updateGroupUserProps.safeParseAsync({
+      await updateGroupUserPropsSchema.safeParseAsync({
         groupId,
         updates,
         userId,
