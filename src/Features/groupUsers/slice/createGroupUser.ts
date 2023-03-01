@@ -1,23 +1,13 @@
 import buildGroupUser from "..";
-import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
+import {
+  createGroupUserUCDeps,
+  makeCreateGroupDBAccessProps,
+} from "../types/createGroupUser";
 
-type createGroupDb = {
-  createGroupDb: ({ gId, uId, lastChecked, roles }: IGroupUser) => Promise<
-    | {
-        success: boolean;
-        data: IGroupUser;
-        error: string;
-      }
-    | {
-        success: boolean;
-        data: undefined;
-        error: string;
-      }
-  >;
-};
-
-export function makeCreateGroupUseCase({ createGroupDb }: createGroupDb) {
+export function makeCreateGroupUseCase({
+  createGroupDb,
+}: createGroupUserUCDeps) {
   return async function createGroupUseCase(groupUserInfo: IGroupUser) {
     const groupUser = buildGroupUser(groupUserInfo);
 
@@ -29,10 +19,6 @@ export function makeCreateGroupUseCase({ createGroupDb }: createGroupDb) {
     });
   };
 }
-
-type makeCreateGroupDBAccessProps = {
-  makeDb: IGroupUsersDb["makeDb"];
-};
 
 export function makeCreateGroupDBAccess({
   makeDb,
