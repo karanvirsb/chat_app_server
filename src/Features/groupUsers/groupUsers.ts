@@ -1,9 +1,12 @@
-export interface IGroupUser {
-  gId: string;
-  uId: string;
-  roles: string[];
-  lastChecked: Date;
-}
+import { z } from "zod";
+export const IGroupUserSchema = z.object({
+  gId: z.string(),
+  lastChecked: z.date(),
+  roles: z.array(z.string()),
+  uId: z.string(),
+});
+
+export type IGroupUser = z.infer<typeof IGroupUserSchema>;
 
 export default function makeGroupUser() {
   return function createGroupUser({
