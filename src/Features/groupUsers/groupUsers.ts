@@ -2,7 +2,7 @@ import { ZodError, z } from "zod";
 export const IGroupUserSchema = z.object({
   gId: z.string().min(21),
   lastChecked: z.date(),
-  roles: z.array(z.string()),
+  roles: z.array(z.string()).min(1),
   uId: z.string().min(21),
 });
 
