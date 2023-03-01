@@ -5,12 +5,6 @@ import { httpResponseType } from "../../../express-callback";
 
 import { IGroupUser, IGroupUserSchema } from "../groupUsers";
 
-export const updateGroupUserProps = z.object({
-  groupId: z.string().isUUID(),
-  userId: z.string().isUUID(),
-  updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
-});
-
 export type updateGroupUserProps = z.infer<typeof updateGroupUserProps>;
 
 export type makeUpdateGroupUserControllerDeps = {
