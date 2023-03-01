@@ -1,37 +1,52 @@
+import { ZodError } from "zod";
 import buildGroupUser from ".";
 import { IGroupUser } from "./groupUsers";
+import id from "../../Utilities/id";
 
 describe("Testing group user", () => {
+  let uuid = id.makeId();
   const fakeGroupUser: IGroupUser = {
-    groupId: "123",
+    gId: uuid,
     lastChecked: new Date(),
     roles: ["2000"],
-    userId: "123",
+    uId: uuid,
   };
   it("SUCCESS: group user created", () => {
     const user = buildGroupUser(fakeGroupUser);
-    expect(user.getUserId()).toBe(fakeGroupUser.userId);
-    expect(user.getGroupId()).toBe(fakeGroupUser.groupId);
+    expect(user.getuId()).toBe(fakeGroupUser.uId);
+    expect(user.getgId()).toBe(fakeGroupUser.gId);
   });
-  it("ERROR: groupid needs to exist", () => {
-    const userWithoutGroupId = structuredClone(fakeGroupUser);
-    userWithoutGroupId.groupId = "";
-    expect(() => buildGroupUser(userWithoutGroupId)).toThrow(
-      "Group Id must be string."
-    );
+  it("ERROR: gId needs to exist", () => {
+    const userWithoutgId = structuredClone(fakeGroupUser);
+    userWithoutgId.gId = "";
+    try {
+      buildGroupUser(userWithoutgId);
+    } catch (error) {
+      expect((error as ZodError<IGroupUser>).format().gId?._errors[0]).toBe(
+        "String must contain at least 21 character(s)"
+      );
+    }
   });
-  it("ERROR: userid needs to exist", () => {
-    const userWithoutUserId = structuredClone(fakeGroupUser);
-    userWithoutUserId.userId = "";
-    expect(() => buildGroupUser(userWithoutUserId)).toThrow(
-      "UserId must be string."
-    );
+  it("ERROR: uId needs to exist", () => {
+    const userWithoutuId = structuredClone(fakeGroupUser);
+    userWithoutuId.uId = "";
+    try {
+      buildGroupUser(userWithoutuId);
+    } catch (error) {
+      expect((error as ZodError<IGroupUser>).format().uId?._errors[0]).toBe(
+        "String must contain at least 21 character(s)"
+      );
+    }
   });
   it("ERROR: roles needs to exist", () => {
     const userWithoutRoles = structuredClone(fakeGroupUser);
     userWithoutRoles.roles = [];
-    expect(() => buildGroupUser(userWithoutRoles)).toThrow(
-      "Roles must be an array."
-    );
+    try {
+      buildGroupUser(userWithoutRoles);
+    } catch (error) {
+      expect((error as ZodError<IGroupUser>).format().roles?._errors[0]).toBe(
+        "Array must contain at least 1 element(s)"
+      );
+    }
   });
 });
