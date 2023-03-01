@@ -1,37 +1,12 @@
-import { IGroupUsersDb } from "../data-access";
 import { IGroupUser } from "../groupUsers";
-import { IHttpRequest, httpResponseType } from "../../../express-callback";
-
-export type deleteGroupUserReturn = ({
-  groupId,
-  userId,
-}: {
-  groupId: string;
-  userId: string;
-}) => Promise<
-  | {
-      success: boolean;
-      data: IGroupUser;
-      error: string;
-    }
-  | {
-      success: boolean;
-      data: undefined;
-      error: string;
-    }
->;
-
-export type makeDeleteGroupUserControllerDep = {
-  deleteGroupUserUC: deleteGroupUserReturn;
-};
-
-export interface IDeleteGroupUserC extends httpResponseType {
-  body: {
-    success: boolean;
-    data: IGroupUser | undefined;
-    error: string;
-  };
-}
+import { IHttpRequest } from "../../../express-callback";
+import {
+  makeDeleteGroupUserControllerDep,
+  IDeleteGroupUserC,
+  deleteGroupUserUCDependency,
+  deleteGroupUserDBAProps,
+  deleteGroupUserProps,
+} from "../types/deleteGroupUser";
 
 export function makeDeleteGroupUserController({
   deleteGroupUserUC,
@@ -68,20 +43,13 @@ export function makeDeleteGroupUserController({
   };
 }
 
-export type deleteGroupUserUCDependency = {
-  deleteGroupUserDBA: deleteGroupUserReturn;
-};
-
 export function makeDeleteGroupUserUC({
   deleteGroupUserDBA,
 }: deleteGroupUserUCDependency) {
   return async function deleteGroupUserUC({
     groupId,
     userId,
-  }: {
-    groupId: string;
-    userId: string;
-  }) {
+  }: deleteGroupUserProps) {
     if (groupId.length === 0 || groupId === null) {
       throw new Error(
         "GroupId must be a string and must have length greater than 0."
@@ -97,18 +65,11 @@ export function makeDeleteGroupUserUC({
   };
 }
 
-export type deleteGroupUserDBAProps = {
-  makeDb: IGroupUsersDb["makeDb"];
-};
-
 export function makeDeleteGroupUserDBA({ makeDb }: deleteGroupUserDBAProps) {
   return async function deleteGroupUserDBA({
     groupId,
     userId,
-  }: {
-    groupId: string;
-    userId: string;
-  }) {
+  }: deleteGroupUserProps) {
     const db = await makeDb();
 
     try {
