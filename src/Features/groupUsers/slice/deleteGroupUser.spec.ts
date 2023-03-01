@@ -9,42 +9,44 @@ import userTests from "../../../../__test__/functions/user";
 import groupUserTests from "../../../../__test__/functions/groupUser";
 import { IGroupUser } from "../groupUsers";
 import Express from "express";
+import id from "../../../Utilities/id";
 
 describe("Testing deleting group user DB", () => {
+  let uuid = id.makeId();
   const deleteGroupUserDBA = makeDeleteGroupUserDBA({ makeDb });
   beforeAll(async () => {
-    let testUser = await userTests.addTestUserToDB({ userId: "123" });
+    let testUser = await userTests.addTestUserToDB({ userId: uuid });
     let testGroup = await groupTests.createTestGroup({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
     });
     let testGroupUser = await groupUserTests.createGroupUserTest({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
     });
   });
 
   afterAll(async () => {
-    let testUser = await userTests.deleteTestUser({ userId: "123" });
+    let testUser = await userTests.deleteTestUser({ userId: uuid });
     let testGroup = await groupTests.deleteTestGroup({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
     });
     let testGroupUser = await groupUserTests.deleteGroupUserTest({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
     });
   });
 
   it("Create user successfully", async () => {
     const deleteGroupUser = await deleteGroupUserDBA({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
     });
 
-    expect(deleteGroupUser.data?.gId).toBe("123");
+    expect(deleteGroupUser.data?.gId).toBe(uuid);
 
-    expect(deleteGroupUser.data?.uId).toBe("123");
+    expect(deleteGroupUser.data?.uId).toBe(uuid);
   });
 });
 
