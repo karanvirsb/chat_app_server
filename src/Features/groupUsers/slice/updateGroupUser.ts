@@ -1,6 +1,13 @@
 import { DBUpdateStr } from "../../../Utilities/DBUpdateString";
 import { IGroupUsersDb } from "../data-access";
-import { IGroupUser } from "../groupUsers";
+import { IGroupUser, IGroupUserSchema } from "../groupUsers";
+import { z } from "zod";
+
+const updateGroupUserProps = z.object({
+  groupId: z.string(),
+  userId: z.string(),
+  updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
+});
 
 type updateGroupUserProps = {
   groupId: string;
@@ -34,7 +41,10 @@ export function makeUpdateGroupUserUC({
     groupId,
     updates,
     userId,
-  }: updateGroupUserProps) {};
+  }: updateGroupUserProps) {
+    try {
+    } catch (error) {}
+  };
 }
 
 type makeUpdateGroupUserDBADeps = {
