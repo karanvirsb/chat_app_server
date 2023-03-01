@@ -1,4 +1,5 @@
 import { DBUpdateStr } from "../../../Utilities/DBUpdateString";
+import { IHttpRequest, httpResponseType } from "../../../express-callback";
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser, IGroupUserSchema } from "../groupUsers";
 import { ZodError, z } from "zod";
@@ -20,41 +21,65 @@ type makeUpdateGroupUserControllerDeps = {
     groupId,
     userId,
     updates,
-  }: updateGroupUserProps) => Promise<
-    | {
-        success: boolean;
-        data: IGroupUser;
-        error: string;
-      }
-    | {
-        success: boolean;
-        data: undefined;
-        error: string;
-      }
-  >;
+  }: updateGroupUserProps) => Promise<{
+    success: boolean;
+    data: IGroupUser | undefined;
+    error: string;
+  }>;
 };
+
+export interface IUpdateGroupUserC extends httpResponseType {
+  body: {
+    success: boolean;
+    data: IGroupUser | undefined;
+    error: string;
+  };
+}
 
 export function updateGroupUserController({
   updateGroupUserUC,
-}: makeUpdateGroupUserControllerDeps) {}
+}: makeUpdateGroupUserControllerDeps) {
+  return async function (
+    httpRequest: IHttpRequest
+  ): Promise<IUpdateGroupUserC> {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    try {
+      const updateParams = {
+        groupId: httpRequest.body.groupId,
+        userId: httpRequest.body.userId,
+        updates: httpRequest.body.updates,
+      };
+      const result = await updateGroupUserUC(updateParams);
+      return { body: result, headers, statusCode: 200 };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          body: { success: false, error: error.message, data: undefined },
+          headers,
+          statusCode: 400,
+        };
+      }
+      return {
+        body: { success: false, error: error + "", data: undefined },
+        headers,
+        statusCode: 400,
+      };
+    }
+  };
+}
 
 type makeUpdateGroupUserUCDeps = {
   updateGroupUserDBA: ({
     groupId,
     userId,
     updates,
-  }: updateGroupUserProps) => Promise<
-    | {
-        success: boolean;
-        data: IGroupUser;
-        error: string;
-      }
-    | {
-        success: boolean;
-        data: undefined;
-        error: string;
-      }
-  >;
+  }: updateGroupUserProps) => Promise<{
+    success: boolean;
+    data: IGroupUser | undefined;
+    error: string;
+  }>;
 };
 
 export function makeUpdateGroupUserUC({
