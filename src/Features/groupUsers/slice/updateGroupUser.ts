@@ -1,40 +1,13 @@
-import { DBUpdateStr } from "../../../Utilities/DBUpdateString";
-import { IHttpRequest, httpResponseType } from "../../../express-callback";
-import { IGroupUsersDb } from "../data-access";
-import { IGroupUser, IGroupUserSchema } from "../groupUsers";
-import { ZodError, z } from "zod";
-
-const updateGroupUserProps = z.object({
-  groupId: z.string(),
-  userId: z.string(),
-  updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
-});
-
-type updateGroupUserProps = {
-  groupId: string;
-  userId: string;
-  updates: Partial<Omit<IGroupUser, "gId" | "uId">>;
-};
-
-type makeUpdateGroupUserControllerDeps = {
-  updateGroupUserUC: ({
-    groupId,
-    userId,
-    updates,
-  }: updateGroupUserProps) => Promise<{
-    success: boolean;
-    data: IGroupUser | undefined;
-    error: string;
-  }>;
-};
-
-export interface IUpdateGroupUserC extends httpResponseType {
-  body: {
-    success: boolean;
-    data: IGroupUser | undefined;
-    error: string;
-  };
-}
+import { IHttpRequest } from "../../../express-callback";
+import { IGroupUser } from "../groupUsers";
+import { ZodError } from "zod";
+import {
+  makeUpdateGroupUserControllerDeps,
+  IUpdateGroupUserC,
+  makeUpdateGroupUserUCDeps,
+  updateGroupUserProps,
+  makeUpdateGroupUserDBADeps,
+} from "../types/updateGroupUser";
 
 export function updateGroupUserController({
   updateGroupUserUC,
@@ -70,18 +43,6 @@ export function updateGroupUserController({
   };
 }
 
-type makeUpdateGroupUserUCDeps = {
-  updateGroupUserDBA: ({
-    groupId,
-    userId,
-    updates,
-  }: updateGroupUserProps) => Promise<{
-    success: boolean;
-    data: IGroupUser | undefined;
-    error: string;
-  }>;
-};
-
 export function makeUpdateGroupUserUC({
   updateGroupUserDBA,
 }: makeUpdateGroupUserUCDeps) {
@@ -115,11 +76,6 @@ export function makeUpdateGroupUserUC({
     return updateGroupUserDBA({ groupId, userId, updates });
   };
 }
-
-type makeUpdateGroupUserDBADeps = {
-  makeDb: IGroupUsersDb["makeDb"];
-  DBUpdateStr: DBUpdateStr;
-};
 
 export function makeUpdateGroupUserDBA({
   makeDb,
