@@ -7,7 +7,7 @@ import {
 } from "./createGroupUser";
 import id from "../../../Utilities/id";
 
-describe("Create Group User Tests", () => {
+describe("Create Group User Tests DBA", () => {
   let createGroupDb = makeCreateGroupDBAccess({ makeDb });
   let uuid = id.makeId();
   beforeAll(async () => {
@@ -37,7 +37,26 @@ describe("Create Group User Tests", () => {
 
     expect(groupUser.data?.uId).toBe(uuid);
   });
+});
 
+describe("Testing create group user use case", () => {
+  let createGroupDb = makeCreateGroupDBAccess({ makeDb });
+  let uuid = id.makeId();
+  beforeAll(async () => {
+    let testUser = await userTests.addTestUserToDB({ userId: uuid });
+    let testGroup = await groupTests.createTestGroup({
+      groupId: uuid,
+      userId: uuid,
+    });
+  });
+
+  afterAll(async () => {
+    let testUser = await userTests.deleteTestUser({ userId: uuid });
+    let testGroup = await groupTests.deleteTestGroup({
+      groupId: uuid,
+      userId: uuid,
+    });
+  });
   it("SUCCESS: Created group user", async () => {
     const createGroupMocked = jest.fn(createGroupDb);
     createGroupMocked.mockResolvedValueOnce(
