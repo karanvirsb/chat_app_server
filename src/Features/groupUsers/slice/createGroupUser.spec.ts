@@ -6,6 +6,7 @@ import {
   makeCreateGroupUseCase,
 } from "./createGroupUser";
 import id from "../../../Utilities/id";
+import { ZodError } from "zod";
 
 describe("Create Group User Tests DBA", () => {
   let createGroupDb = makeCreateGroupDBAccess({ makeDb });
@@ -101,8 +102,11 @@ describe("Testing create group user use case", () => {
         lastChecked: new Date(),
       });
     } catch (error) {
-      if (error instanceof Error)
-        expect(error.message).toBe("Group Id must be string.");
+      if (error instanceof ZodError) {
+        expect(error.format()?.gId?._errors[0]).toBe(
+          "String must contain at least 21 character(s)"
+        );
+      }
     }
   });
 });
