@@ -1,7 +1,7 @@
 import { DBUpdateStr } from "../../../Utilities/DBUpdateString";
 import { IGroupUsersDb } from "../data-access";
 import { IGroupUser, IGroupUserSchema } from "../groupUsers";
-import { z } from "zod";
+import { ZodError, z } from "zod";
 
 const updateGroupUserProps = z.object({
   groupId: z.string(),
@@ -43,7 +43,28 @@ export function makeUpdateGroupUserUC({
     userId,
   }: updateGroupUserProps) {
     try {
-    } catch (error) {}
+      // test with zod
+      await updateGroupUserProps.safeParseAsync({
+        groupId,
+        updates,
+        userId,
+      });
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return {
+          success: false,
+          data: undefined,
+          error: error.format()._errors,
+        };
+      }
+      return {
+        success: false,
+        data: undefined,
+        error: error + "",
+      };
+    }
+    // if zod passes
+    return updateGroupUserDBA({ groupId, userId, updates });
   };
 }
 
