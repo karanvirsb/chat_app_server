@@ -15,6 +15,29 @@ type updateGroupUserProps = {
   updates: Partial<Omit<IGroupUser, "gId" | "uId">>;
 };
 
+type makeUpdateGroupUserControllerDeps = {
+  updateGroupUserUC: ({
+    groupId,
+    userId,
+    updates,
+  }: updateGroupUserProps) => Promise<
+    | {
+        success: boolean;
+        data: IGroupUser;
+        error: string;
+      }
+    | {
+        success: boolean;
+        data: undefined;
+        error: string;
+      }
+  >;
+};
+
+export function updateGroupUserController({
+  updateGroupUserUC,
+}: makeUpdateGroupUserControllerDeps) {}
+
 type makeUpdateGroupUserUCDeps = {
   updateGroupUserDBA: ({
     groupId,
