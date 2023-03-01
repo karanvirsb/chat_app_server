@@ -5,36 +5,37 @@ import {
   makeCreateGroupDBAccess,
   makeCreateGroupUseCase,
 } from "./createGroupUser";
+import id from "../../../Utilities/id";
 
 describe("Create Group User Tests", () => {
   let createGroupDb = makeCreateGroupDBAccess({ makeDb });
-
+  let uuid = id.makeId();
   beforeAll(async () => {
-    let testUser = await userTests.addTestUserToDB({ userId: "123" });
+    let testUser = await userTests.addTestUserToDB({ userId: uuid });
     let testGroup = await groupTests.createTestGroup({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
     });
   });
 
   afterAll(async () => {
-    let testUser = await userTests.deleteTestUser({ userId: "123" });
+    let testUser = await userTests.deleteTestUser({ userId: uuid });
     let testGroup = await groupTests.deleteTestGroup({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
     });
   });
   it("Create user successfully", async () => {
     const groupUser = await createGroupDb({
-      gId: "123",
-      uId: "123",
+      gId: uuid,
+      uId: uuid,
       roles: ["2000"],
       lastChecked: new Date(),
     });
     console.log(groupUser);
-    expect(groupUser.data?.gId).toBe("123");
+    expect(groupUser.data?.gId).toBe(uuid);
 
-    expect(groupUser.data?.uId).toBe("123");
+    expect(groupUser.data?.uId).toBe(uuid);
   });
 
   it("SUCCESS: Created group user", async () => {
@@ -43,26 +44,27 @@ describe("Create Group User Tests", () => {
       Promise.resolve({
         success: true,
         data: {
-          gId: "123",
-          uId: "123",
+          gId: uuid,
+          uId: uuid,
           roles: ["2000"],
           lastChecked: new Date(),
         },
         error: "",
       })
     );
+
     let createGroupUseCase = makeCreateGroupUseCase({
       createGroupDb: createGroupMocked,
     });
     const createdGroupUser = await createGroupUseCase({
-      gId: "123",
-      uId: "123",
+      gId: uuid,
+      uId: uuid,
       roles: ["2000"],
       lastChecked: new Date(),
     });
 
-    expect(createdGroupUser.data?.gId).toBe("123");
-    expect(createdGroupUser.data?.gId).toBe("123");
+    expect(createdGroupUser.data?.gId).toBe(uuid);
+    expect(createdGroupUser.data?.gId).toBe(uuid);
   });
 
   it("ERROR: Created group user does not have group id", async () => {
@@ -75,7 +77,7 @@ describe("Create Group User Tests", () => {
     try {
       const createdGroupUser = await createGroupUseCase({
         gId: "",
-        uId: "123",
+        uId: uuid,
         roles: ["2000"],
         lastChecked: new Date(),
       });
