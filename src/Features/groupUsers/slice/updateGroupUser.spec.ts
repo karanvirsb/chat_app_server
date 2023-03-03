@@ -9,6 +9,7 @@ import {
   makeUpdateGroupUserUC,
 } from "./updateGroupUser";
 import { IGroupUser } from "../groupUsers";
+import { ZodError } from "zod";
 
 describe("Testing update group user DB Access", () => {
   const updateGroupUserDBA = makeUpdateGroupUserDBA({ makeDb, DBUpdateStr });
@@ -72,7 +73,8 @@ describe("Testing update group user use case", () => {
         error: "",
       });
     });
-  const updateGroupUserUC = makeUpdateGroupUserUC({
+  const updateGroupUserUC = makeUpdateGroupUserUC({ updateGroupUserDBA });
+  const updateGroupUserUCMock = makeUpdateGroupUserUC({
     updateGroupUserDBA: new updateGroupUserDBAMock(),
   });
   beforeAll(async () => {
@@ -112,5 +114,26 @@ describe("Testing update group user use case", () => {
 
     const result = await updateGroupUserUC(updateParams);
     expect(result.data?.roles).toEqual(updateParams.updates.roles);
+  });
+  it("ERROR: update group user use case, group id is not given", async () => {
+    const date = new Date();
+    const updateParams = {
+      groupId: "",
+      userId: uuid,
+      updates: {
+        roles: ["2000", "2001"],
+        lastChecked: date,
+      },
+    };
+    try {
+      const result = await updateGroupUserUC(updateParams);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const err = error as ZodError<IGroupUser>;
+        expect(err.format().gId?._errors[0]).toBe(
+          "String must contain at least 21 character(s)"
+        );
+      }
+    }
   });
 });
