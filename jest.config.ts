@@ -10,17 +10,6 @@ const config: Config.InitialOptions = {
     // "^.+\\.(ts|tsx)?$": "ts-jest",
     // "^.+\\.(js|jsx)$": "babel-jest",
   },
-  transformIgnorePatterns: ["/server/node_modules"],
-  moduleFileExtensions: [
-    "ts",
-    "tsx",
-    "d.ts",
-    "json",
-    "js",
-    "mjs",
-    "cjs",
-    "jsx",
-    "node",
-  ],
+  transformIgnorePatterns: ["**/node_modules/**"],
 };
 export default config;
