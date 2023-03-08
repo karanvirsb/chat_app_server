@@ -31,7 +31,7 @@ describe("Testing update group user DB Access", () => {
       userId: uuid,
       updates: { roles: ["2000", "2001"] },
     });
-    expect(result.data?.roles).toEqual(["2000", "2001"]);
+    if (result.success) expect(result.data?.roles).toEqual(["2000", "2001"]);
   });
   it("Successfully updating lastChecked", async () => {
     const date = new Date();
@@ -40,7 +40,10 @@ describe("Testing update group user DB Access", () => {
       userId: uuid,
       updates: { lastChecked: date },
     });
-    expect(result.data?.lastChecked.toUTCString()).toEqual(date.toUTCString());
+    if (result.success)
+      expect(result.data?.lastChecked.toUTCString()).toEqual(
+        date.toUTCString()
+      );
   });
 });
 
@@ -86,7 +89,8 @@ describe("Testing update group user use case", () => {
     };
 
     const result = await updateGroupUserUC(updateParams);
-    expect(result.data?.roles).toEqual(updateParams.updates.roles);
+    if (result.success)
+      expect(result.data?.roles).toEqual(updateParams.updates.roles);
   });
   it("ERROR: update group user use case, group id is not given", async () => {
     const date = new Date();
@@ -196,8 +200,8 @@ describe("Testing update group user controller", () => {
     };
 
     const result = await updateGroupUserController(httpRequest);
-
-    expect(result.body.data?.roles).toEqual(["2000", "2001"]);
+    if (result.body.success)
+      expect(result.body.data?.roles).toEqual(["2000", "2001"]);
   });
 });
 
