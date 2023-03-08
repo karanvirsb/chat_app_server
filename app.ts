@@ -17,7 +17,10 @@ import makeExpressCallback from "./src/express-callback";
 import privateChannelControllers from "./src/Features/privateChannel/controllers";
 import privateMessagesController from "./src/Features/privateMessage/controllers";
 import friendsControllers from "./src/Features/friends/controllers";
-import { deleteGroupUserController } from "./src/Features/groupUsers/slice";
+import {
+  deleteGroupUserController,
+  updateGroupUserController,
+} from "./src/Features/groupUsers/slice";
 const appRoot = process.env.API_DOMAIN;
 
 const app = express();
@@ -84,6 +87,7 @@ app.put(
 
 // GROUP USER ROUTES
 app.delete("/group-users", makeExpressCallback(deleteGroupUserController));
+app.put("/group-users", makeExpressCallback(updateGroupUserController));
 
 // channel routes
 app.get(
