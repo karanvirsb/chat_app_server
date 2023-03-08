@@ -158,4 +158,27 @@ describe("Testing update group user use case", () => {
       }
     }
   });
+
+  it("ERROR: update group user use case, role is not given", async () => {
+    const date = new Date();
+    const updateParams = {
+      groupId: uuid,
+      userId: uuid,
+      updates: {
+        roles: [],
+        lastChecked: date,
+      },
+    };
+    try {
+      const result = await updateGroupUserUC(updateParams);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const err = error as ZodError<IGroupUser>;
+        console.log(err.format().roles?._errors);
+        expect(err.format().roles?._errors[0]).toBe(
+          "Array must contain at least 1 element(s)"
+        );
+      }
+    }
+  });
 });
