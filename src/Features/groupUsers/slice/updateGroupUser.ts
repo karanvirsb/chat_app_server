@@ -88,7 +88,7 @@ export function makeUpdateGroupUserDBA({
     groupId,
     userId,
     updates,
-  }: updateGroupUserProps) {
+  }: updateGroupUserProps): Promise<DBAccessReturn<IGroupUser>> {
     const db = await makeDb();
     const updateStr = DBUpdateStr(updates);
 
@@ -109,25 +109,18 @@ export function makeUpdateGroupUserDBA({
           data: groupUser,
           error: "",
         };
-      }
-
-      return {
-        success: true,
-        data: undefined,
-        error: "Could not update group user.",
-      };
-    } catch (error) {
-      if (error instanceof Error) {
+      } else {
         return {
           success: true,
           data: undefined,
-          error: error.message,
+          error: "Could not update group user.",
         };
       }
+    } catch (error) {
       return {
         success: true,
         data: undefined,
-        error: error + "",
+        error: error,
       };
     } finally {
       db.release();
