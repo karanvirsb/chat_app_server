@@ -131,10 +131,6 @@ describe("Testing update group user use case", () => {
     console.log(result);
     if (!result.success && result.error instanceof ZodError) {
       const error = result.error as ZodError<updateGroupUser>;
-      console.log(
-        "🚀 ~ file: updateGroupUser.spec.ts:133 ~ it ~ error:",
-        error.format()
-      );
 
       expect(error.format().groupId?._errors[0]).toBe(
         "String must contain at least 21 character(s)"
