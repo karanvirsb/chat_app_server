@@ -129,7 +129,7 @@ describe("Testing update group user use case", () => {
     // try {
     const result = await updateGroupUserUC(updateParams);
     console.log(result);
-    if (!result.success) {
+    if (!result.success && result.error instanceof ZodError) {
       const error = result.error as ZodError<updateGroupUser>;
       console.log(
         "🚀 ~ file: updateGroupUser.spec.ts:133 ~ it ~ error:",
