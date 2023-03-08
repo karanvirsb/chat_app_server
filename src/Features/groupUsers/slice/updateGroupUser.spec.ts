@@ -7,9 +7,10 @@ import { makeDb } from "../data-access";
 import {
   makeUpdateGroupUserDBA,
   makeUpdateGroupUserUC,
+  updateGroupUser,
 } from "./updateGroupUser";
 import { IGroupUser } from "../groupUsers";
-import { ZodError } from "zod";
+import { ZodError, ZodIssue, z } from "zod";
 
 describe("Testing update group user DB Access", () => {
   const updateGroupUserDBA = makeUpdateGroupUserDBA({ makeDb, DBUpdateStr });
@@ -125,16 +126,29 @@ describe("Testing update group user use case", () => {
         lastChecked: date,
       },
     };
-    try {
-      const result = await updateGroupUserUC(updateParams);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        const err = error as ZodError<IGroupUser>;
-        expect(err.format().gId?._errors[0]).toBe(
-          "String must contain at least 21 character(s)"
-        );
-      }
+    // try {
+    const result = await updateGroupUserUC(updateParams);
+    console.log(result);
+    if (!result.success) {
+      const error = result.error as ZodError<updateGroupUser>;
+      console.log(
+        "🚀 ~ file: updateGroupUser.spec.ts:133 ~ it ~ error:",
+        error.format()
+      );
+
+      expect(error.format().groupId?._errors[0]).toBe(
+        "String must contain at least 21 character(s)"
+      );
     }
+    // } catch (error: unknown) {
+    //   console.log(
+    //     "🚀 ~ file: updateGroupUser.spec.ts:132 ~ it ~ error:",
+    //     error
+    //   );
+    //   // expect(err.format().gId?._errors[0]).toBe(
+    //   //   "String must contain at least 21 character(s)"
+    //   // );
+    // }
   });
 
   it("ERROR: update group user use case, user id is not given", async () => {
