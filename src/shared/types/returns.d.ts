@@ -4,10 +4,22 @@ interface ControllerReturn<T> {
   statusCode: number;
 }
 
-interface UseCaseReturn<T> extends DBAccessReturn<T> {}
+type UseCaseReturn<T> =
+  | {
+      success: true;
+      data: T | undefined;
+    }
+  | {
+      success: false;
+      error: unknown;
+    };
 
-interface DBAccessReturn<T> {
-  success: boolean;
-  data: T | undefined;
-  error: unknown;
-}
+type DBAccessReturn<T> =
+  | {
+      success: true;
+      data: T | undefined;
+    }
+  | {
+      success: false;
+      error: unknown;
+    };
