@@ -25,11 +25,11 @@ export type httpResponseType = {
   };
 };
 
-export interface IController {
-  (httpRequest: IHttpRequest): Promise<httpResponseType>;
+export interface IController<T> {
+  (httpRequest: IHttpRequest): Promise<ControllerReturn<T>>;
 }
 
-export default function makeExpressCallback(controller: IController) {
+export default function makeExpressCallback<T>(controller: IController<T>) {
   return (req: Request, res: Response) => {
     // const httpRequest: IHttpRequest = {
     //   body: req.body,
@@ -45,7 +45,7 @@ export default function makeExpressCallback(controller: IController) {
     //   },
     // };
     controller(req)
-      .then((httpResponse: httpResponseType) => {
+      .then((httpResponse: ControllerReturn<T>) => {
         if (httpResponse.headers) {
           res.set(httpResponse.headers);
         }
