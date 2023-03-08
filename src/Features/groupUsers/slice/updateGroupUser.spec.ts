@@ -170,16 +170,14 @@ describe("Testing update group user use case", () => {
         lastChecked: date,
       },
     };
-    try {
-      const result = await updateGroupUserUC(updateParams);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        const err = error as ZodError<IGroupUser>;
-        console.log(err.format().roles?._errors);
-        expect(err.format().roles?._errors[0]).toBe(
-          "Array must contain at least 1 element(s)"
-        );
-      }
+
+    const result = await updateGroupUserUC(updateParams);
+    if (!result.success && result.error instanceof ZodError) {
+      const error = result.error as ZodError<updateGroupUser>;
+
+      expect(error.format().updates?.roles?._errors[0]).toBe(
+        "Array must contain at least 1 element(s)"
+      );
     }
   });
 });
