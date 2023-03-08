@@ -126,7 +126,7 @@ describe("Testing update group user use case", () => {
         lastChecked: date,
       },
     };
-    // try {
+
     const result = await updateGroupUserUC(updateParams);
 
     if (!result.success && result.error instanceof ZodError) {
@@ -136,15 +136,6 @@ describe("Testing update group user use case", () => {
         "String must contain at least 21 character(s)"
       );
     }
-    // } catch (error: unknown) {
-    //   console.log(
-    //     "🚀 ~ file: updateGroupUser.spec.ts:132 ~ it ~ error:",
-    //     error
-    //   );
-    //   // expect(err.format().gId?._errors[0]).toBe(
-    //   //   "String must contain at least 21 character(s)"
-    //   // );
-    // }
   });
 
   it("ERROR: update group user use case, user id is not given", async () => {
@@ -157,15 +148,15 @@ describe("Testing update group user use case", () => {
         lastChecked: date,
       },
     };
-    try {
-      const result = await updateGroupUserUC(updateParams);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        const err = error as ZodError<IGroupUser>;
-        expect(err.format().uId?._errors[0]).toBe(
-          "String must contain at least 21 character(s)"
-        );
-      }
+
+    const result = await updateGroupUserUC(updateParams);
+
+    if (!result.success && result.error instanceof ZodError) {
+      const error = result.error as ZodError<updateGroupUser>;
+
+      expect(error.format().userId?._errors[0]).toBe(
+        "String must contain at least 21 character(s)"
+      );
     }
   });
 
