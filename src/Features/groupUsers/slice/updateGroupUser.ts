@@ -3,7 +3,6 @@ import { IGroupUser, IGroupUserSchema } from "../groupUsers";
 import { ZodError, z } from "zod";
 import type {
   makeUpdateGroupUserControllerDeps,
-  IUpdateGroupUserC,
   updateGroupUserProps,
   makeUpdateGroupUserUCDeps,
   makeUpdateGroupUserDBADeps,
@@ -15,12 +14,12 @@ export const updateGroupUserPropsSchema = z.object({
   updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
 });
 
-export function updateGroupUserController({
+export function makeUpdateGroupUserController({
   updateGroupUserUC,
 }: makeUpdateGroupUserControllerDeps) {
-  return async function (
+  return async function updateGroupUserController(
     httpRequest: IHttpRequest
-  ): Promise<IUpdateGroupUserC> {
+  ): Promise<ControllerReturn<IGroupUser>> {
     const headers = {
       "Content-Type": "application/json",
     };
@@ -33,15 +32,8 @@ export function updateGroupUserController({
       const result = await updateGroupUserUC(updateParams);
       return { body: result, headers, statusCode: 200 };
     } catch (error) {
-      if (error instanceof Error) {
-        return {
-          body: { success: false, error: error.message, data: undefined },
-          headers,
-          statusCode: 400,
-        };
-      }
       return {
-        body: { success: false, error: error + "", data: undefined },
+        body: { success: false, error: error, data: undefined },
         headers,
         statusCode: 400,
       };
