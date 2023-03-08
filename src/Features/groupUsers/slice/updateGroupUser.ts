@@ -14,6 +14,8 @@ export const updateGroupUserPropsSchema = z.object({
   updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
 });
 
+export type updateGroupUser = z.infer<typeof updateGroupUserPropsSchema>;
+
 export function makeUpdateGroupUserController({
   updateGroupUserUC,
 }: makeUpdateGroupUserControllerDeps) {
@@ -56,9 +58,13 @@ export function makeUpdateGroupUserUC({
         updates,
         userId,
       });
-      console.log("🚀 ~ file: updateGroupUser.ts:67 ~ result:", result);
       if (!result.success) {
-        throw new ZodError(result.error.issues);
+        return {
+          success: false,
+          data: undefined,
+          error: result.error,
+        };
+        // throw new ZodError(result.error.issues);
       }
     } catch (error: unknown) {
       return {
