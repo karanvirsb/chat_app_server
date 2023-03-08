@@ -1,10 +1,12 @@
 import cuid from "cuid";
+import Express from "express";
 import groupTests from "../../../../__test__/functions/group";
 import groupUserTests from "../../../../__test__/functions/groupUser";
 import userTests from "../../../../__test__/functions/user";
 import DBUpdateStr from "../../../Utilities/DBUpdateString";
 import { makeDb } from "../data-access";
 import {
+  makeUpdateGroupUserController,
   makeUpdateGroupUserDBA,
   makeUpdateGroupUserUC,
   updateGroupUser,
@@ -21,7 +23,7 @@ describe("Testing update group user DB Access", () => {
   });
 
   afterAll(async () => {
-    deleteTests(uuid);
+    await deleteTests(uuid);
   });
   it("Successfully updating group roles", async () => {
     const result = await updateGroupUserDBA({
@@ -151,6 +153,54 @@ describe("Testing update group user use case", () => {
     }
   });
 });
+
+describe("Testing update group user controller", () => {
+  const uuid = cuid();
+  const updateGroupUserDBA = makeUpdateGroupUserDBA({ makeDb, DBUpdateStr });
+  const updateGroupUserUC = makeUpdateGroupUserUC({ updateGroupUserDBA });
+  const updateGroupUserUCMock = jest
+    .fn<typeof updateGroupUserUC, []>()
+    .mockImplementation(() => ({ groupId, userId, updates }) => {
+      return Promise.resolve({
+        success: true,
+        data: {
+          gId: groupId,
+          uId: userId,
+          roles: ["2000", "2001"],
+          lastChecked: new Date(),
+          ...updates,
+        } as IGroupUser,
+        error: "",
+      });
+    });
+  const updateGroupUserController = makeUpdateGroupUserController({
+    updateGroupUserUC: new updateGroupUserUCMock(),
+  });
+  beforeAll(async () => {
+    await createTests(uuid);
+  });
+
+  afterAll(async () => {
+    await deleteTests(uuid);
+  });
+
+  test("SUCCESS: update group user", async () => {
+    const httpRequest = Express.request;
+    httpRequest.body = {
+      groupId: uuid,
+      userId: uuid,
+      updates: {
+        roles: ["2000", "2001"],
+        lastChecked: new Date().toISOString(),
+      },
+    };
+
+    const result = await updateGroupUserController(httpRequest);
+    console.log(result);
+    expect(result.body.data?.roles).toEqual(["2000", "2001"]);
+  });
+});
+
 async function deleteTests(uuid: string) {
   let testUser = await userTests.deleteTestUser({ userId: uuid });
   let testGroup = await groupTests.deleteTestGroup({
