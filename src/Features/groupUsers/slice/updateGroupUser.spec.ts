@@ -10,37 +10,23 @@ import {
   updateGroupUser,
 } from "./updateGroupUser";
 import { IGroupUser } from "../groupUsers";
-import { ZodError, ZodIssue, z } from "zod";
+import { ZodError } from "zod";
+import id from "../../../Utilities/id";
 
 describe("Testing update group user DB Access", () => {
   const updateGroupUserDBA = makeUpdateGroupUserDBA({ makeDb, DBUpdateStr });
+  const uuid = id.makeId();
   beforeAll(async () => {
-    let testUser = await userTests.addTestUserToDB({ userId: "123" });
-    let testGroup = await groupTests.createTestGroup({
-      groupId: "123",
-      userId: "123",
-    });
-    let testGroupUser = await groupUserTests.createGroupUserTest({
-      groupId: "123",
-      userId: "123",
-    });
+    await createTests(uuid);
   });
 
   afterAll(async () => {
-    let testUser = await userTests.deleteTestUser({ userId: "123" });
-    let testGroup = await groupTests.deleteTestGroup({
-      groupId: "123",
-      userId: "123",
-    });
-    let testGroupUser = await groupUserTests.deleteGroupUserTest({
-      groupId: "123",
-      userId: "123",
-    });
+    deleteTests(uuid);
   });
   it("Successfully updating group roles", async () => {
     const result = await updateGroupUserDBA({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
       updates: { roles: ["2000", "2001"] },
     });
     expect(result.data?.roles).toEqual(["2000", "2001"]);
@@ -48,8 +34,8 @@ describe("Testing update group user DB Access", () => {
   it("Successfully updating lastChecked", async () => {
     const date = new Date();
     const result = await updateGroupUserDBA({
-      groupId: "123",
-      userId: "123",
+      groupId: uuid,
+      userId: uuid,
       updates: { lastChecked: date },
     });
     expect(result.data?.lastChecked.toUTCString()).toEqual(date.toUTCString());
@@ -79,27 +65,11 @@ describe("Testing update group user use case", () => {
     updateGroupUserDBA: new updateGroupUserDBAMock(),
   });
   beforeAll(async () => {
-    let testUser = await userTests.addTestUserToDB({ userId: uuid });
-    let testGroup = await groupTests.createTestGroup({
-      groupId: uuid,
-      userId: uuid,
-    });
-    let testGroupUser = await groupUserTests.createGroupUserTest({
-      groupId: uuid,
-      userId: uuid,
-    });
+    await createTests(uuid);
   });
 
   afterAll(async () => {
-    let testUser = await userTests.deleteTestUser({ userId: uuid });
-    let testGroup = await groupTests.deleteTestGroup({
-      groupId: uuid,
-      userId: uuid,
-    });
-    let testGroupUser = await groupUserTests.deleteGroupUserTest({
-      groupId: uuid,
-      userId: uuid,
-    });
+    await deleteTests(uuid);
   });
 
   it("SUCCESS: update group user use case", async () => {
@@ -181,3 +151,26 @@ describe("Testing update group user use case", () => {
     }
   });
 });
+async function deleteTests(uuid: string) {
+  let testUser = await userTests.deleteTestUser({ userId: uuid });
+  let testGroup = await groupTests.deleteTestGroup({
+    groupId: uuid,
+    userId: uuid,
+  });
+  let testGroupUser = await groupUserTests.deleteGroupUserTest({
+    groupId: uuid,
+    userId: uuid,
+  });
+}
+
+async function createTests(uuid: string) {
+  let testUser = await userTests.addTestUserToDB({ userId: uuid });
+  let testGroup = await groupTests.createTestGroup({
+    groupId: uuid,
+    userId: uuid,
+  });
+  let testGroupUser = await groupUserTests.createGroupUserTest({
+    groupId: uuid,
+    userId: uuid,
+  });
+}
