@@ -56,7 +56,7 @@ export function makeUpdateGroupUserUC({
     groupId,
     updates,
     userId,
-  }: updateGroupUserProps) {
+  }: updateGroupUserProps): Promise<UseCaseReturn<IGroupUser>> {
     try {
       // test with zod
       const result = await updateGroupUserPropsSchema.safeParseAsync({
