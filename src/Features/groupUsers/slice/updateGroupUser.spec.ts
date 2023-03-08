@@ -196,7 +196,7 @@ describe("Testing update group user controller", () => {
     };
 
     const result = await updateGroupUserController(httpRequest);
-    console.log(result);
+
     expect(result.body.data?.roles).toEqual(["2000", "2001"]);
   });
 });
