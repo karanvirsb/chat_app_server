@@ -10,8 +10,8 @@ import type {
 } from "../types/updateGroupUser";
 
 export const updateGroupUserPropsSchema = z.object({
-  groupId: IGroupUserSchema.omit({ roles: true, lastChecked: true, uId: true }),
-  userId: IGroupUserSchema.omit({ roles: true, lastChecked: true, gId: true }),
+  groupId: IGroupUserSchema.shape.gId,
+  userId: IGroupUserSchema.shape.uId,
   updates: IGroupUserSchema.partial().omit({ gId: true, uId: true }),
 });
 
@@ -59,23 +59,20 @@ export function makeUpdateGroupUserUC({
   }: updateGroupUserProps) {
     try {
       // test with zod
-      await updateGroupUserPropsSchema.safeParseAsync({
+      const result = await updateGroupUserPropsSchema.safeParseAsync({
         groupId,
         updates,
         userId,
       });
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return {
-          success: false,
-          data: undefined,
-          error: error.format()._errors,
-        };
+      console.log("🚀 ~ file: updateGroupUser.ts:67 ~ result:", result);
+      if (!result.success) {
+        throw new ZodError(result.error.issues);
       }
+    } catch (error: unknown) {
       return {
         success: false,
         data: undefined,
-        error: error + "",
+        error: error,
       };
     }
     // if zod passes
