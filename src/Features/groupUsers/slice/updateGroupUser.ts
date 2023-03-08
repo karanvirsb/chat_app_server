@@ -35,7 +35,7 @@ export function makeUpdateGroupUserController({
       return { body: result, headers, statusCode: 200 };
     } catch (error) {
       return {
-        body: { success: false, error: error, data: undefined },
+        body: { success: false, error: error },
         headers,
         statusCode: 400,
       };
@@ -61,7 +61,6 @@ export function makeUpdateGroupUserUC({
       if (!result.success) {
         return {
           success: false,
-          data: undefined,
           error: result.error,
         };
         // throw new ZodError(result.error.issues);
@@ -69,7 +68,6 @@ export function makeUpdateGroupUserUC({
     } catch (error: unknown) {
       return {
         success: false,
-        data: undefined,
         error: error,
       };
     }
@@ -105,19 +103,16 @@ export function makeUpdateGroupUserDBA({
         return {
           success: true,
           data: groupUser,
-          error: "",
         };
       } else {
         return {
           success: true,
           data: undefined,
-          error: "Could not update group user.",
         };
       }
-    } catch (error) {
+    } catch (error: unknown) {
       return {
-        success: true,
-        data: undefined,
+        success: false,
         error: error,
       };
     } finally {
