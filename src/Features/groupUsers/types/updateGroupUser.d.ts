@@ -12,31 +12,23 @@ export type makeUpdateGroupUserControllerDeps = {
     groupId,
     userId,
     updates,
-  }: updateGroupUserProps) => Promise<{
-    success: boolean;
-    data: IGroupUser | undefined;
-    error: string;
-  }>;
+  }: updateGroupUserProps) => Promise<UseCaseReturn<IGroupUser>>;
 };
 
-export interface IUpdateGroupUserC extends httpResponseType {
-  body: {
-    success: boolean;
-    data: IGroupUser | undefined;
-    error: string;
-  };
-}
+// export interface IUpdateGroupUserC extends httpResponseType {
+//   body: {
+//     success: boolean;
+//     data: IGroupUser | undefined;
+//     error: string;
+//   };
+// }
 
 export type makeUpdateGroupUserUCDeps = {
   updateGroupUserDBA: ({
     groupId,
     userId,
     updates,
-  }: updateGroupUserProps) => Promise<{
-    success: boolean;
-    data: IGroupUser | undefined;
-    error: string;
-  }>;
+  }: updateGroupUserProps) => Promise<DBAccessReturn<IGroupUser>>;
 };
 
 export type makeUpdateGroupUserDBADeps = {
