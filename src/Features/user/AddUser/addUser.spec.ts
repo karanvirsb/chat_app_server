@@ -1,4 +1,4 @@
-import makeAddUser from "./addUser";
+import makeAddUser from "./addUserUseCase";
 import { moderateName } from "../../../Utilities/moderateText";
 import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeUsersDb from "../data-access/users-db";

@@ -1,4 +1,4 @@
-import { IAddUserUseCase } from "./addUser";
+import { IAddUserUseCase } from "./addUserUseCase";
 import {
   IHttpRequest,
   httpResponseType,

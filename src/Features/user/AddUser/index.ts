@@ -1,5 +1,5 @@
 import makePostUser from "../AddUser/post-user";
-import makeAddUser from "../AddUser/addUser";
+import makeAddUser from "./addUserUseCase";
 import { moderateName } from "../../../Utilities/moderateText";
 import usersDb from "../data-access";
 
