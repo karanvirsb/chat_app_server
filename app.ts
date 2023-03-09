@@ -5,11 +5,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { middleware } from "supertokens-node/framework/express";
 import supertokens from "./supertokens";
-import {
-  deleteAnUser,
-  editAnUser,
-  getAnUser,
-} from "./src/Features/user/controllers";
+import { deleteUserC } from "./src/Features/user/DeleteUser";
+import { editAnUser, getAnUser } from "./src/Features/user/controllers";
 import groupControllers from "./src/Features/group/controllers";
 import channelControllers from "./src/Features/groupChannel/controllers";
 import messagesController from "./src/Features/groupMessage/controllers";
@@ -43,7 +40,7 @@ app.get(`/ping`, (req, res) => {
 
 // user routes
 app.get(`/user/:id`, makeExpressCallback(getAnUser));
-app.delete(`/user/delete`, makeExpressCallback(deleteAnUser));
+app.delete(`/user/delete`, makeExpressCallback(deleteUserC));
 app.put(`/user/update`, makeExpressCallback(editAnUser));
 
 // group routes
