@@ -1,3 +1,4 @@
+import Express from "express";
 import { deleteAnUser } from "../controllers";
 import makeSupertokenDb, {
   IMakeSupertokensDb,
@@ -46,17 +47,12 @@ describe("delete user controller", () => {
       userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
     });
     const resp = await addUserUC(user);
-    const deletedUser = await deleteAnUser({
-      body: {
-        id: "ce3735e4-b3de-48d4-853e-758c06b1a935",
-      },
-      headers: {},
-      ip: "string",
-      method: "GET",
-      params: {},
-      path: "",
-      query: {},
-    });
+
+    const httpRequest = Express.request;
+    httpRequest.body = {
+      id: "ce3735e4-b3de-48d4-853e-758c06b1a935",
+    };
+    const deletedUser = await deleteAnUser(httpRequest);
 
     expect(deletedUser.body.data.userId).toBe(
       "ce3735e4-b3de-48d4-853e-758c06b1a935"
