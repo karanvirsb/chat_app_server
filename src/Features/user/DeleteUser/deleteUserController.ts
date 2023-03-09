@@ -4,7 +4,9 @@ import {
   httpResponseType,
 } from "../../../express-callback/index";
 
-export default function makeDeleteUser({ deleteUser }: IDeleteUserUserCase) {
+export default function makeDeleteUserController({
+  deleteUser,
+}: IDeleteUserUserCase) {
   return async function deleteUserController(
     httpRequest: IHttpRequest
   ): Promise<httpResponseType> {
