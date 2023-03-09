@@ -6,7 +6,7 @@ import { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeFakeUser from "../../../../__test__/fixures/user";
 import { makeDb } from "../data-access";
 import makeUsersDb, { IMakeUsersDb } from "../data-access/users-db";
-import { addUser } from "../use-cases";
+import { addUserUC } from "../AddUser";
 
 describe("delete user controller", () => {
   let usersDb: IMakeUsersDb["returnType"];
@@ -45,7 +45,7 @@ describe("delete user controller", () => {
     const user = await makeFakeUser({
       userId: "ce3735e4-b3de-48d4-853e-758c06b1a935",
     });
-    const resp = await addUser(user);
+    const resp = await addUserUC(user);
     const deletedUser = await deleteAnUser({
       body: {
         id: "ce3735e4-b3de-48d4-853e-758c06b1a935",
