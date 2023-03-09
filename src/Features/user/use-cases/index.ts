@@ -1,5 +1,5 @@
 import makeEditUser from "./editUser";
-import makeDeleteUser from "./deleteUser";
+import makeDeleteUser from "../DeleteUser/deleteUserUseCase";
 import makeGetUser from "./getUser";
 import { moderateName } from "../../../Utilities/moderateText";
 import usersDb from "../data-access";
