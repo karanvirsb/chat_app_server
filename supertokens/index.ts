@@ -1,11 +1,8 @@
 import supertokens, { deleteUser } from "supertokens-node";
 import Session from "supertokens-node/recipe/session";
 import EmailPassword from "supertokens-node/recipe/emailpassword";
-import {
-  addUser,
-  editUserByUsername,
-  getUser,
-} from "../src/Features/user/use-cases";
+import { addUserUC } from "../src/Features/user/AddUser";
+import { getUser } from "../src/Features/user/use-cases";
 import { IUser } from "../src/Features/user/user";
 import { GeneralErrorResponse } from "supertokens-node/lib/build/types";
 
@@ -168,7 +165,7 @@ function signUpPost(originalImplementation: EmailPassword.APIInterface):
 
         user.userId = response.user.id;
         // adding user into database
-        const addedUser = await addUser(user);
+        const addedUser = await addUserUC(user);
         if (addedUser.error) {
           throw new Error(addedUser.error);
         }
