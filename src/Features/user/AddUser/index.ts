@@ -1,4 +1,4 @@
-import makePostUser from "../AddUser/post-user";
+import makePostUser from "./addUserController";
 import makeAddUser from "./addUserUseCase";
 import { moderateName } from "../../../Utilities/moderateText";
 import usersDb from "../data-access";
