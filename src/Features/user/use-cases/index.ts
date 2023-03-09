@@ -1,4 +1,4 @@
-import makeAddUser from "./addUser";
+import makeAddUser from "../AddUser/addUser";
 import makeEditUser from "./editUser";
 import makeDeleteUser from "./deleteUser";
 import makeGetUser from "./getUser";
@@ -9,7 +9,7 @@ import makeEditUserByUsername from "./editUserByUsername";
 export type handleModerationType = (name: string) => Promise<number | boolean>;
 
 const handleModeration = async (name: string) => {
-    return await moderateName(name);
+  return await moderateName(name);
 };
 
 const addUser = makeAddUser({ usersDb, handleModeration });
@@ -19,11 +19,11 @@ const getUser = makeGetUser({ usersDb });
 const editUserByUsername = makeEditUserByUsername({ usersDb });
 
 const userService = Object.freeze({
-    addUser,
-    editUser,
-    deleteUser,
-    getUser,
-    editUserByUsername,
+  addUser,
+  editUser,
+  deleteUser,
+  getUser,
+  editUserByUsername,
 });
 
 export default userService;
