@@ -1,4 +1,4 @@
-import makeDeleteUser from "../DeleteUser/deleteUserUseCase";
+import makeDeleteUser from "./deleteUserUseCase";
 import makeDb, { clearDb, closeDb } from "../../../../__test__/fixures/db";
 import makeUsersDb from "../data-access/users-db";
 import makeFakeUser from "../../../../__test__/fixures/user";
