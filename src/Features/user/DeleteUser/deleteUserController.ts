@@ -1,4 +1,4 @@
-import { IDeleteUserUserCase } from "../DeleteUser/deleteUserUseCase";
+import { IDeleteUserUserCase } from "./deleteUserUseCase";
 import {
   IHttpRequest,
   httpResponseType,

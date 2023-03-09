@@ -1,5 +1,5 @@
 import { getUser, addUser, deleteUser, editUser } from "../use-cases";
-import makeDeleteUser from "./delete-user";
+import makeDeleteUser from "../DeleteUser/deleteUserController";
 import makeEditUser from "./edit-user";
 import makeGetUser from "./get-user";
 import makePostUser from "../AddUser/addUserController";
